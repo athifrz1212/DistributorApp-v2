@@ -72,6 +72,7 @@
 
             <Spinner
                 android:id="@+id/BName"
+                android:textColor="#000000"
                 android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:background="@drawable/bg_drop_down"
