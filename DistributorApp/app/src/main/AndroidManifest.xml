@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.blitzco.distributorapp">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/Theme.DistributorApp">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key"/>
+
+        <activity
+            android:name="com.blitzco.distributorapp.login"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.blitzco.distributorapp.home" />
+
+        <activity android:name="com.blitzco.distributorapp.reportGenerator" />
+
+        <activity android:name="com.blitzco.distributorapp.add_product" />
+        <activity android:name="com.blitzco.distributorapp.add_order" />
+        <activity android:name="com.blitzco.distributorapp.add_payment" />
+        <activity android:name="com.blitzco.distributorapp.add_repair" />
+        <activity android:name="com.blitzco.distributorapp.add_brand" />
+        <activity android:name="com.blitzco.distributorapp.add_shopRoute"/>
+
+        <activity android:name="com.blitzco.distributorapp.view_product" />
+        <activity android:name="com.blitzco.distributorapp.view_brand" />
+        <activity android:name="com.blitzco.distributorapp.view_repairs" />
+        <activity android:name="com.blitzco.distributorapp.view_shopRoute" />
+        <activity android:name="com.blitzco.distributorapp.view_shops" />
+
+        <activity android:name="com.blitzco.distributorapp.edit_brand" />
+        <activity android:name="com.blitzco.distributorapp.edit_product" />
+        <activity android:name="com.blitzco.distributorapp.edit_repair" />
+        <activity android:name="com.blitzco.distributorapp.edit_shopRoute" />
+        <activity android:name="com.blitzco.distributorapp.edit_order" />
+
+        <activity android:name="com.blitzco.distributorapp.shop_page" />
+        <activity
+            android:name="com.blitzco.distributorapp.MapActivity"
+            android:exported="true"/>
+
+        <provider
+            android:authorities="com.blitzco.distributorapp.provider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
+    </application>
+
+</manifest>

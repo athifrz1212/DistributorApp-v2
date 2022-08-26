@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1005730125900",
+    "firebase_url": "https://distributorapp-eeca1-default-rtdb.firebaseio.com",
+    "project_id": "distributorapp-eeca1",
+    "storage_bucket": "distributorapp-eeca1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005730125900:android:a67a2c04e6a284b518bce9",
+        "android_client_info": {
+          "package_name": "com.blitzco.distributorapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005730125900-lt34ghmivk5gras46dufq2243ioveqn9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYzrLRQN080LZIDEMpAF8pNK9U8nYPOXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1005730125900-lt34ghmivk5gras46dufq2243ioveqn9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
