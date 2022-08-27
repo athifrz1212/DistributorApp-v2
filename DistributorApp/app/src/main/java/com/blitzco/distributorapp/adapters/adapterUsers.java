@@ -13,17 +13,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blitzco.distributorapp.R;
-import com.blitzco.distributorapp.edit_brand;
+import com.blitzco.distributorapp.EditBrand;
 import com.blitzco.distributorapp.models.User;
 
 import java.util.List;
 
-public class adapterUsers extends RecyclerView.Adapter<adapterUsers.MyUserViewHolder>{
+public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.MyUserViewHolder>{
 
     List<User> userList;
     Context context;
 
-    public adapterUsers(List<User> userList, Context context) {
+    public AdapterUsers(List<User> userList, Context context) {
         this.userList = userList;
         this.context = context;
     }
@@ -39,7 +39,7 @@ public class adapterUsers extends RecyclerView.Adapter<adapterUsers.MyUserViewHo
 
     //bind values to the recycler view
     @Override
-    public void onBindViewHolder(@NonNull adapterUsers.MyUserViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull AdapterUsers.MyUserViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         holder.firstName.setText(userList.get(position).getFirstName());
         holder.lastName.setText(userList.get(position).getLastName());
@@ -50,7 +50,7 @@ public class adapterUsers extends RecyclerView.Adapter<adapterUsers.MyUserViewHo
 
                 User users = userList.get((position));
 
-                Intent i =new Intent(context, edit_brand.class);
+                Intent i =new Intent(context, EditBrand.class);
                 i.putExtra("userID", users.getUserID());
                 i.putExtra("firstName", users.getFirstName());
                 i.putExtra("lastName", users.getLastName());

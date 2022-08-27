@@ -13,33 +13,33 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blitzco.distributorapp.R;
-import com.blitzco.distributorapp.edit_repair;
+import com.blitzco.distributorapp.EditRepair;
 import com.blitzco.distributorapp.models.Repairs;
 
 import java.util.ArrayList;
 
-public class adapterRepair extends RecyclerView.Adapter<adapterRepair.MyRepairViewHolder> {
+public class AdapterRepair extends RecyclerView.Adapter<AdapterRepair.MyRepairViewHolder> {
 
     ArrayList<Repairs> repairList ;
     Context context;
 
-    public adapterRepair(ArrayList<Repairs> repairList, Context context) {
+    public AdapterRepair(ArrayList<Repairs> repairList, Context context) {
         this.repairList = repairList;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public adapterRepair.MyRepairViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterRepair.MyRepairViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_repair,parent,false);
-        adapterRepair.MyRepairViewHolder RepairHolder = new adapterRepair.MyRepairViewHolder(view);
+        AdapterRepair.MyRepairViewHolder RepairHolder = new AdapterRepair.MyRepairViewHolder(view);
 
         return RepairHolder;
     }
 
     //bind values to the recycler view
     @Override
-    public void onBindViewHolder(@NonNull adapterRepair.MyRepairViewHolder RepairHolder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull AdapterRepair.MyRepairViewHolder RepairHolder, @SuppressLint("RecyclerView") int position) {
         RepairHolder.MName.setText(repairList.get(position).getModelName());
         RepairHolder.shop_Name.setText(repairList.get(position).getShopName());
         RepairHolder.RDate.setText(repairList.get(position).getReDate());
@@ -50,7 +50,7 @@ public class adapterRepair extends RecyclerView.Adapter<adapterRepair.MyRepairVi
 
                 Repairs repa = repairList.get((position));
 
-                Intent i =new Intent(context, edit_repair.class);
+                Intent i =new Intent(context, EditRepair.class);
                 i.putExtra("repairID", repa.getRepairID());
                 i.putExtra("SName", repa.getShopName());
                 i.putExtra("BName", repa.getBrandName());

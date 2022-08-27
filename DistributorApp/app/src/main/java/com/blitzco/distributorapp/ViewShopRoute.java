@@ -15,12 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blitzco.distributorapp.adapters.adapterShopLocation;
+import com.blitzco.distributorapp.adapters.AdapterShopLocation;
 import com.blitzco.distributorapp.models.Shop;
 
 import java.util.ArrayList;
 
-public class view_shopRoute extends AppCompatActivity {
+public class ViewShopRoute extends AppCompatActivity {
 
     static String Index;
     RecyclerView shop_List;
@@ -45,7 +45,7 @@ public class view_shopRoute extends AppCompatActivity {
         shop_List.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);//assign layout manager
-        sAdapter = new adapterShopLocation(shopList,view_shopRoute.this); //updateBTN brand_list data to adapter class
+        sAdapter = new AdapterShopLocation(shopList, ViewShopRoute.this); //updateBTN brand_list data to adapter class
 
         SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
 
@@ -54,7 +54,7 @@ public class view_shopRoute extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(view_shopRoute.this, home.class);
+                Intent intent= new Intent(ViewShopRoute.this, Home.class);
                 startActivity(intent);
             }
         });
@@ -65,7 +65,7 @@ public class view_shopRoute extends AppCompatActivity {
             public void onClick(View view) {
 
                 Index = edIndex.getText().toString().toUpperCase();
-                Intent intent = new Intent(view_shopRoute.this, MapActivity.class);
+                Intent intent = new Intent(ViewShopRoute.this, MapActivity.class);
 
                 intent.putExtra("SName", Index);
                 startActivity(intent);

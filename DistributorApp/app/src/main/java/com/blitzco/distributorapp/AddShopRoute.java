@@ -13,7 +13,7 @@ import com.blitzco.distributorapp.models.Shop;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class add_shopRoute extends AppCompatActivity {
+public class AddShopRoute extends AppCompatActivity {
 
     EditText ShopName, Area,Address, ContactNo;
     Button addBTN, cancelBTN;
@@ -41,7 +41,7 @@ public class add_shopRoute extends AppCompatActivity {
         cancelBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(add_shopRoute.this, admin_home.class);
+                Intent intent= new Intent(AddShopRoute.this, AdminHome.class);
                 startActivity(intent);
             }
         });

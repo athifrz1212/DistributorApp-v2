@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class home extends AppCompatActivity {
+public class Home extends AppCompatActivity {
 
     LinearLayout view_Repair, inventoryBTN, add_route,
             view_route, view_map, shops;
@@ -74,7 +74,7 @@ public class home extends AppCompatActivity {
         view_Repair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(home.this, view_repairs.class);
+                Intent intent= new Intent(Home.this, ViewRepairs.class);
                 startActivity(intent);
             }
         });
@@ -85,7 +85,7 @@ public class home extends AppCompatActivity {
         inventoryBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(home.this, view_brand.class);
+                Intent intent= new Intent(Home.this, ViewBrand.class);
                 startActivity(intent);
             }
         });
@@ -95,7 +95,7 @@ public class home extends AppCompatActivity {
         add_route.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(home.this, add_shopRoute.class);
+                Intent intent= new Intent(Home.this, AddShopRoute.class);
                 startActivity(intent);
             }
         });
@@ -105,7 +105,7 @@ public class home extends AppCompatActivity {
         shops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(home.this, view_shops.class);
+                Intent intent= new Intent(Home.this, ViewShops.class);
                 startActivity(intent);
             }
         });
@@ -115,7 +115,7 @@ public class home extends AppCompatActivity {
         view_route.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(home.this, view_shopRoute.class);
+                Intent intent= new Intent(Home.this, ViewShopRoute.class);
                 startActivity(intent);
             }
         });
@@ -125,7 +125,7 @@ public class home extends AppCompatActivity {
         view_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(home.this, MapActivity.class);
+                Intent intent= new Intent(Home.this, MapActivity.class);
                 startActivity(intent);
             }
         });

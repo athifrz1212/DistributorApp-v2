@@ -27,7 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class login extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     private EditText txtUsername, txtPassword;
     private TextView txtErrorMsg;
@@ -46,8 +46,8 @@ public class login extends AppCompatActivity {
         txtErrorMsg = findViewById(R.id.errorMsg);
         txtErrorMsg.setVisibility(View.INVISIBLE);
 
-//        txtUsername.setText("athifrahman2000@gmail.com");
-//        txtPassword.setText(("arz@1212"));
+        txtUsername.setText("blitzco.1212@gmail.com");
+        txtPassword.setText(("blitz@1212"));
 
         loginBtn = findViewById(R.id.loginBTN);
         cancelBtn = findViewById(R.id.cancelBTN);
@@ -71,8 +71,8 @@ public class login extends AppCompatActivity {
         newUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(login.this, "Create new user",Toast.LENGTH_LONG).show();
-                Intent intent= new Intent(login.this, add_user.class);
+                Toast.makeText(Login.this, "Create new user",Toast.LENGTH_LONG).show();
+                Intent intent= new Intent(Login.this, AddUser.class);
                 startActivity(intent);
             }
         });
@@ -100,13 +100,13 @@ public class login extends AppCompatActivity {
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     User user = snapshot.getValue(User.class);
                                     if(user.getRole().equals("ADMIN")) {
-                                        Toast.makeText(login.this, "Logged as Admin",Toast.LENGTH_LONG).show();
-                                        Intent intent= new Intent(login.this, admin_home.class);
+                                        Toast.makeText(Login.this, "Logged as Admin",Toast.LENGTH_LONG).show();
+                                        Intent intent= new Intent(Login.this, AdminHome.class);
                                         startActivity(intent);
 
                                     } else if(user.getRole().equals("AGENT")) {
-                                        Toast.makeText(login.this, "Logged as Agent",Toast.LENGTH_LONG).show();
-                                        Intent intent= new Intent(login.this, home.class);
+                                        Toast.makeText(Login.this, "Logged as Agent",Toast.LENGTH_LONG).show();
+                                        Intent intent= new Intent(Login.this, Home.class);
                                         startActivity(intent);
                                     }
 
@@ -124,7 +124,7 @@ public class login extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             txtErrorMsg.setVisibility(View.VISIBLE);
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(login.this, "Login failed.",
+                            Toast.makeText(Login.this, "Login failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

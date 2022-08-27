@@ -14,11 +14,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.blitzco.distributorapp.R;
-
 import java.util.Calendar;
 
-public class add_payment extends AppCompatActivity {
+public class AddPayment extends AppCompatActivity {
 
     EditText shopName, amount, paymentDate;
     Button payBTN, cancelBTN;
@@ -49,7 +47,7 @@ public class add_payment extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        add_payment.this, new DatePickerDialog.OnDateSetListener() {
+                        AddPayment.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         month = month+1;
@@ -74,7 +72,7 @@ public class add_payment extends AppCompatActivity {
         cancelBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =new Intent(add_payment.this,shop_page.class);
+                Intent i =new Intent(AddPayment.this, ShopPage.class);
                 i.putExtra("SName",SName );
                 startActivity(i);
             }
@@ -99,7 +97,7 @@ public class add_payment extends AppCompatActivity {
 
         Toast.makeText(this, Amount+" Deducted. "+availableBalance+" Available", Toast.LENGTH_LONG).show();
 
-        Intent i =new Intent(add_payment.this,shop_page.class);
+        Intent i =new Intent(AddPayment.this, ShopPage.class);
         i.putExtra("SName",ShopName );
         startActivity(i);
 

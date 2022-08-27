@@ -13,34 +13,34 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blitzco.distributorapp.R;
-import com.blitzco.distributorapp.edit_shopRoute;
+import com.blitzco.distributorapp.EditShopRoute;
 import com.blitzco.distributorapp.models.Shop;
-import com.blitzco.distributorapp.shop_page;
+import com.blitzco.distributorapp.ShopPage;
 
 import java.util.ArrayList;
 
-public class adapterShop extends RecyclerView.Adapter<adapterShop.MyShopViewHolder> {
+public class AdapterShop extends RecyclerView.Adapter<AdapterShop.MyShopViewHolder> {
 
     ArrayList<Shop> shopList;
     Context context;
 
-    public adapterShop(ArrayList<Shop> shopList, Context context) {
+    public AdapterShop(ArrayList<Shop> shopList, Context context) {
         this.shopList = shopList;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public adapterShop.MyShopViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterShop.MyShopViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_shop,parent,false);
-        adapterShop.MyShopViewHolder ShopHolder = new adapterShop.MyShopViewHolder(view);
+        AdapterShop.MyShopViewHolder ShopHolder = new AdapterShop.MyShopViewHolder(view);
 
         return ShopHolder;
     }
 
     //bind values to the recycler view
     @Override
-    public void onBindViewHolder(@NonNull adapterShop.MyShopViewHolder ShopHolder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull AdapterShop.MyShopViewHolder ShopHolder, @SuppressLint("RecyclerView") int position) {
         ShopHolder.shop_Name.setText(shopList.get(position).getShop());
         ShopHolder.Cno.setText(shopList.get(position).getContact());
 
@@ -50,7 +50,7 @@ public class adapterShop extends RecyclerView.Adapter<adapterShop.MyShopViewHold
 
                 Shop shop = shopList.get((position));
 
-                Intent i =new Intent(context, edit_shopRoute.class);
+                Intent i =new Intent(context, EditShopRoute.class);
                 i.putExtra("shopID", shop.getId());
                 i.putExtra("SName", shop.getShop());
                 i.putExtra("Area", shop.getArea());
@@ -66,7 +66,7 @@ public class adapterShop extends RecyclerView.Adapter<adapterShop.MyShopViewHold
             public void onClick(View view) {
                 Shop shop = shopList.get((position));
 
-                Intent i =new Intent(context, shop_page.class);
+                Intent i =new Intent(context, ShopPage.class);
                 i.putExtra("SName", shop.getShop());
                 context.startActivity(i);
             }

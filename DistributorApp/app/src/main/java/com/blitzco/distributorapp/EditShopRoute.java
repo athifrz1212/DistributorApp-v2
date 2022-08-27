@@ -11,9 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.blitzco.distributorapp.R;
-
-public class edit_shopRoute extends AppCompatActivity {
+public class EditShopRoute extends AppCompatActivity {
 
     EditText ShopID, ShopName, Area,Address, ContactNo;
     Button addBTN, cancelBTN;
@@ -57,7 +55,7 @@ public class edit_shopRoute extends AppCompatActivity {
         cancelBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(edit_shopRoute.this,home.class);
+                Intent intent= new Intent(EditShopRoute.this, Home.class);
                 startActivity(intent);
             }
         });

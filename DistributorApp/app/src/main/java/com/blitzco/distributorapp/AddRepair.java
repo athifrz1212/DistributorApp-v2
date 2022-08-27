@@ -22,7 +22,7 @@ import com.blitzco.distributorapp.models.Product;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class add_repair extends AppCompatActivity {
+public class AddRepair extends AppCompatActivity {
 
     EditText SName,Issue,ReType,ReDate;
     Button add, cancel;
@@ -118,7 +118,7 @@ public class add_repair extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        add_repair.this, new DatePickerDialog.OnDateSetListener() {
+                        AddRepair.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         month = month+1;
@@ -140,7 +140,7 @@ public class add_repair extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(add_repair.this, view_repairs.class);
+                Intent intent= new Intent(AddRepair.this, ViewRepairs.class);
                 startActivity(intent);
             }
         });

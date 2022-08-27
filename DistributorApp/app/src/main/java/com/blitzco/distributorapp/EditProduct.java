@@ -17,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
-public class edit_product extends AppCompatActivity {
+public class EditProduct extends AppCompatActivity {
 
     EditText proID, MName, CostPrice, Qty, BName;
     Button add, delete, cancel;
@@ -71,7 +71,7 @@ public class edit_product extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String brandName = BName.getText().toString().toUpperCase();
-                Intent i =new Intent(edit_product.this,view_product.class);
+                Intent i =new Intent(EditProduct.this, ViewProduct.class);
                 i.putExtra("brand_Name",brandName );
                 startActivity(i);
             }
@@ -102,13 +102,13 @@ public class edit_product extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if(task.isComplete()) {
-                        Toast.makeText(edit_product.this, "Product Updated", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditProduct.this, "Product Updated", Toast.LENGTH_LONG).show();
                         String brandname = BName.getText().toString().toUpperCase();
-                        Intent i =new Intent(edit_product.this,view_product.class);
+                        Intent i =new Intent(EditProduct.this, ViewProduct.class);
                         i.putExtra("brand_Name",brandname );
                         startActivity(i);
                     } else{
-                        Toast.makeText(edit_product.this, "Update canceled", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditProduct.this, "Update canceled", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -131,12 +131,12 @@ public class edit_product extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
-                    Toast.makeText(edit_product.this, "Product Deleted", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditProduct.this, "Product Deleted", Toast.LENGTH_LONG).show();
 
-                    Intent i =new Intent(edit_product.this,view_brand.class);
+                    Intent i =new Intent(EditProduct.this, ViewBrand.class);
                     startActivity(i);
                 } else {
-                    Toast.makeText(edit_product.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditProduct.this, "Something went wrong", Toast.LENGTH_LONG).show();
                 }
             }
         });

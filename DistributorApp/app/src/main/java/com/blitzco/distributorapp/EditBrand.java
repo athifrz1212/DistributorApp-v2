@@ -17,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
-public class edit_brand extends AppCompatActivity {
+public class EditBrand extends AppCompatActivity {
     EditText brandID,BName, sellerName, address, cno;
     Button add, cancel, delete;
 
@@ -72,7 +72,7 @@ public class edit_brand extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(edit_brand.this, view_brand.class);
+                Intent intent = new Intent(EditBrand.this, ViewBrand.class);
                 startActivity(intent);
             }
         });
@@ -100,12 +100,12 @@ public class edit_brand extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if(task.isComplete()) {
-                        Toast.makeText(edit_brand.this, "Brand Details Updated", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditBrand.this, "Brand Details Updated", Toast.LENGTH_LONG).show();
 
-                        Intent intent= new Intent(edit_brand.this, view_brand.class);
+                        Intent intent= new Intent(EditBrand.this, ViewBrand.class);
                         startActivity(intent);
                     } else{
-                        Toast.makeText(edit_brand.this, "Update canceled", Toast.LENGTH_LONG).show();
+                        Toast.makeText(EditBrand.this, "Update canceled", Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -126,12 +126,12 @@ public class edit_brand extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
-                    Toast.makeText(edit_brand.this, "Brand Deleted", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditBrand.this, "Brand Deleted", Toast.LENGTH_LONG).show();
 
-                    Intent i =new Intent(edit_brand.this,view_brand.class);
+                    Intent i =new Intent(EditBrand.this, ViewBrand.class);
                     startActivity(i);
                 } else {
-                    Toast.makeText(edit_brand.this, "Something went wrong", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditBrand.this, "Something went wrong", Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -14,11 +14,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.blitzco.distributorapp.R;
-
 import java.util.Calendar;
 
-public class edit_order extends AppCompatActivity {
+public class EditOrder extends AppCompatActivity {
 
     EditText OID, SName ,BName, Model, Qty, unitPrice, Total, costPrice, order_Date;
     Button calcBTN, updateBTN, deleteBTN, cancelBTN;
@@ -81,7 +79,7 @@ public class edit_order extends AppCompatActivity {
 
 
                 }catch (Exception ex){
-                    Toast.makeText(edit_order.this, "Please insert valid unit price and quantity", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EditOrder.this, "Please insert valid unit price and quantity", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -101,7 +99,7 @@ public class edit_order extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        edit_order.this, new DatePickerDialog.OnDateSetListener() {
+                        EditOrder.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         month = month+1;
@@ -120,7 +118,7 @@ public class edit_order extends AppCompatActivity {
         deleteBTN.setOnClickListener(view -> delete());
 
         cancelBTN.setOnClickListener(view -> {
-            Intent i1 =new Intent(edit_order.this,shop_page.class);
+            Intent i1 =new Intent(EditOrder.this, ShopPage.class);
             i1.putExtra("SName",ShopName );
             startActivity(i1);
         });
@@ -215,7 +213,7 @@ public class edit_order extends AppCompatActivity {
             unitPrice.setText("");
             Total.setText("");
 
-            Intent i =new Intent(edit_order.this,shop_page.class);
+            Intent i =new Intent(EditOrder.this, ShopPage.class);
             i.putExtra("SName",ShopName );
             startActivity(i);
 
@@ -265,7 +263,7 @@ public class edit_order extends AppCompatActivity {
 
             Toast.makeText(this, "Order Deleted", Toast.LENGTH_LONG).show();
 
-            Intent i =new Intent(edit_order.this,shop_page.class);
+            Intent i =new Intent(EditOrder.this, ShopPage.class);
             i.putExtra("SName",ShopName );
             startActivity(i);
 

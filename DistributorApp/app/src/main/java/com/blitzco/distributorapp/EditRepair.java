@@ -11,9 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.blitzco.distributorapp.R;
-
-public class edit_repair extends AppCompatActivity {
+public class EditRepair extends AppCompatActivity {
     EditText repairID, SName, MName,Issue,ReType,ReDate, BName;
     Button update, delete, cancel;
 
@@ -60,7 +58,7 @@ public class edit_repair extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 update();
-                Intent intent= new Intent(edit_repair.this, view_repairs.class);
+                Intent intent= new Intent(EditRepair.this, ViewRepairs.class);
                 startActivity(intent);
             }
         });
@@ -69,7 +67,7 @@ public class edit_repair extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 delete();
-                Intent intent= new Intent(edit_repair.this, view_repairs.class);
+                Intent intent= new Intent(EditRepair.this, ViewRepairs.class);
                 startActivity(intent);
             }
         });
@@ -77,7 +75,7 @@ public class edit_repair extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(edit_repair.this, view_repairs.class);
+                Intent intent= new Intent(EditRepair.this, ViewRepairs.class);
                 startActivity(intent);
             }
         });
@@ -107,7 +105,7 @@ public class edit_repair extends AppCompatActivity {
 
             Toast.makeText(this, "Repair Updated", Toast.LENGTH_LONG).show();
 
-            Intent intent= new Intent(edit_repair.this, view_repairs.class);
+            Intent intent= new Intent(EditRepair.this, ViewRepairs.class);
             startActivity(intent);
 
         }else
@@ -140,7 +138,7 @@ public class edit_repair extends AppCompatActivity {
             ReType.setText("");
             ReDate.setText("");
             
-            Intent intent= new Intent(edit_repair.this, view_repairs.class);
+            Intent intent= new Intent(EditRepair.this, ViewRepairs.class);
             startActivity(intent);
         }else
         {

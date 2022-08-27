@@ -13,33 +13,33 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blitzco.distributorapp.R;
-import com.blitzco.distributorapp.edit_order;
+import com.blitzco.distributorapp.EditOrder;
 import com.blitzco.distributorapp.models.Order;
 
 import java.util.ArrayList;
 
-public class adapterOrderList extends RecyclerView.Adapter<adapterOrderList.MyShopPageViewHolder> {
+public class AdapterOrderList extends RecyclerView.Adapter<AdapterOrderList.MyShopPageViewHolder> {
 
     ArrayList<Order> orderList;
     Context context;
 
-    public adapterOrderList(ArrayList<Order> orderList, Context context) {
+    public AdapterOrderList(ArrayList<Order> orderList, Context context) {
         this.orderList = orderList;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public adapterOrderList.MyShopPageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterOrderList.MyShopPageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_order,parent,false);
-        adapterOrderList.MyShopPageViewHolder ShopHolder = new adapterOrderList.MyShopPageViewHolder(view);
+        AdapterOrderList.MyShopPageViewHolder ShopHolder = new AdapterOrderList.MyShopPageViewHolder(view);
 
         return ShopHolder;
     }
 
     //bind values to the recycler view
     @Override
-    public void onBindViewHolder(@NonNull adapterOrderList.MyShopPageViewHolder ShopHolder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull AdapterOrderList.MyShopPageViewHolder ShopHolder, @SuppressLint("RecyclerView") int position) {
         ShopHolder.model_name.setText(orderList.get(position).getModelName());
         ShopHolder.total.setText("Rs. "+orderList.get(position).getTotalPrice());
         ShopHolder.qty.setText(String.valueOf(orderList.get(position).getQuantity()));
@@ -50,7 +50,7 @@ public class adapterOrderList extends RecyclerView.Adapter<adapterOrderList.MySh
             public void onClick(View view) {
                 Order orders = orderList.get((position));
 
-                Intent i =new Intent(context, edit_order.class);
+                Intent i =new Intent(context, EditOrder.class);
 
                 i.putExtra("orderID", orders.getOrderID());
                 i.putExtra("shopName", orders.getShopName());

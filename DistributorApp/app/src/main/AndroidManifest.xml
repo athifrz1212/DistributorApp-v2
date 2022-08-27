@@ -24,7 +24,7 @@
             android:value="@string/map_key"/>
 
         <activity
-            android:name="com.blitzco.distributorapp.login"
+            android:name="com.blitzco.distributorapp.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,33 +33,33 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.blitzco.distributorapp.home" />
-        <activity android:name="com.blitzco.distributorapp.admin_home" />
+        <activity android:name="com.blitzco.distributorapp.Home" />
+        <activity android:name="com.blitzco.distributorapp.AdminHome" />
 
-        <activity android:name="com.blitzco.distributorapp.reportGenerator" />
+        <activity android:name="com.blitzco.distributorapp.ReportGenerator" />
 
-        <activity android:name="com.blitzco.distributorapp.add_product" />
-        <activity android:name="com.blitzco.distributorapp.add_order" />
-        <activity android:name="com.blitzco.distributorapp.add_payment" />
-        <activity android:name="com.blitzco.distributorapp.add_repair" />
-        <activity android:name="com.blitzco.distributorapp.add_brand" />
-        <activity android:name="com.blitzco.distributorapp.add_shopRoute"/>
-        <activity android:name="com.blitzco.distributorapp.add_user" />
+        <activity android:name="com.blitzco.distributorapp.AddProduct" />
+        <activity android:name="com.blitzco.distributorapp.AddOrder" />
+        <activity android:name="com.blitzco.distributorapp.AddPayment" />
+        <activity android:name="com.blitzco.distributorapp.AddRepair" />
+        <activity android:name="com.blitzco.distributorapp.AddBrand" />
+        <activity android:name="com.blitzco.distributorapp.AddShopRoute"/>
+        <activity android:name="com.blitzco.distributorapp.AddUser" />
 
-        <activity android:name="com.blitzco.distributorapp.view_product" />
-        <activity android:name="com.blitzco.distributorapp.view_brand" />
-        <activity android:name="com.blitzco.distributorapp.view_repairs" />
-        <activity android:name="com.blitzco.distributorapp.view_shopRoute" />
-        <activity android:name="com.blitzco.distributorapp.view_shops" />
-        <activity android:name="com.blitzco.distributorapp.view_users" />
+        <activity android:name="com.blitzco.distributorapp.ViewProduct" />
+        <activity android:name="com.blitzco.distributorapp.ViewBrand" />
+        <activity android:name="com.blitzco.distributorapp.ViewRepairs" />
+        <activity android:name="com.blitzco.distributorapp.ViewShopRoute" />
+        <activity android:name="com.blitzco.distributorapp.ViewShops" />
+        <activity android:name="com.blitzco.distributorapp.ViewUsers" />
 
-        <activity android:name="com.blitzco.distributorapp.edit_brand" />
-        <activity android:name="com.blitzco.distributorapp.edit_product" />
-        <activity android:name="com.blitzco.distributorapp.edit_repair" />
-        <activity android:name="com.blitzco.distributorapp.edit_shopRoute" />
-        <activity android:name="com.blitzco.distributorapp.edit_order" />
+        <activity android:name="com.blitzco.distributorapp.EditBrand" />
+        <activity android:name="com.blitzco.distributorapp.EditProduct" />
+        <activity android:name="com.blitzco.distributorapp.EditRepair" />
+        <activity android:name="com.blitzco.distributorapp.EditShopRoute" />
+        <activity android:name="com.blitzco.distributorapp.EditOrder" />
 
-        <activity android:name="com.blitzco.distributorapp.shop_page" />
+        <activity android:name="com.blitzco.distributorapp.ShopPage" />
         <activity
             android:name="com.blitzco.distributorapp.MapActivity"
             android:exported="true"/>

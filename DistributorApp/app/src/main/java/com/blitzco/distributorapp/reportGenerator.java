@@ -19,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.blitzco.distributorapp.R;
 import com.blitzco.distributorapp.models.Order;
 import com.blitzco.distributorapp.models.Profits;
 import com.blitzco.distributorapp.models.Repairs;
@@ -53,7 +52,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class reportGenerator extends AppCompatActivity {
+public class ReportGenerator extends AppCompatActivity {
 
     Button BrandReportBTN, OrderReportBTN, ShopSalesReportBTN, MonthlySalesBTN, RepairReportBTN, ProfitReportBTN;
     EditText DateSelector;
@@ -94,7 +93,7 @@ public class reportGenerator extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(reportGenerator.this, home.class);
+                Intent intent= new Intent(ReportGenerator.this, Home.class);
                 startActivity(intent);
             }
         });
@@ -105,7 +104,7 @@ public class reportGenerator extends AppCompatActivity {
 
             final Calendar today = Calendar.getInstance();
 
-            MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(reportGenerator.this,
+            MonthPickerDialog.Builder builder = new MonthPickerDialog.Builder(ReportGenerator.this,
                     new MonthPickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(int selectedMonth, int selectedYear) {
@@ -131,11 +130,11 @@ public class reportGenerator extends AppCompatActivity {
         ProfitReportBTN.setOnClickListener(view -> {
             try {
                 profitReport(Profit_List);
-                Toast.makeText(reportGenerator.this, "PDF Created.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReportGenerator.this, "PDF Created.", Toast.LENGTH_SHORT).show();
 
                 File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/profitReport.pdf");
 
-                Uri uri = FileProvider.getUriForFile(reportGenerator.this,"com.blitzco.distributorapp"+".provider", file);
+                Uri uri = FileProvider.getUriForFile(ReportGenerator.this,"com.blitzco.distributorapp"+".provider", file);
 
                 Intent i=new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(uri,"application/pdf");
@@ -143,7 +142,7 @@ public class reportGenerator extends AppCompatActivity {
                 startActivity(i);
 
             } catch (FileNotFoundException e) {
-                Toast.makeText(reportGenerator.this, "Error.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReportGenerator.this, "Error.", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         });
@@ -152,11 +151,11 @@ public class reportGenerator extends AppCompatActivity {
         RepairReportBTN.setOnClickListener(view -> {
             try {
                 repairReport(Repairs_List, Repairs2_List);
-                Toast.makeText(reportGenerator.this, "PDF Created.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReportGenerator.this, "PDF Created.", Toast.LENGTH_SHORT).show();
 
                 File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/repairReport.pdf");
 
-                Uri uri = FileProvider.getUriForFile(reportGenerator.this,"com.blitzco.distributorapp"+".provider", file);
+                Uri uri = FileProvider.getUriForFile(ReportGenerator.this,"com.blitzco.distributorapp"+".provider", file);
 
                 Intent i=new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(uri,"application/pdf");
@@ -172,11 +171,11 @@ public class reportGenerator extends AppCompatActivity {
         OrderReportBTN.setOnClickListener(view -> {
             try {
                 orderReport(Order_List);
-                Toast.makeText(reportGenerator.this, "PDF Created.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReportGenerator.this, "PDF Created.", Toast.LENGTH_SHORT).show();
 
                 File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/orderReport.pdf");
 
-                Uri uri = FileProvider.getUriForFile(reportGenerator.this,"com.blitzco.distributorapp"+".provider", file);
+                Uri uri = FileProvider.getUriForFile(ReportGenerator.this,"com.blitzco.distributorapp"+".provider", file);
 
                 Intent i=new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(uri,"application/pdf");
@@ -192,11 +191,11 @@ public class reportGenerator extends AppCompatActivity {
         BrandReportBTN.setOnClickListener(view -> {
             try {
                 brandSalesReport(BrandSales_List);
-                Toast.makeText(reportGenerator.this, "PDF Created.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReportGenerator.this, "PDF Created.", Toast.LENGTH_SHORT).show();
 
                 File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/brandSalesReport.pdf");
 
-                Uri uri = FileProvider.getUriForFile(reportGenerator.this,"com.blitzco.distributorapp"+".provider", file);
+                Uri uri = FileProvider.getUriForFile(ReportGenerator.this,"com.blitzco.distributorapp"+".provider", file);
 
                 Intent i=new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(uri,"application/pdf");
@@ -212,11 +211,11 @@ public class reportGenerator extends AppCompatActivity {
         ShopSalesReportBTN.setOnClickListener(view -> {
             try {
                 shopSalesReport(ShopSales_List);
-                Toast.makeText(reportGenerator.this, "PDF Created.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReportGenerator.this, "PDF Created.", Toast.LENGTH_SHORT).show();
 
                 File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/shopSalesReport.pdf");
 
-                Uri uri = FileProvider.getUriForFile(reportGenerator.this,"com.blitzco.distributorapp"+".provider", file);
+                Uri uri = FileProvider.getUriForFile(ReportGenerator.this,"com.blitzco.distributorapp"+".provider", file);
 
                 Intent i=new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(uri,"application/pdf");
@@ -231,11 +230,11 @@ public class reportGenerator extends AppCompatActivity {
         MonthlySalesBTN.setOnClickListener(view -> {
             try {
                 monthlySalesReport(Sales_List);
-                Toast.makeText(reportGenerator.this, "PDF Created.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ReportGenerator.this, "PDF Created.", Toast.LENGTH_SHORT).show();
 
                 File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+"/monthlySalesReport.pdf");
 
-                Uri uri = FileProvider.getUriForFile(reportGenerator.this,"com.blitzco.distributorapp"+".provider", file);
+                Uri uri = FileProvider.getUriForFile(ReportGenerator.this,"com.blitzco.distributorapp"+".provider", file);
 
                 Intent i=new Intent(Intent.ACTION_VIEW);
                 i.setDataAndType(uri,"application/pdf");

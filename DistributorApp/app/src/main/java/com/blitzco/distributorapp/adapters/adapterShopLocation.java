@@ -14,33 +14,33 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blitzco.distributorapp.MapActivity;
 import com.blitzco.distributorapp.R;
-import com.blitzco.distributorapp.edit_shopRoute;
+import com.blitzco.distributorapp.EditShopRoute;
 import com.blitzco.distributorapp.models.Shop;
 
 import java.util.ArrayList;
 
-public class adapterShopLocation extends RecyclerView.Adapter<adapterShopLocation.MyShopLocationHolder> {
+public class AdapterShopLocation extends RecyclerView.Adapter<AdapterShopLocation.MyShopLocationHolder> {
 
     ArrayList<Shop> shopList;
     Context context;
 
-    public adapterShopLocation(ArrayList<Shop> shopList, Context context) {
+    public AdapterShopLocation(ArrayList<Shop> shopList, Context context) {
         this.shopList = shopList;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public adapterShopLocation.MyShopLocationHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterShopLocation.MyShopLocationHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_shop_location,parent,false);
-        adapterShopLocation.MyShopLocationHolder ShopHolder = new adapterShopLocation.MyShopLocationHolder(view);
+        AdapterShopLocation.MyShopLocationHolder ShopHolder = new AdapterShopLocation.MyShopLocationHolder(view);
 
         return ShopHolder;
     }
 
     //bind values to the recycler view
     @Override
-    public void onBindViewHolder(@NonNull adapterShopLocation.MyShopLocationHolder ShopHolder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull AdapterShopLocation.MyShopLocationHolder ShopHolder, @SuppressLint("RecyclerView") int position) {
         ShopHolder.shop_Name.setText(shopList.get(position).getShop());
         ShopHolder.shop_area.setText(shopList.get(position).getArea());
 
@@ -50,7 +50,7 @@ public class adapterShopLocation extends RecyclerView.Adapter<adapterShopLocatio
 
                 Shop shop = shopList.get((position));
 
-                Intent i =new Intent(context, edit_shopRoute.class);
+                Intent i =new Intent(context, EditShopRoute.class);
                 i.putExtra("shopID", shop.getId());
                 i.putExtra("SName", shop.getShop());
                 i.putExtra("Area", shop.getArea());

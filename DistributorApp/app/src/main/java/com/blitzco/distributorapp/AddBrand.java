@@ -13,7 +13,7 @@ import com.blitzco.distributorapp.models.Brand;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class add_brand extends AppCompatActivity {
+public class AddBrand extends AppCompatActivity {
     DatabaseReference dbRef;
     EditText BName, SellerName, Address, CNo;
     Button add, cancel;
@@ -41,7 +41,7 @@ public class add_brand extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(add_brand.this,view_brand.class);
+                Intent intent= new Intent(AddBrand.this, ViewBrand.class);
                 startActivity(intent);
             }
         });

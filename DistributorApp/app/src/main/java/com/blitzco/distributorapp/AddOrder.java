@@ -29,9 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
-public class add_order extends AppCompatActivity {
+public class AddOrder extends AppCompatActivity {
 
     private EditText txtShopName, txtCost, txtQuantity, txtUnitPrice, txtTotal, txtOrderedDate;
     private Button addBTN, cancelBTN, calcBTN, searchBTN;
@@ -47,6 +46,7 @@ public class add_order extends AppCompatActivity {
     private ArrayList<String> titles = new ArrayList<String>();
 
     DatabaseReference brandRef, productRef, userRef, orderRef, paymentRef;
+    private long available, availableBalance ;
 
 
     @Override
@@ -92,7 +92,10 @@ public class add_order extends AppCompatActivity {
                             .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            txtCost.setText(Objects.requireNonNull(snapshot.getValue(Product.class)).getUnitPrice());
+                            for(DataSnapshot snap: snapshot.getChildren()) {
+                                System.out.println(" >>>>>>>>>>>>>>>>>>> "+snap.getValue(Product.class).getModelName());
+                                txtCost.setText(snap.getValue(Product.class).getUnitPrice());
+                            }
                         }
 
                         @Override
@@ -101,7 +104,7 @@ public class add_order extends AppCompatActivity {
                     });
                 }
                 else{
-                    Toast.makeText(add_order.this, "Select a phone model.", Toast.LENGTH_SHORT);
+                    Toast.makeText(AddOrder.this, "Select a phone model.", Toast.LENGTH_SHORT);
                 }
 
             }
@@ -118,7 +121,7 @@ public class add_order extends AppCompatActivity {
                     txtTotal.setText(String.valueOf(totalAmount));
 
                 }catch (Exception ex){
-                    Toast.makeText(add_order.this, "Please insert valid unit price and quantity", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddOrder.this, "Please insert valid unit price and quantity", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -151,8 +154,8 @@ public class add_order extends AppCompatActivity {
         modelAdapter.setDropDownViewResource(R.layout.spinner_text);
         modelNameSpinner.setAdapter(modelAdapter);
 
-
-        productRef.orderByChild("brandName").equalTo(brandNameSpinner.getSelectedItem().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+//        productRef.orderByChild("brandName").equalTo(brandNameSpinner.getSelectedItem().toString())
+        productRef.orderByChild("modelName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot snap: snapshot.getChildren()) {
@@ -163,14 +166,11 @@ public class add_order extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
 
-        ///-----------------------------------------------------------------------------------------
+///-----Date picker setting-----------------
 
-        ///---Date picker setting
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
@@ -180,7 +180,7 @@ public class add_order extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        add_order.this, new DatePickerDialog.OnDateSetListener() {
+                        AddOrder.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         month = month+1;
@@ -205,7 +205,7 @@ public class add_order extends AppCompatActivity {
         cancelBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i =new Intent(add_order.this,shop_page.class);
+                Intent i =new Intent(AddOrder.this, ShopPage.class);
                 i.putExtra("txtShopName",ShopName );
                 startActivity(i);
             }
@@ -233,8 +233,11 @@ public class add_order extends AppCompatActivity {
             productRef.orderByChild("modelName").equalTo(PhoneModel).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    Product product = snapshot.getValue(Product.class);
-                    long available = Long.valueOf(product.getQty());
+
+                    for(DataSnapshot snap: snapshot.getChildren()) {
+                        Product product = snap.getValue(Product.class);
+                        available = Long.valueOf(product.getQty());
+                    }
 
                     if(quantity <= available) {
 
@@ -246,8 +249,10 @@ public class add_order extends AppCompatActivity {
                                     paymentRef.orderByChild("shopName").equalTo(ShopName).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            Payment payment = snapshot.getValue(Payment.class);
-                                            long availableBalance = TotalPrice + payment.getBalance();
+                                            for(DataSnapshot snap: snapshot.getChildren()) {
+                                                Payment payment = snap.getValue(Payment.class);
+                                                availableBalance = TotalPrice + payment.getBalance();
+                                            }
 
                                             paymentRef.child(snapshot.getKey()).child("balance").setValue(availableBalance);
                                         }
@@ -268,8 +273,8 @@ public class add_order extends AppCompatActivity {
                                     paymentRef.push().setValue(payment);
 
 
-                                    Toast.makeText(add_order.this, "New Shop Balance Added", Toast.LENGTH_LONG).show();
-                                    Toast.makeText(add_order.this, "Order Added", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(AddOrder.this, "New Shop Balance Added", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(AddOrder.this, "Order Added", Toast.LENGTH_LONG).show();
 
                                 }
                             }
@@ -300,7 +305,9 @@ public class add_order extends AppCompatActivity {
                         productRef.orderByChild("modelName").equalTo(PhoneModel).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                snapshot.getRef().child("quantity").setValue(String.valueOf(newQty));
+                                for(DataSnapshot snap: snapshot.getChildren()) {
+                                    snap.getRef().child("quantity").setValue(String.valueOf(newQty));
+                                }
                             }
 
                             @Override
@@ -314,13 +321,13 @@ public class add_order extends AppCompatActivity {
                         txtUnitPrice.setText("");
                         txtTotal.setText("");
 
-                        Intent i =new Intent(add_order.this,shop_page.class);
-                        i.putExtra("txtShopName",ShopName );
+                        Intent i =new Intent(AddOrder.this, ShopPage.class);
+                        i.putExtra("SName",ShopName );
                         startActivity(i);
                     }
                     else {
                         txtQuantity.setText(String.valueOf(available));
-                        Toast.makeText(add_order.this, "Available quantity "+available, Toast.LENGTH_LONG).show();
+                        Toast.makeText(AddOrder.this, "Available quantity "+available, Toast.LENGTH_LONG).show();
                     }
                 }
 

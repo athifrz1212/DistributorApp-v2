@@ -27,7 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class add_user extends AppCompatActivity {
+public class AddUser extends AppCompatActivity {
 
     private EditText txtFName, txtLName, txtContactNo, txtEmail, txtPassword;
     private Spinner txtRole;
@@ -110,13 +110,13 @@ public class add_user extends AppCompatActivity {
 
                             dbRef.child(user.getUserID()).setValue(user);
 
-                            Intent intent= new Intent(add_user.this, view_users.class);
+                            Intent intent= new Intent(AddUser.this, ViewUsers.class);
                             startActivity(intent);
 
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(add_user.this, "Authentication failed.",
+                            Toast.makeText(AddUser.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

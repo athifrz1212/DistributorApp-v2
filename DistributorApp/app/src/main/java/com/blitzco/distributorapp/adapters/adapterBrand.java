@@ -13,18 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blitzco.distributorapp.R;
-import com.blitzco.distributorapp.edit_brand;
+import com.blitzco.distributorapp.EditBrand;
 import com.blitzco.distributorapp.models.Brand;
-import com.blitzco.distributorapp.view_product;
+import com.blitzco.distributorapp.ViewProduct;
 
 import java.util.List;
 
-public class adapterBrand extends RecyclerView.Adapter<adapterBrand.MyBrandViewHolder>{
+public class AdapterBrand extends RecyclerView.Adapter<AdapterBrand.MyBrandViewHolder>{
 
     List<Brand> brandList;
     Context context;
 
-    public adapterBrand(List<Brand> brandList, Context context) {
+    public AdapterBrand(List<Brand> brandList, Context context) {
         this.brandList = brandList;
         this.context = context;
     }
@@ -40,7 +40,7 @@ public class adapterBrand extends RecyclerView.Adapter<adapterBrand.MyBrandViewH
 
     //bind values to the recycler view
     @Override
-    public void onBindViewHolder(@NonNull adapterBrand.MyBrandViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull AdapterBrand.MyBrandViewHolder holder, @SuppressLint("RecyclerView") int position) {
 //        holder.brand_No.setText(brandList.get(position).getBrandID());
         holder.brand_Name.setText(brandList.get(position).getBrandName());
 
@@ -50,7 +50,7 @@ public class adapterBrand extends RecyclerView.Adapter<adapterBrand.MyBrandViewH
 
                 Brand brands = brandList.get((position));
 
-                Intent i =new Intent(context, edit_brand.class);
+                Intent i =new Intent(context, EditBrand.class);
                 i.putExtra("brandID", brands.getBrandID());
                 i.putExtra("brand_Name", brands.getBrandName());
                 i.putExtra("seller_Name", brands.getSellerName());
@@ -65,7 +65,7 @@ public class adapterBrand extends RecyclerView.Adapter<adapterBrand.MyBrandViewH
             public void onClick(View view) {
 
                 Brand brands = brandList.get((position));
-                Intent i =new Intent(context, view_product.class);
+                Intent i =new Intent(context, ViewProduct.class);
                 i.putExtra("brand_Name", brands.getBrandName());
                 context.startActivity(i);
             }

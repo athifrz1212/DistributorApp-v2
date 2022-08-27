@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blitzco.distributorapp.adapters.adapterUsers;
+import com.blitzco.distributorapp.adapters.AdapterUsers;
 import com.blitzco.distributorapp.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class view_users extends AppCompatActivity {
+public class ViewUsers extends AppCompatActivity {
 
     private RecyclerView users_list;
     private RelativeLayout go_back;
@@ -48,7 +48,7 @@ public class view_users extends AppCompatActivity {
 //        addBTN.setVisibility(View.INVISIBLE);
 
         layoutManager = new LinearLayoutManager(this);//assign layout manager
-        mAdapter = new adapterUsers(userList,view_users.this);
+        mAdapter = new AdapterUsers(userList, ViewUsers.this);
 
         go_back = findViewById(R.id.go_back);
 
@@ -77,7 +77,7 @@ public class view_users extends AppCompatActivity {
         addBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(view_users.this, add_user.class);
+                Intent intent= new Intent(ViewUsers.this, AddUser.class);
                 startActivity(intent);
             }
         });
@@ -85,7 +85,7 @@ public class view_users extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(view_users.this, admin_home.class);
+                Intent intent= new Intent(ViewUsers.this, AdminHome.class);
                 startActivity(intent);
             }
         });

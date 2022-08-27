@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@drawable/bg_white"
-    tools:context="com.blitzco.distributorapp.view_product">
+    tools:context="com.blitzco.distributorapp.ViewProduct">
 
     <LinearLayout
         android:layout_width="match_parent"

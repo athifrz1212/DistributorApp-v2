@@ -28,6 +28,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,12 +45,15 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public static boolean lock;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
+    private DatabaseReference shopRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_activity);
 
 
+        shopRef = FirebaseDatabase.getInstance().getReference("Shop");
         edIndex = findViewById(R.id.serch_shop);
         b1 = findViewById(R.id.btnMap);
 
@@ -57,7 +62,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         mapIndex = getIntent().getStringExtra("SName");
-
 
     }
 
@@ -91,6 +95,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
 
+        shopRef.orderByChild("shop");
 
         final String sql = "select * from shopi where shop=" + index;
 

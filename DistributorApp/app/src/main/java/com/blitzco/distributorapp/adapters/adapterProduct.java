@@ -12,18 +12,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blitzco.distributorapp.EditProduct;
 import com.blitzco.distributorapp.R;
-import com.blitzco.distributorapp.edit_product;
 import com.blitzco.distributorapp.models.Product;
 
 import java.util.List;
 
-public class adapterProduct extends RecyclerView.Adapter<adapterProduct.MyProductViewHolder> {
+public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.MyProductViewHolder> {
 
     List<Product> proList ;
     Context context;
 
-    public adapterProduct(List<Product> proList, Context context) {
+    public AdapterProduct(List<Product> proList, Context context) {
         this.proList = proList;
         this.context = context;
     }
@@ -49,8 +49,8 @@ public class adapterProduct extends RecyclerView.Adapter<adapterProduct.MyProduc
 
                 Product pro = proList.get((position));
 
-                //Intent i =new Intent(getApplicationContext(),edit_product.class);
-                Intent i =new Intent(context, edit_product.class);
+                //Intent i =new Intent(getApplicationContext(),EditProduct.class);
+                Intent i =new Intent(context, EditProduct.class);
                 i.putExtra("productID", pro.getId());
                 i.putExtra("brand_Name", pro.getBrandName());
                 i.putExtra("model_Name", pro.getModelName());

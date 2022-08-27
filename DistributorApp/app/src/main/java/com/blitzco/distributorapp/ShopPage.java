@@ -14,12 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blitzco.distributorapp.adapters.adapterOrderList;
+import com.blitzco.distributorapp.adapters.AdapterOrderList;
 import com.blitzco.distributorapp.models.Order;
 
 import java.util.ArrayList;
 
-public class shop_page extends AppCompatActivity {
+public class ShopPage extends AppCompatActivity {
 
     TextView shopname, balance;
     LinearLayout addBTN, paymentBTN;
@@ -46,7 +46,7 @@ public class shop_page extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(shop_page.this, view_shops.class);
+                Intent intent= new Intent(ShopPage.this, ViewShops.class);
                 startActivity(intent);
             }
         });
@@ -59,7 +59,7 @@ public class shop_page extends AppCompatActivity {
         order_list.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);//assign layout manager
-        mAdapter = new adapterOrderList(Order_List,shop_page.this); //updateBTN Order_list data to adapter class
+        mAdapter = new AdapterOrderList(Order_List, ShopPage.this); //updateBTN Order_list data to adapter class
 
         SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
 
@@ -72,7 +72,7 @@ public class shop_page extends AppCompatActivity {
         paymentBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i= new Intent(shop_page.this, add_payment.class);
+                Intent i= new Intent(ShopPage.this, AddPayment.class);
                 i.putExtra("SName", SName);
                 startActivity(i);
             }
@@ -82,7 +82,7 @@ public class shop_page extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent i= new Intent(shop_page.this, add_order.class);
+                Intent i= new Intent(ShopPage.this, AddOrder.class);
                 i.putExtra("SName", SName);
                 startActivity(i);
             }

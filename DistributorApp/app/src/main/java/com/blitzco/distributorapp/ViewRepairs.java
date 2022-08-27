@@ -13,12 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blitzco.distributorapp.adapters.adapterRepair;
+import com.blitzco.distributorapp.adapters.AdapterRepair;
 import com.blitzco.distributorapp.models.Repairs;
 
 import java.util.ArrayList;
 
-public class view_repairs extends AppCompatActivity {
+public class ViewRepairs extends AppCompatActivity {
     private RecyclerView repair_list;
     private ImageView addBTN;
     private RelativeLayout go_back;
@@ -36,14 +36,14 @@ public class view_repairs extends AppCompatActivity {
         repair_list.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);//assign layout manager
-        mAdapter = new adapterRepair(repairList,view_repairs.this); //updateBTN brand_list data to adapter class
+        mAdapter = new AdapterRepair(repairList, ViewRepairs.this); //updateBTN brand_list data to adapter class
 
         go_back = findViewById(R.id.go_back);
 
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(view_repairs.this, home.class);
+                Intent intent= new Intent(ViewRepairs.this, Home.class);
                 startActivity(intent);
             }
         });
@@ -53,7 +53,7 @@ public class view_repairs extends AppCompatActivity {
         addBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(view_repairs.this, add_repair.class);
+                Intent intent= new Intent(ViewRepairs.this, AddRepair.class);
                 startActivity(intent);
             }
         });

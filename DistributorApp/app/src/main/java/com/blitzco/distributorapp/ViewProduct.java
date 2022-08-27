@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blitzco.distributorapp.adapters.adapterProduct;
+import com.blitzco.distributorapp.adapters.AdapterProduct;
 import com.blitzco.distributorapp.models.Product;
 import com.blitzco.distributorapp.models.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class view_product extends AppCompatActivity {
+public class ViewProduct extends AppCompatActivity {
 
     private RecyclerView list;
     private LinearLayout addBTN;
@@ -46,8 +46,7 @@ public class view_product extends AppCompatActivity {
         list.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);//assign layout manager
-        mAdapter = new adapterProduct(proList, view_product.this); //updateBTN brand_list data to adapter class
-
+        mAdapter = new AdapterProduct(proList, ViewProduct.this); //updateBTN brand_list data to adapter class
 
         //Values from view page on click
         String brandName = getIntent().getStringExtra("brand_Name").toString();
@@ -60,7 +59,7 @@ public class view_product extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(view_product.this, view_brand.class);
+                Intent intent= new Intent(ViewProduct.this, ViewBrand.class);
                 startActivity(intent);
             }
         });
@@ -93,7 +92,7 @@ public class view_product extends AppCompatActivity {
         addBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(view_product.this, add_product.class);
+                Intent intent= new Intent(ViewProduct.this, AddProduct.class);
                 intent.putExtra("brandName", brandName);
                 startActivity(intent);
             }
