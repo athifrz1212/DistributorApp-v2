@@ -17,16 +17,6 @@ public class AdminHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_home);
 
-        view_userBTN = findViewById(R.id.view_userBTN);
-
-        view_userBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(AdminHome.this, AddUser.class);
-                startActivity(intent);
-            }
-        });
-
         inventoryBTN = findViewById(R.id.inventoryBTN);
 
         inventoryBTN.setOnClickListener(new View.OnClickListener() {
