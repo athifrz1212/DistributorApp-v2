@@ -84,12 +84,10 @@ public class EditProduct extends AppCompatActivity {
         String productID = proID.getText().toString();
         String brandName = BName.getText().toString().toUpperCase();
         String modelName = MName.getText().toString().toUpperCase();
-        String costPrice = CostPrice.getText().toString();
-        String qty = Qty.getText().toString();
-//        int costPrice = Integer.parseInt(CostPrice.getText().toString());
-//        int qty = Integer.parseInt(Qty.getText().toString());
+        long costPrice = Long.parseLong(CostPrice.getText().toString());
+        long qty = Long.parseLong(Qty.getText().toString());
 
-        if((modelName!=null)&& (Integer.parseInt(costPrice)!=0) && (Integer.parseInt(qty)>0)) {
+        if((modelName!=null)&& (costPrice!=0) && (qty > 0)) {
 
             HashMap product = new HashMap();
             product.put("brandName",brandName);

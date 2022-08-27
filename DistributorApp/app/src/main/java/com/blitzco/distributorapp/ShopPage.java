@@ -53,7 +53,7 @@ public class ShopPage extends AppCompatActivity {
 
         Intent i = getIntent();
         //Values from view page on click
-        String SName = i.getStringExtra("SName").toString();
+        String SName = i.getStringExtra("txtShopName").toString();
         shopname.setText(SName);
 
         order_list.setHasFixedSize(true);
@@ -73,7 +73,7 @@ public class ShopPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i= new Intent(ShopPage.this, AddPayment.class);
-                i.putExtra("SName", SName);
+                i.putExtra("txtShopName", SName);
                 startActivity(i);
             }
         });
@@ -83,7 +83,7 @@ public class ShopPage extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent i= new Intent(ShopPage.this, AddOrder.class);
-                i.putExtra("SName", SName);
+                i.putExtra("txtShopName", SName);
                 startActivity(i);
             }
         });

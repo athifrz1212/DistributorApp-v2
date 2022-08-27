@@ -41,7 +41,7 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.MyProduc
     @Override
     public void onBindViewHolder(@NonNull MyProductViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.pro_Name.setText(proList.get(position).getModelName());
-        holder.pro_qty.setText(proList.get(position).getQty());
+        holder.pro_qty.setText(String.valueOf(proList.get(position).getQty()));
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override

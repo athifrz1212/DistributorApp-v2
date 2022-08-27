@@ -24,7 +24,7 @@ import java.util.Calendar;
 
 public class AddRepair extends AppCompatActivity {
 
-    EditText SName,Issue,ReType,ReDate;
+    EditText txtShopName,Issue,ReType,ReDate;
     Button add, cancel;
     Spinner BName, MName;
 
@@ -41,7 +41,7 @@ public class AddRepair extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_repair);
 
-        SName = findViewById(R.id.SName);
+        txtShopName = findViewById(R.id.SName);
         BName = findViewById(R.id.BName);
         MName = findViewById(R.id.MName);
         Issue = findViewById(R.id.Issue);
@@ -150,7 +150,7 @@ public class AddRepair extends AppCompatActivity {
     public void insert()
     {
         try{
-            String shopName = SName.getText().toString().toUpperCase();
+            String shopName = txtShopName.getText().toString().toUpperCase();
             String brandName = BName.getSelectedItem().toString().toUpperCase();
             String modelName = MName.getSelectedItem().toString().toUpperCase();
             String issue = Issue.getText().toString().toUpperCase();
@@ -179,7 +179,7 @@ public class AddRepair extends AppCompatActivity {
             ReType.setText("");
             ReDate.setText("");
 
-            SName.requestFocus();
+            txtShopName.requestFocus();
         }
         catch (Exception ex)
         {

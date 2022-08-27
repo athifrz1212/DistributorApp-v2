@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.blitzco.distributorapp.Home" />
+        <activity android:name="com.blitzco.distributorapp.AgentHome" />
         <activity android:name="com.blitzco.distributorapp.AdminHome" />
 
         <activity android:name="com.blitzco.distributorapp.ReportGenerator" />

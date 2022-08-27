@@ -60,10 +60,10 @@ public class AddProduct extends AppCompatActivity {
         try{
             String brandName = BName.getText().toString().toUpperCase();
             String modelName = MName.getText().toString().toUpperCase();
-            String costPrice = CostPrice.getText().toString();
-            String qty = Qty.getText().toString();
+            long costPrice = Long.parseLong(CostPrice.getText().toString());
+            long qty = Long.parseLong(Qty.getText().toString());
 
-            if((modelName!=null)&& (Long.valueOf(costPrice)!=0) && (Long.valueOf(qty)>0)) {
+            if((modelName!=null)&& (costPrice!=0) && (qty>0)) {
                 Product product = new Product();
                 product.setBrandName(brandName);
                 product.setModelName(modelName);

@@ -34,7 +34,7 @@ public class EditShopRoute extends AppCompatActivity {
 
         //Values from view page on click
         String shopID = i.getStringExtra("shopID").toString();
-        String SName = i.getStringExtra("SName").toString();
+        String SName = i.getStringExtra("txtShopName").toString();
         String area = i.getStringExtra("Area").toString();
         String address = i.getStringExtra("Address").toString();
         String cno = i.getStringExtra("CNo").toString();
@@ -55,7 +55,7 @@ public class EditShopRoute extends AppCompatActivity {
         cancelBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(EditShopRoute.this, Home.class);
+                Intent intent= new Intent(EditShopRoute.this, AgentHome.class);
                 startActivity(intent);
             }
         });

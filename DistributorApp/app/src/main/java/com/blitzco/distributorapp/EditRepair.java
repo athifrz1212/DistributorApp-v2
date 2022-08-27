@@ -25,7 +25,7 @@ public class EditRepair extends AppCompatActivity {
 
         //Values from view page on click
         String id = i.getStringExtra("repairID").toString();
-        String ShopName = i.getStringExtra("SName").toString();
+        String ShopName = i.getStringExtra("txtShopName").toString();
         String BrandName = i.getStringExtra("BName").toString();
         String ModelName = i.getStringExtra("MName").toString();
         String issue = i.getStringExtra("issue").toString();

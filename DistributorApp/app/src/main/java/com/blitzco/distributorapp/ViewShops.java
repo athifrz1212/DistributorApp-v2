@@ -61,7 +61,7 @@ public class ViewShops extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(ViewShops.this, Home.class);
+                Intent intent= new Intent(ViewShops.this, AgentHome.class);
                 startActivity(intent);
             }
         });

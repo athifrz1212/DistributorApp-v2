@@ -78,7 +78,7 @@ public class ViewBrand extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(ViewBrand.this, Home.class);
+                Intent intent= new Intent(ViewBrand.this, AgentHome.class);
                 startActivity(intent);
             }
         });

@@ -43,7 +43,7 @@ public class ViewRepairs extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(ViewRepairs.this, Home.class);
+                Intent intent= new Intent(ViewRepairs.this, AgentHome.class);
                 startActivity(intent);
             }
         });

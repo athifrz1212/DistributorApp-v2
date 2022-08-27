@@ -2,11 +2,10 @@ package com.blitzco.distributorapp.models;
 
 public class Repairs {
     private String repairID;
+    private String agentId;
     private String shopName;
     private String brandName;
-    private String issueBrandName;
     private String modelName;
-    private String issueModelName;
     private String issue;
     private String reType;
     private String reDate;
@@ -16,19 +15,19 @@ public class Repairs {
     public Repairs() {
     }
 
-    public Repairs(String repairID, String shopName, String brandName, String issueBrandName, String modelName, String issueModelName, String issue, String reType, String reDate, String yyyyMM, String noOfItems) {
+    public Repairs(String repairID, String agentId, String shopName, String brandName, String modelName, String issue, String reType, String reDate, String yyyyMM, String noOfItems) {
         this.repairID = repairID;
+        this.agentId = agentId;
         this.shopName = shopName;
         this.brandName = brandName;
-        this.issueBrandName = issueBrandName;
         this.modelName = modelName;
-        this.issueModelName = issueModelName;
         this.issue = issue;
         this.reType = reType;
         this.reDate = reDate;
         this.yyyyMM = yyyyMM;
         this.noOfItems = noOfItems;
     }
+
 
     public String getRepairID() {
         return repairID;
@@ -37,6 +36,10 @@ public class Repairs {
     public void setRepairID(String repairID) {
         this.repairID = repairID;
     }
+
+    public String getAgentId() { return agentId; }
+
+    public void setAgentId(String agentId) { this.agentId = agentId; }
 
     public String getShopName() {
         return shopName;
@@ -54,28 +57,12 @@ public class Repairs {
         this.brandName = brandName;
     }
 
-    public String getIssueBrandName() {
-        return issueBrandName;
-    }
-
-    public void setIssueBrandName(String issueBrandName) {
-        this.issueBrandName = issueBrandName;
-    }
-
     public String getModelName() {
         return modelName;
     }
 
     public void setModelName(String modelName) {
         this.modelName = modelName;
-    }
-
-    public String getIssueModelName() {
-        return issueModelName;
-    }
-
-    public void setIssueModelName(String issueModelName) {
-        this.issueModelName = issueModelName;
     }
 
     public String getIssue() {

@@ -93,7 +93,7 @@ public class ReportGenerator extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(ReportGenerator.this, Home.class);
+                Intent intent= new Intent(ReportGenerator.this, AgentHome.class);
                 startActivity(intent);
             }
         });
@@ -440,8 +440,8 @@ public class ReportGenerator extends AppCompatActivity {
         {
             do {
                 Repairs repair = new Repairs();
-                repair.setIssueBrandName(cRepairs2.getString(brand_Name));
-                repair.setIssueModelName(cRepairs2.getString(model_Name));
+                repair.setBrandName(cRepairs2.getString(brand_Name));
+                repair.setModelName(cRepairs2.getString(model_Name));
                 repair.setIssue(cRepairs2.getString(issueIndex));
 
                 Repairs2_List.add(repair);
@@ -687,8 +687,8 @@ public class ReportGenerator extends AppCompatActivity {
 
         for(int i=0; i<Repairs2_List.size(); i++)
         {
-            table2.addCell(new Cell().add(new Paragraph(Repairs2_List.get(i).getIssueBrandName()).setFontSize(12)));
-            table2.addCell(new Cell().add(new Paragraph(Repairs2_List.get(i).getIssueModelName()).setFontSize(12)));
+            table2.addCell(new Cell().add(new Paragraph(Repairs2_List.get(i).getBrandName()).setFontSize(12)));
+            table2.addCell(new Cell().add(new Paragraph(Repairs2_List.get(i).getModelName()).setFontSize(12)));
             table2.addCell(new Cell().add(new Paragraph(Repairs2_List.get(i).getIssue()).setFontSize(12)));
         }
 

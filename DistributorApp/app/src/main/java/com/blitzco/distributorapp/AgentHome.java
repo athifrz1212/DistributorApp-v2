@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Home extends AppCompatActivity {
+public class AgentHome extends AppCompatActivity {
 
     LinearLayout view_Repair, inventoryBTN, add_route,
             view_route, view_map, shops;
@@ -27,31 +27,9 @@ public class Home extends AppCompatActivity {
 
         SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
 
-    ///---Table creations------------
-
-        //--shopi Table
-        //db.execSQL("DROP TABLE shopi");
-        db.execSQL("CREATE TABLE IF NOT EXISTS 'shopi' ('id' INTEGER PRIMARY KEY AUTOINCREMENT,'shop' TEXT,'area' TEXT,'address' TEXT, 'contact' TEXT)");
-
-        //--brand Table
-        //db.execSQL("DROP TABLE brand");
-        db.execSQL("CREATE TABLE IF NOT EXISTS 'brand' ('brandID' INTEGER PRIMARY KEY AUTOINCREMENT, 'brand_Name' TEXT,'seller_Name' TEXT,'address' TEXT,'contact_Number' Number)");
-
-        //--product Table
-        //db.execSQL("DROP TABLE product");
-        db.execSQL("CREATE TABLE IF NOT EXISTS 'product' ('productID' INTEGER PRIMARY KEY AUTOINCREMENT,'brand_Name' TEXT,'model_Name' TEXT,'cost_price' NUMBER,'quantity' Number)");
-
         //--repairs Table
         //db.execSQL("DROP TABLE repairs");
         db.execSQL("CREATE TABLE IF NOT EXISTS 'repairs' ('repairID' INTEGER PRIMARY KEY AUTOINCREMENT,'shop_Name' TEXT, 'brand_Name' TEXT, 'model_Name' TEXT, 'issue' TEXT, 'ReType' TEXT, 'ReDate' TEXT, 'YYYY_MM' TEXT)");
-
-        //--orders Table
-        //db.execSQL("DROP TABLE orders");
-        db.execSQL("CREATE TABLE IF NOT EXISTS 'orders' ('orderID' INTEGER PRIMARY KEY AUTOINCREMENT,'Shop_Name' TEXT, 'Brand_Name' TEXT, 'Model_Name' TEXT, 'costPrice' NUMBER,'quantity' NUMBER, 'unitPrice' NUMBER, 'total' NUMBER, 'profit' NUMBER, 'orderDate' TEXT, 'YYYY_MM' TEXT)");
-
-        //--payments Table
-        //db.execSQL("DROP TABLE payments");
-        db.execSQL("CREATE TABLE IF NOT EXISTS 'payments' ('paymentID' INTEGER PRIMARY KEY AUTOINCREMENT, 'Shop_Name' TEXT, 'balance' NUMBER, 'lastPaydate' TEXT)");
 
     ///---End of table creation---
 
@@ -74,7 +52,7 @@ public class Home extends AppCompatActivity {
         view_Repair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(Home.this, ViewRepairs.class);
+                Intent intent= new Intent(AgentHome.this, ViewRepairs.class);
                 startActivity(intent);
             }
         });
@@ -85,7 +63,7 @@ public class Home extends AppCompatActivity {
         inventoryBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(Home.this, ViewBrand.class);
+                Intent intent= new Intent(AgentHome.this, ViewBrand.class);
                 startActivity(intent);
             }
         });
@@ -95,7 +73,7 @@ public class Home extends AppCompatActivity {
         add_route.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(Home.this, AddShopRoute.class);
+                Intent intent= new Intent(AgentHome.this, AddShopRoute.class);
                 startActivity(intent);
             }
         });
@@ -105,7 +83,7 @@ public class Home extends AppCompatActivity {
         shops.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(Home.this, ViewShops.class);
+                Intent intent= new Intent(AgentHome.this, ViewShops.class);
                 startActivity(intent);
             }
         });
@@ -115,7 +93,7 @@ public class Home extends AppCompatActivity {
         view_route.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(Home.this, ViewShopRoute.class);
+                Intent intent= new Intent(AgentHome.this, ViewShopRoute.class);
                 startActivity(intent);
             }
         });
@@ -125,7 +103,7 @@ public class Home extends AppCompatActivity {
         view_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(Home.this, MapActivity.class);
+                Intent intent= new Intent(AgentHome.this, MapActivity.class);
                 startActivity(intent);
             }
         });

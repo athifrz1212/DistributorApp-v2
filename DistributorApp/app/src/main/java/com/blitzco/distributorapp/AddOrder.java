@@ -20,6 +20,7 @@ import com.blitzco.distributorapp.models.Brand;
 import com.blitzco.distributorapp.models.Order;
 import com.blitzco.distributorapp.models.Payment;
 import com.blitzco.distributorapp.models.Product;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -94,7 +95,7 @@ public class AddOrder extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for(DataSnapshot snap: snapshot.getChildren()) {
                                 System.out.println(" >>>>>>>>>>>>>>>>>>> "+snap.getValue(Product.class).getModelName());
-                                txtCost.setText(snap.getValue(Product.class).getUnitPrice());
+                                txtCost.setText(String.valueOf(snap.getValue(Product.class).getUnitPrice()));
                             }
                         }
 
@@ -288,6 +289,7 @@ public class AddOrder extends AppCompatActivity {
                         Order order = new Order();
 
                         order.setShopName(ShopName); //bind the values to be in the given "?" place
+                        order.setAgentId(FirebaseAuth.getInstance().getCurrentUser().getUid());
                         order.setBrandName(PhoneBrand); //bind the values to be in the given "?" place
                         order.setModelName(PhoneModel); //bind the values to be in the given "?" place
                         order.setCostPrice(cost_Price);
@@ -322,7 +324,7 @@ public class AddOrder extends AppCompatActivity {
                         txtTotal.setText("");
 
                         Intent i =new Intent(AddOrder.this, ShopPage.class);
-                        i.putExtra("SName",ShopName );
+                        i.putExtra("txtShopName",ShopName );
                         startActivity(i);
                     }
                     else {

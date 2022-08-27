@@ -106,7 +106,7 @@ public class Login extends AppCompatActivity {
 
                                     } else if(user.getRole().equals("AGENT")) {
                                         Toast.makeText(Login.this, "Logged as Agent",Toast.LENGTH_LONG).show();
-                                        Intent intent= new Intent(Login.this, Home.class);
+                                        Intent intent= new Intent(Login.this, AgentHome.class);
                                         startActivity(intent);
                                     }
 

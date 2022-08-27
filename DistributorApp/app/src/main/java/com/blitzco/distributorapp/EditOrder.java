@@ -119,7 +119,7 @@ public class EditOrder extends AppCompatActivity {
 
         cancelBTN.setOnClickListener(view -> {
             Intent i1 =new Intent(EditOrder.this, ShopPage.class);
-            i1.putExtra("SName",ShopName );
+            i1.putExtra("txtShopName",ShopName );
             startActivity(i1);
         });
 
@@ -214,7 +214,7 @@ public class EditOrder extends AppCompatActivity {
             Total.setText("");
 
             Intent i =new Intent(EditOrder.this, ShopPage.class);
-            i.putExtra("SName",ShopName );
+            i.putExtra("txtShopName",ShopName );
             startActivity(i);
 
         }
@@ -264,7 +264,7 @@ public class EditOrder extends AppCompatActivity {
             Toast.makeText(this, "Order Deleted", Toast.LENGTH_LONG).show();
 
             Intent i =new Intent(EditOrder.this, ShopPage.class);
-            i.putExtra("SName",ShopName );
+            i.putExtra("txtShopName",ShopName );
             startActivity(i);
 
         }catch (Exception ex)

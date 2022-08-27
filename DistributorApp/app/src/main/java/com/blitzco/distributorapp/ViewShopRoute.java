@@ -54,7 +54,7 @@ public class ViewShopRoute extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(ViewShopRoute.this, Home.class);
+                Intent intent= new Intent(ViewShopRoute.this, AgentHome.class);
                 startActivity(intent);
             }
         });
@@ -67,7 +67,7 @@ public class ViewShopRoute extends AppCompatActivity {
                 Index = edIndex.getText().toString().toUpperCase();
                 Intent intent = new Intent(ViewShopRoute.this, MapActivity.class);
 
-                intent.putExtra("SName", Index);
+                intent.putExtra("txtShopName", Index);
                 startActivity(intent);
                 MapActivity m = new MapActivity();
                 m.lock = true;
