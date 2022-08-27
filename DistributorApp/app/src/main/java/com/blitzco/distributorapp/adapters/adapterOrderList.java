@@ -42,7 +42,7 @@ public class adapterOrderList extends RecyclerView.Adapter<adapterOrderList.MySh
     public void onBindViewHolder(@NonNull adapterOrderList.MyShopPageViewHolder ShopHolder, @SuppressLint("RecyclerView") int position) {
         ShopHolder.model_name.setText(orderList.get(position).getModelName());
         ShopHolder.total.setText("Rs. "+orderList.get(position).getTotalPrice());
-        ShopHolder.qty.setText(orderList.get(position).getQuantity());
+        ShopHolder.qty.setText(String.valueOf(orderList.get(position).getQuantity()));
         ShopHolder.DDate.setText(orderList.get(position).getdDate());
 
         ShopHolder.parentLayout.setOnClickListener(new View.OnClickListener() {

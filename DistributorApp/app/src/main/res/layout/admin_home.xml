@@ -93,7 +93,7 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/view_productsBTN"
+                        android:id="@+id/inventoryBTN"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_marginLeft="5dp"

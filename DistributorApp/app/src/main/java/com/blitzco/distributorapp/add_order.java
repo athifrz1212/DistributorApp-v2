@@ -1,11 +1,8 @@
 package com.blitzco.distributorapp;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -16,29 +13,40 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.blitzco.distributorapp.models.Brand;
+import com.blitzco.distributorapp.models.Order;
+import com.blitzco.distributorapp.models.Payment;
 import com.blitzco.distributorapp.models.Product;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Objects;
 
 public class add_order extends AppCompatActivity {
 
+    private EditText txtShopName, txtCost, txtQuantity, txtUnitPrice, txtTotal, txtOrderedDate;
+    private Button addBTN, cancelBTN, calcBTN, searchBTN;
+    private Spinner brandNameSpinner, modelNameSpinner;
 
-
-    EditText SName , cost, Qty, unitPrice, Total, order_Date;
-    Button  add, cancel, calcBTN, searchBTN;
-    Spinner BName, Model;
-
-    ArrayList<String> brand = new ArrayList<String>();
-    ArrayList<String> models = new ArrayList<String>();
+    private ArrayList<String> brandsList = new ArrayList<String>();
+    private ArrayList<String> modelsList = new ArrayList<String>();
     //load brands from the database
-    ArrayAdapter arrayAdapter1, arrayAdapter2;
+    private ArrayAdapter brandAdapter, modelAdapter;
 
-    Cursor cBrands, cModels, cCostPrice, cInsert;
+    Cursor cBrands, cModels, cInsert;
 
     private ArrayList<String> titles = new ArrayList<String>();
+
+    DatabaseReference brandRef, productRef, userRef, orderRef, paymentRef;
 
 
     @Override
@@ -46,42 +54,51 @@ public class add_order extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_order);
 
-        SName = findViewById(R.id.SName);
-        cost = findViewById(R.id.costPrice);
-        BName = findViewById(R.id.BName);
-        Model = findViewById(R.id.MName);
+        txtShopName = findViewById(R.id.SName);
+        txtCost = findViewById(R.id.costPrice);
+        brandNameSpinner = findViewById(R.id.BName);
+        modelNameSpinner = findViewById(R.id.MName);
 
-        Qty = findViewById(R.id.Qty);
-        unitPrice = findViewById(R.id.Price);
-        Total = findViewById(R.id.Total);
-        order_Date = findViewById(R.id.orderDate);
+        txtQuantity = findViewById(R.id.Qty);
+        txtUnitPrice = findViewById(R.id.Price);
+        txtTotal = findViewById(R.id.Total);
+        txtOrderedDate = findViewById(R.id.orderDate);
 
-        add = findViewById(R.id.addBTN);
-        cancel = findViewById(R.id.cancelBTN);
+        addBTN = findViewById(R.id.addBTN);
+        cancelBTN = findViewById(R.id.cancelBTN);
         calcBTN = findViewById(R.id.calcBTN);
         searchBTN = findViewById(R.id.searchBTN);
         calcBTN.setBackgroundColor(Color.rgb(24, 104, 101));
         searchBTN.setBackgroundColor(Color.rgb(24, 104, 101));
 
-        SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
+        ///----- DatabaseReference initialization-----
+        brandRef = FirebaseDatabase.getInstance().getReference("Brand");
+        productRef = FirebaseDatabase.getInstance().getReference("Product");
+        userRef = FirebaseDatabase.getInstance().getReference("User");
+        orderRef = FirebaseDatabase.getInstance().getReference("Order");
+        paymentRef = FirebaseDatabase.getInstance().getReference("Payment");
 
         Intent i = getIntent();
         //Values from view page on click
-        String ShopName = i.getStringExtra("SName").toString();
+        String ShopName = i.getStringExtra("txtShopName");
 
-        SName.setText(ShopName);
+        txtShopName.setText(ShopName);
 ///----------------------------
         searchBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Model != null){
-                    String query1= "SELECT cost_price FROM product WHERE model_Name='"+Model.getSelectedItem().toString()+"'";
-                    Cursor cCost = db.rawQuery(query1, null);
-                    cCost.moveToFirst();
+                if(modelNameSpinner != null){
+                    productRef.orderByChild("modelName").equalTo(modelNameSpinner.getSelectedItem().toString())
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            txtCost.setText(Objects.requireNonNull(snapshot.getValue(Product.class)).getUnitPrice());
+                        }
 
-                    int CostIndex = cCost.getColumnIndex("cost_price");
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
 
-                    cost.setText(String.valueOf(cCost.getString(CostIndex)));
+                    });
                 }
                 else{
                     Toast.makeText(add_order.this, "Select a phone model.", Toast.LENGTH_SHORT);
@@ -94,12 +111,11 @@ public class add_order extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    long Quantity = Long.parseLong(Qty.getText().toString());
-                    long UnitPrice = Long.parseLong(unitPrice.getText().toString());
+                    long Quantity = Long.parseLong(txtQuantity.getText().toString());
+                    long UnitPrice = Long.parseLong(txtUnitPrice.getText().toString());
 
                     long totalAmount = Math.multiplyExact(UnitPrice ,Quantity);
-                    Total.setText(String.valueOf(totalAmount));
-
+                    txtTotal.setText(String.valueOf(totalAmount));
 
                 }catch (Exception ex){
                     Toast.makeText(add_order.this, "Please insert valid unit price and quantity", Toast.LENGTH_LONG).show();
@@ -108,59 +124,50 @@ public class add_order extends AppCompatActivity {
         });
 //--------------------------------------------------------------------------------------------------
         ///---Brand Names Spinner---
-        //create database if doesn't exist
 
-        cBrands = db.rawQuery("SELECT * FROM 'brand' ORDER BY brand_Name ASC", null);
-        //cursor is used to fetch data from the database
-        int brandName= cBrands.getColumnIndex("brand_Name");
+        brandRef.orderByChild("brandName").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snap: snapshot.getChildren()) {
+                    Brand brand = snap.getValue(Brand.class);
+                    brandsList.add(brand.getBrandName());
+                }
+                brandAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
-        arrayAdapter1 = new ArrayAdapter(this,R.layout.spinner_text, brand);
-        arrayAdapter1.setDropDownViewResource(R.layout.spinner_text);
-        BName.setAdapter(arrayAdapter1);
+        brandAdapter = new ArrayAdapter(this,R.layout.spinner_text, brandsList);
+        brandAdapter.setDropDownViewResource(R.layout.spinner_text);
+        brandNameSpinner.setAdapter(brandAdapter);
 
-        ArrayList<Product> brandList= new ArrayList<Product>();
 
-        if(cBrands.moveToFirst())
-        {
-            do{
+        modelAdapter = new ArrayAdapter(this, R.layout.spinner_text, modelsList);
+        modelAdapter.setDropDownViewResource(R.layout.spinner_text);
+        modelNameSpinner.setAdapter(modelAdapter);
 
-                Product pro = new Product();
-                pro.setBrandName(cBrands.getString(brandName));
-                brandList.add(pro);
 
-                brand.add(cBrands.getString(brandName));
+        productRef.orderByChild("brandName").equalTo(brandNameSpinner.getSelectedItem().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snap: snapshot.getChildren()) {
+                    Product product = snap.getValue(Product.class);
+                    modelsList.add(product.getModelName());
+                }
+                modelAdapter.notifyDataSetChanged();
+            }
 
-            }while(cBrands.moveToNext());
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-            arrayAdapter1.notifyDataSetChanged();
+            }
+        });
 
-        }
-
-        ///---Model Names Spinner---
-        cModels = db.rawQuery("SELECT * FROM 'product' ORDER BY model_Name ASC", null);
-        //cursor is used to fetch data from the database
-
-        arrayAdapter2 = new ArrayAdapter(this, R.layout.spinner_text, models);
-        arrayAdapter2.setDropDownViewResource(R.layout.spinner_text);
-        Model.setAdapter(arrayAdapter2);
-
-        ArrayList<Product> modelsList= new ArrayList<Product>();
-        int model_Name= cModels.getColumnIndex("model_Name");
-
-        if(cModels.moveToFirst())
-        {
-            do{
-                Product pro2 = new Product();
-                pro2.setModelName(cModels.getString(model_Name));
-                modelsList.add(pro2);
-
-                models.add(cModels.getString(model_Name));
-
-            }while(cModels.moveToNext());
-
-            arrayAdapter2.notifyDataSetChanged();
-        }
         ///-----------------------------------------------------------------------------------------
 
         ///---Date picker setting
@@ -169,7 +176,7 @@ public class add_order extends AppCompatActivity {
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        order_Date.setOnClickListener(new View.OnClickListener() {
+        txtOrderedDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -178,7 +185,7 @@ public class add_order extends AppCompatActivity {
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         month = month+1;
                         String date = year+"/"+month+"/"+day;
-                        order_Date.setText(date);
+                        txtOrderedDate.setText(date);
                     }
                 },year, month, day);
                 datePickerDialog.show();
@@ -187,7 +194,7 @@ public class add_order extends AppCompatActivity {
 
         ///-----------------------------------------------------------------------------------------
 
-        add.setOnClickListener(new View.OnClickListener() {
+        addBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 insert();
@@ -195,11 +202,11 @@ public class add_order extends AppCompatActivity {
         });
 
 
-        cancel.setOnClickListener(new View.OnClickListener() {
+        cancelBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i =new Intent(add_order.this,shop_page.class);
-                i.putExtra("SName",ShopName );
+                i.putExtra("txtShopName",ShopName );
                 startActivity(i);
             }
         });
@@ -210,93 +217,118 @@ public class add_order extends AppCompatActivity {
     public void insert()
     {
         try{
-            String ShopName = SName.getText().toString().toUpperCase();
-            String PhoneBrand = BName.getSelectedItem().toString().toUpperCase();
-            String PhoneModel = Model.getSelectedItem().toString().toUpperCase();
-            long cost_Price = Long.parseLong(cost.getText().toString());
-            long Quantity = Long.parseLong(Qty.getText().toString());
-            long UnitPrice = Long.parseLong(unitPrice.getText().toString());
-            long TotalPrice = Long.parseLong(Total.getText().toString());
-            long profit = TotalPrice - (cost_Price*Quantity);
-            String OrderDate  = order_Date.getText().toString();
+            String ShopName = txtShopName.getText().toString().toUpperCase();
+            String PhoneBrand = brandNameSpinner.getSelectedItem().toString().toUpperCase();
+            String PhoneModel = modelNameSpinner.getSelectedItem().toString().toUpperCase();
+            long cost_Price = Long.parseLong(txtCost.getText().toString());
+            long quantity = Long.parseLong(txtQuantity.getText().toString());
+            long UnitPrice = Long.parseLong(txtUnitPrice.getText().toString());
+            long TotalPrice = Long.parseLong(txtTotal.getText().toString());
+            long profit = TotalPrice - (cost_Price * quantity);
+            String OrderDate  = txtOrderedDate.getText().toString();
 
             String[] dateSplit = OrderDate.split("/");
             String YYYY_MM = dateSplit[0]+"/"+dateSplit[1];
 
+            productRef.orderByChild("modelName").equalTo(PhoneModel).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Product product = snapshot.getValue(Product.class);
+                    long available = Long.valueOf(product.getQty());
 
-            SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null); //create database if doesn't exist
-            //db.execSQL("DROP TABLE 'orders'");
+                    if(quantity <= available) {
 
-            cInsert = db.rawQuery("SELECT * FROM 'product' WHERE model_Name='"+PhoneModel+"'", null);
-            cInsert.moveToFirst();
-            int qtyCIndex = cInsert.getColumnIndex ( "quantity");
-            long available = cInsert.getInt(qtyCIndex);
+                        orderRef.orderByChild("shopName").equalTo(ShopName)
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if(snapshot.getChildrenCount() != 0) {
+                                    paymentRef.orderByChild("shopName").equalTo(ShopName).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            Payment payment = snapshot.getValue(Payment.class);
+                                            long availableBalance = TotalPrice + payment.getBalance();
 
-            if(Quantity <= available) {
+                                            paymentRef.child(snapshot.getKey()).child("balance").setValue(availableBalance);
+                                        }
 
-                final Cursor c1= db.rawQuery("SELECT * FROM orders WHERE Shop_Name='"+ShopName+"'", null);
-                c1.moveToFirst();
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
 
-                if(c1.getCount() != 0) {
+                                        }
+                                    });
+                                } else {
 
-                    final Cursor c = db.rawQuery("SELECT balance FROM payments WHERE Shop_Name='" + ShopName + "'", null);
-                    c.moveToFirst();
-                    int balance = c.getColumnIndex("balance");
-                    long availableBalance;
-                    availableBalance = TotalPrice + c.getInt(balance);
+                                    Payment payment = new Payment();
 
-                    db.execSQL("UPDATE payments SET balance='"+availableBalance+"' WHERE Shop_Name='"+ShopName+"'");
+                                    payment.setShopName(ShopName);
+                                    payment.setBalance(TotalPrice);
+                                    payment.setLastPaydate(new Date().toString());
 
-                    Toast.makeText(this, "Available Balance " + availableBalance, Toast.LENGTH_LONG).show();
-                    Toast.makeText(this, "Order Added", Toast.LENGTH_LONG).show();
+                                    paymentRef.push().setValue(payment);
+
+
+                                    Toast.makeText(add_order.this, "New Shop Balance Added", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(add_order.this, "Order Added", Toast.LENGTH_LONG).show();
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
+
+/////////
+                        Order order = new Order();
+
+                        order.setShopName(ShopName); //bind the values to be in the given "?" place
+                        order.setBrandName(PhoneBrand); //bind the values to be in the given "?" place
+                        order.setModelName(PhoneModel); //bind the values to be in the given "?" place
+                        order.setCostPrice(cost_Price);
+                        order.setQuantity(quantity); //bind the values to be in the given "?" place
+                        order.setUnitPrice(UnitPrice); //bind the values to be in the given "?" place
+                        order.setTotalPrice(TotalPrice);
+                        order.setProfit(profit);
+                        order.setdDate(OrderDate);
+                        order.setYyyyMM(YYYY_MM);
+
+                        orderRef.push().setValue(order);
+
+                        long newQty = available - quantity;
+
+                        productRef.orderByChild("modelName").equalTo(PhoneModel).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                snapshot.getRef().child("quantity").setValue(String.valueOf(newQty));
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+                        modelNameSpinner.setSelection(0);
+                        txtQuantity.setText("");
+                        txtUnitPrice.setText("");
+                        txtTotal.setText("");
+
+                        Intent i =new Intent(add_order.this,shop_page.class);
+                        i.putExtra("txtShopName",ShopName );
+                        startActivity(i);
+                    }
+                    else {
+                        txtQuantity.setText(String.valueOf(available));
+                        Toast.makeText(add_order.this, "Available quantity "+available, Toast.LENGTH_LONG).show();
+                    }
                 }
-                else{
 
-                    String query2 = "INSERT INTO payments (Shop_Name, balance) VALUES(?,?)";
-                    SQLiteStatement statement2 = db.compileStatement(query2);
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-                    statement2.bindString(1, ShopName);
-                    statement2.bindLong(2, TotalPrice);
-                    statement2.execute();
-
-                    Toast.makeText(this, "New Shop Balance Added", Toast.LENGTH_LONG).show();
-                    Toast.makeText(this, "Order Added", Toast.LENGTH_LONG).show();
                 }
-
-                String query1 = "INSERT INTO 'orders'  ('Shop_Name','Brand_Name','Model_Name','costPrice','quantity','unitPrice','total', 'profit', 'orderDate', 'YYYY_MM' ) VALUES (?,?,?,?,?,?,?,?,?,?)";
-                //query to insert
-                SQLiteStatement statement1 = db.compileStatement(query1);
-
-                statement1.bindString(1, ShopName); //bind the values to be in the given "?" place
-                statement1.bindString(2, PhoneBrand); //bind the values to be in the given "?" place
-                statement1.bindString(3, PhoneModel); //bind the values to be in the given "?" place
-                statement1.bindLong(4, cost_Price);
-                statement1.bindLong(5, Quantity); //bind the values to be in the given "?" place
-                statement1.bindLong(6, UnitPrice); //bind the values to be in the given "?" place
-                statement1.bindLong(7, TotalPrice);
-                statement1.bindLong(8, profit);
-                statement1.bindString(9, OrderDate);
-                statement1.bindString(10, YYYY_MM);
-                statement1.execute(); //execute the query
-
-                long newQty = available - Quantity;
-                db.execSQL("UPDATE product SET quantity="+newQty+" WHERE model_Name='"+PhoneModel+"'");
-
-                Model.setSelection(0);
-                Qty.setText("");
-                unitPrice.setText("");
-                Total.setText("");
-
-                Intent i =new Intent(add_order.this,shop_page.class);
-                i.putExtra("SName",ShopName );
-                startActivity(i);
-
-
-            }
-            else {
-                Qty.setText(String.valueOf(available));
-                Toast.makeText(this, "Available quantity "+available, Toast.LENGTH_LONG).show();
-            }
+            });
 
         }
         catch (Exception ex)

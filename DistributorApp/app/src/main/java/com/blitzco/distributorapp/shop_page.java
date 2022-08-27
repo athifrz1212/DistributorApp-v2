@@ -111,11 +111,11 @@ public class shop_page extends AppCompatActivity {
                 order.setShopName(c.getString(Shop_Name));
                 order.setBrandName(c.getString(Brand_Name));
                 order.setModelName(c.getString(Model_Name));
-                order.setCostPrice(c.getString(costPrice));
-                order.setUnitPrice(c.getString(unitPrice));
-                order.setQuantity(c.getString(quantity));
-                order.setTotalPrice(c.getString(total));
-                order.setProfit(c.getString(profitIndex));
+                order.setCostPrice(costPrice);
+                order.setUnitPrice(unitPrice);
+                order.setQuantity(quantity);
+                order.setTotalPrice(total);
+                order.setProfit(profitIndex);
                 order.setdDate(c.getString(orderDate));
                 order.setYyyyMM(c.getString(YYYY_MM));
 

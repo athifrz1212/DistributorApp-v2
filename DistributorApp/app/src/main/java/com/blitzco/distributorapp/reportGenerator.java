@@ -393,10 +393,10 @@ public class reportGenerator extends AppCompatActivity {
 
                 order.setBrandName(cOrders.getString(Brand_Name));
                 order.setModelName(cOrders.getString(Model_Name));
-                order.setCostPrice(cOrders.getString(costPrice));
-                order.setUnitPrice(cOrders.getString(unitPrice));
-                order.setQuantity(cOrders.getString(quantity));
-                order.setTotalPrice(cOrders.getString(total));
+                order.setCostPrice(costPrice);
+                order.setUnitPrice(unitPrice);
+                order.setQuantity(quantity);
+                order.setTotalPrice(total);
                 order.setdDate(cOrders.getString(orderDate));
                 order.setYyyyMM(cOrders.getString(YYYY_MM));
 
@@ -753,8 +753,8 @@ public class reportGenerator extends AppCompatActivity {
             table1.addCell(new Cell().add(new Paragraph(String.valueOf(i+1))));
             table1.addCell(new Cell().add(new Paragraph(Order_List.get(i).getBrandName())));
             table1.addCell(new Cell().add(new Paragraph(Order_List.get(i).getModelName())));
-            table1.addCell(new Cell().add(new Paragraph(Order_List.get(i).getUnitPrice())));
-            table1.addCell(new Cell().add(new Paragraph(Order_List.get(i).getTotalPrice())));
+            table1.addCell(new Cell().add(new Paragraph(String.valueOf(Order_List.get(i).getUnitPrice()))));
+            table1.addCell(new Cell().add(new Paragraph(String.valueOf(Order_List.get(i).getTotalPrice()))));
         }
 
         document1.add(image1.setFixedPosition(0,0));

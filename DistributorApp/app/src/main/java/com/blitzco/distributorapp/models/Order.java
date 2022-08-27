@@ -6,18 +6,18 @@ public class Order {
     private String shopName;
     private String brandName;
     private String modelName;
-    private String costPrice;
-    private String unitPrice;
-    private String quantity;
-    private String totalPrice;
-    private String profit;
+    private long costPrice;
+    private long unitPrice;
+    private long quantity;
+    private long totalPrice;
+    private long profit;
     private String dDate;
     private String yyyyMM;
 
     public Order() {
     }
 
-    public Order(String orderID, String agentId, String shopName, String brandName, String modelName, String costPrice, String unitPrice, String quantity, String totalPrice, String profit, String dDate, String yyyyMM) {
+    public Order(String orderID, String agentId, String shopName, String brandName, String modelName, long costPrice, long unitPrice, long quantity, long totalPrice, long profit, String dDate, String yyyyMM) {
         this.orderID = orderID;
         this.agentId = agentId;
         this.shopName = shopName;
@@ -40,11 +40,11 @@ public class Order {
         this.orderID = orderID;
     }
 
-    public String getAgentID() {
+    public String getAgentId() {
         return agentId;
     }
 
-    public void setAgentID(String agentId) {
+    public void setAgentId(String agentId) {
         this.agentId = agentId;
     }
 
@@ -72,43 +72,43 @@ public class Order {
         this.modelName = modelName;
     }
 
-    public String getCostPrice() {
+    public long getCostPrice() {
         return costPrice;
     }
 
-    public void setCostPrice(String costPrice) {
+    public void setCostPrice(long costPrice) {
         this.costPrice = costPrice;
     }
 
-    public String getUnitPrice() {
+    public long getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(String unitPrice) {
+    public void setUnitPrice(long unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public String getQuantity() {
+    public long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(long quantity) {
         this.quantity = quantity;
     }
 
-    public String getTotalPrice() {
+    public long getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(String totalPrice) {
+    public void setTotalPrice(long totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public String getProfit() {
+    public long getProfit() {
         return profit;
     }
 
-    public void setProfit(String profit) {
+    public void setProfit(long profit) {
         this.profit = profit;
     }
 
