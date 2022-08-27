@@ -2,7 +2,6 @@ package com.blitzco.distributorapp;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -42,11 +41,9 @@ public class AddOrder extends AppCompatActivity {
     //load brands from the database
     private ArrayAdapter brandAdapter, modelAdapter;
 
-    Cursor cBrands, cModels, cInsert;
-
     private ArrayList<String> titles = new ArrayList<String>();
 
-    DatabaseReference brandRef, productRef, userRef, orderRef, paymentRef;
+    private DatabaseReference brandRef, productRef, userRef, orderRef, paymentRef;
     private long available, availableBalance ;
 
 
@@ -81,7 +78,7 @@ public class AddOrder extends AppCompatActivity {
 
         Intent i = getIntent();
         //Values from view page on click
-        String ShopName = i.getStringExtra("txtShopName");
+        String ShopName = i.getStringExtra("ShopName");
 
         txtShopName.setText(ShopName);
 ///----------------------------
@@ -137,6 +134,7 @@ public class AddOrder extends AppCompatActivity {
                     brandsList.add(brand.getBrandName());
                 }
                 brandAdapter.notifyDataSetChanged();
+                modelNameSpinner.setActivated(true);
             }
 
             @Override
@@ -156,19 +154,20 @@ public class AddOrder extends AppCompatActivity {
         modelNameSpinner.setAdapter(modelAdapter);
 
 //        productRef.orderByChild("brandName").equalTo(brandNameSpinner.getSelectedItem().toString())
-        productRef.orderByChild("modelName").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot snap: snapshot.getChildren()) {
-                    Product product = snap.getValue(Product.class);
-                    modelsList.add(product.getModelName());
-                }
-                modelAdapter.notifyDataSetChanged();
-            }
+            productRef.orderByChild("brandName").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot snap: snapshot.getChildren()) {
+                                Product product = snap.getValue(Product.class);
+                                modelsList.add(product.getModelName());
+                            }
+                            modelAdapter.notifyDataSetChanged();
+                        }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {}
+                    });
+
 
 ///-----Date picker setting-----------------
 
@@ -207,7 +206,7 @@ public class AddOrder extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i =new Intent(AddOrder.this, ShopPage.class);
-                i.putExtra("txtShopName",ShopName );
+                i.putExtra("ShopName",ShopName );
                 startActivity(i);
             }
         });
@@ -324,7 +323,7 @@ public class AddOrder extends AppCompatActivity {
                         txtTotal.setText("");
 
                         Intent i =new Intent(AddOrder.this, ShopPage.class);
-                        i.putExtra("txtShopName",ShopName );
+                        i.putExtra("ShopName",ShopName );
                         startActivity(i);
                     }
                     else {

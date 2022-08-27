@@ -31,6 +31,7 @@ public class ViewProduct extends AppCompatActivity {
     private LinearLayout addBTN;
     private TextView brandname;
     private RelativeLayout go_back;
+    private String currentUserRole;
 
     public ArrayList<Product> proList= new ArrayList<Product>();
     //to load data
@@ -54,15 +55,6 @@ public class ViewProduct extends AppCompatActivity {
         brandname = findViewById(R.id.brandname);
         brandname.setText(brandName);
 
-        go_back = findViewById(R.id.go_back);
-
-        go_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(ViewProduct.this, ViewBrand.class);
-                startActivity(intent);
-            }
-        });
 
         addBTN = findViewById(R.id.addBTN);
 //        addBTN.setVisibility(View.INVISIBLE);
@@ -76,16 +68,32 @@ public class ViewProduct extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-//                if(user.getRole().equals("ADMIN")) {
-//                    addBTN.setVisibility(View.VISIBLE);
-//                } else if(user.getRole().equals("AGENT")) {
-//                    addBTN.setVisibility(View.INVISIBLE);
-//                }
+                currentUserRole = user.getRole();
+                if(user.getRole().equals("ADMIN")) {
+                    addBTN.setVisibility(View.VISIBLE);
+                } else if(user.getRole().equals("AGENT")) {
+                    addBTN.setVisibility(View.INVISIBLE);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+
+        go_back = findViewById(R.id.go_back);
+
+        go_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(currentUserRole.equals("ADMIN")) {
+                    Intent intent= new Intent(ViewProduct.this, AdminHome.class);
+                    startActivity(intent);
+                } else if(currentUserRole.equals("AGENT")) {
+                    Intent intent= new Intent(ViewProduct.this, AgentHome.class);
+                    startActivity(intent);
+                }
             }
         });
 

@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.blitzco.distributorapp.models.Order;
 import com.blitzco.distributorapp.models.Profits;
-import com.blitzco.distributorapp.models.Repairs;
+import com.blitzco.distributorapp.models.Repair;
 import com.blitzco.distributorapp.models.Sales;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -67,8 +67,8 @@ public class ReportGenerator extends AppCompatActivity {
     ArrayList<Sales> Sales_List = new ArrayList<Sales>();
     ArrayList<Sales> BrandSales_List = new ArrayList<Sales>();
     ArrayList<Sales> ShopSales_List = new ArrayList<Sales>();
-    ArrayList<Repairs> Repairs_List = new ArrayList<Repairs>();
-    ArrayList<Repairs> Repairs2_List = new ArrayList<Repairs>();
+    ArrayList<Repair> Repairs_List = new ArrayList<Repair>();
+    ArrayList<Repair> Repairs2_List = new ArrayList<Repair>();
 
     DeviceRgb headerColor = new DeviceRgb(26, 129,125);
 
@@ -404,7 +404,7 @@ public class ReportGenerator extends AppCompatActivity {
             }while (cOrders.moveToNext());
         }
 
-    //=================================== Repairs List ===================================///
+    //=================================== Repair List ===================================///
 
         final Cursor cRepairs = db.rawQuery("SELECT brand_Name, model_Name, COUNT(model_Name) AS NoOfItems, issue, YYYY_MM FROM repairs WHERE YYYY_MM='"+DateString+"' GROUP BY model_Name", null);
         final Cursor cRepairs2 = db.rawQuery("SELECT brand_Name, model_Name, issue, YYYY_MM FROM repairs WHERE YYYY_MM='"+DateString+"'", null);
@@ -423,11 +423,11 @@ public class ReportGenerator extends AppCompatActivity {
         if (cRepairs.moveToFirst())
         {
             do {
-                Repairs repair = new Repairs();
+                Repair repair = new Repair();
                 repair.setBrandName(cRepairs.getString(brand_Name));
                 repair.setModelName(cRepairs.getString(model_Name));
                 repair.setNoOfItems(cRepairs.getString(NoOfItems));
-                repair.setYyyyMM(cRepairs.getString(YYYY_MM_Repair));
+                repair.setYearMonth(cRepairs.getString(YYYY_MM_Repair));
 
                 Repairs_List.add(repair);
 
@@ -439,7 +439,7 @@ public class ReportGenerator extends AppCompatActivity {
         if (cRepairs2.moveToFirst())
         {
             do {
-                Repairs repair = new Repairs();
+                Repair repair = new Repair();
                 repair.setBrandName(cRepairs2.getString(brand_Name));
                 repair.setModelName(cRepairs2.getString(model_Name));
                 repair.setIssue(cRepairs2.getString(issueIndex));
@@ -621,7 +621,7 @@ public class ReportGenerator extends AppCompatActivity {
     }
 
 ///=============================================================================///
-    public void repairReport(@NonNull ArrayList<Repairs> Repairs_List, ArrayList<Repairs> Repairs2_List) throws FileNotFoundException {
+    public void repairReport(@NonNull ArrayList<Repair> Repairs_List, ArrayList<Repair> Repairs2_List) throws FileNotFoundException {
 
         //define path where to save
         String filePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
@@ -694,7 +694,7 @@ public class ReportGenerator extends AppCompatActivity {
 
 
         document1.add(image1.setFixedPosition(0,0));
-        document1.add(new Paragraph("Repairs Report").setUnderline(2, -5).setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
+        document1.add(new Paragraph("Repair Report").setUnderline(2, -5).setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
                 .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
         document1.add(new Paragraph("Month : "+monthSelector(MonthNumber)).setFontSize(18).setTextAlignment(TextAlignment.LEFT).setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-300)/2));
         document1.add(table1);

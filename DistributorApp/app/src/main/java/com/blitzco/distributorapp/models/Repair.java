@@ -1,6 +1,6 @@
 package com.blitzco.distributorapp.models;
 
-public class Repairs {
+public class Repair {
     private String repairID;
     private String agentId;
     private String shopName;
@@ -9,13 +9,13 @@ public class Repairs {
     private String issue;
     private String reType;
     private String reDate;
-    private String yyyyMM;
+    private String yearMonth;
     private String noOfItems;
 
-    public Repairs() {
+    public Repair() {
     }
 
-    public Repairs(String repairID, String agentId, String shopName, String brandName, String modelName, String issue, String reType, String reDate, String yyyyMM, String noOfItems) {
+    public Repair(String repairID, String agentId, String shopName, String brandName, String modelName, String issue, String reType, String reDate, String yearMonth, String noOfItems) {
         this.repairID = repairID;
         this.agentId = agentId;
         this.shopName = shopName;
@@ -24,7 +24,7 @@ public class Repairs {
         this.issue = issue;
         this.reType = reType;
         this.reDate = reDate;
-        this.yyyyMM = yyyyMM;
+        this.yearMonth = yearMonth;
         this.noOfItems = noOfItems;
     }
 
@@ -89,12 +89,12 @@ public class Repairs {
         this.reDate = reDate;
     }
 
-    public String getYyyyMM() {
-        return yyyyMM;
+    public String getYearMonth() {
+        return yearMonth;
     }
 
-    public void setYyyyMM(String yyyyMM) {
-        this.yyyyMM = yyyyMM;
+    public void setYearMonth(String yearMonth) {
+        this.yearMonth = yearMonth;
     }
 
     public String getNoOfItems() {

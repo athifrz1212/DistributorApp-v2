@@ -67,7 +67,7 @@ public class ViewShopRoute extends AppCompatActivity {
                 Index = edIndex.getText().toString().toUpperCase();
                 Intent intent = new Intent(ViewShopRoute.this, MapActivity.class);
 
-                intent.putExtra("txtShopName", Index);
+                intent.putExtra("ShopName", Index);
                 startActivity(intent);
                 MapActivity m = new MapActivity();
                 m.lock = true;

@@ -27,6 +27,7 @@ public class ViewUsers extends AppCompatActivity {
 
     private RecyclerView users_list;
     private RelativeLayout go_back;
+    private String currentUserRole;
     private ImageView addBTN;
     private FirebaseAuth fAuth;
     private DatabaseReference dbRef;
@@ -55,24 +56,25 @@ public class ViewUsers extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         FirebaseUser fUser = fAuth.getCurrentUser();
 
-//        dbRef = FirebaseDatabase.getInstance().getReference("User");
-//        dbRef.child(fUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                User user = snapshot.getValue(User.class);
-//                if(user.getRole().equals("ADMIN")) {
-//                    addBTN.setVisibility(View.VISIBLE);
-//                } else if(user.getRole().equals("AGENT")) {
-//                    addBTN.setVisibility(View.INVISIBLE);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+        dbRef = FirebaseDatabase.getInstance().getReference("User");
+        dbRef.child(fUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                currentUserRole = user.getRole();
+                if(user.getRole().equals("ADMIN")) {
+                    addBTN.setVisibility(View.VISIBLE);
+                } else if(user.getRole().equals("AGENT")) {
+                    addBTN.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         addBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,8 +87,13 @@ public class ViewUsers extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(ViewUsers.this, AdminHome.class);
-                startActivity(intent);
+                if(currentUserRole.equals("ADMIN")) {
+                    Intent intent= new Intent(ViewUsers.this, AdminHome.class);
+                    startActivity(intent);
+                } else if(currentUserRole.equals("AGENT")) {
+                    Intent intent= new Intent(ViewUsers.this, AgentHome.class);
+                    startActivity(intent);
+                }
             }
         });
 

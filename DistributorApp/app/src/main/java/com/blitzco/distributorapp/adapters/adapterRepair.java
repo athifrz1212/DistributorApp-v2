@@ -14,16 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blitzco.distributorapp.R;
 import com.blitzco.distributorapp.EditRepair;
-import com.blitzco.distributorapp.models.Repairs;
+import com.blitzco.distributorapp.models.Repair;
 
 import java.util.ArrayList;
 
 public class AdapterRepair extends RecyclerView.Adapter<AdapterRepair.MyRepairViewHolder> {
 
-    ArrayList<Repairs> repairList ;
+    ArrayList<Repair> repairList ;
     Context context;
 
-    public AdapterRepair(ArrayList<Repairs> repairList, Context context) {
+    public AdapterRepair(ArrayList<Repair> repairList, Context context) {
         this.repairList = repairList;
         this.context = context;
     }
@@ -48,7 +48,7 @@ public class AdapterRepair extends RecyclerView.Adapter<AdapterRepair.MyRepairVi
             @Override
             public void onClick(View view) {
 
-                Repairs repa = repairList.get((position));
+                Repair repa = repairList.get((position));
 
                 Intent i =new Intent(context, EditRepair.class);
                 i.putExtra("repairID", repa.getRepairID());

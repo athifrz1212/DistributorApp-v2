@@ -1,11 +1,7 @@
 package com.blitzco.distributorapp;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,26 +11,33 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.blitzco.distributorapp.models.Brand;
 import com.blitzco.distributorapp.models.Product;
+import com.blitzco.distributorapp.models.Repair;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class AddRepair extends AppCompatActivity {
 
-    EditText txtShopName,Issue,ReType,ReDate;
-    Button add, cancel;
-    Spinner BName, MName;
+    private EditText txtShopName, txtIssue, txtReceivedType, txtReceivedDate;
+    private Button addBTN, cancelBTN;
+    private Spinner brandNameSpinner, modelNameSpinner;
 
-    ArrayList<String> brand = new ArrayList<String>();
-    ArrayList<String> models = new ArrayList<String>();
+    private ArrayList<String> brandsList = new ArrayList<String>();
+    private ArrayList<String> modelsList = new ArrayList<String>();
     //load brands from the database
-    ArrayAdapter arrayAdapter, arrayAdapter2;
-    Cursor cModels;
-
-
+    private ArrayAdapter brandAdapter, modelAdapter;
+    private DatabaseReference brandRef, productRef, repairRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,71 +45,61 @@ public class AddRepair extends AppCompatActivity {
         setContentView(R.layout.add_repair);
 
         txtShopName = findViewById(R.id.SName);
-        BName = findViewById(R.id.BName);
-        MName = findViewById(R.id.MName);
-        Issue = findViewById(R.id.Issue);
-        ReType = findViewById(R.id.RType);
-        ReDate = findViewById(R.id.RDate);
-        /*clickDate = findViewById(R.id.clickDate);*/
+        brandNameSpinner = findViewById(R.id.BName);
+        modelNameSpinner = findViewById(R.id.MName);
+        txtIssue = findViewById(R.id.Issue);
+        txtReceivedType = findViewById(R.id.RType);
+        txtReceivedDate = findViewById(R.id.RDate);
 
-        add = findViewById(R.id.addBTN);
-        cancel = findViewById(R.id.cancelBTN);
+        addBTN = findViewById(R.id.addBTN);
+        cancelBTN = findViewById(R.id.cancelBTN);
 
-        SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
-        //create database if doesn't exist
+        ///----- DatabaseReference initialization-----
+        brandRef = FirebaseDatabase.getInstance().getReference("Brand");
+        productRef = FirebaseDatabase.getInstance().getReference("Product");
+        repairRef = FirebaseDatabase.getInstance().getReference("Repair");
 
-        final Cursor c = db.rawQuery("SELECT brand_Name FROM brand", null);
-        //cursor is used to fetch data from the database
-        int brandName=c.getColumnIndex("brand_Name");
+        brandRef.orderByChild("brandName").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snap: snapshot.getChildren()) {
+                    Brand brand = snap.getValue(Brand.class);
+                    brandsList.add(brand.getBrandName());
+                }
+                brandAdapter.notifyDataSetChanged();
+                modelNameSpinner.setActivated(true);
+            }
 
-        //brand.clear(); //clear the ArrayList
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        arrayAdapter = new ArrayAdapter(this,R.layout.spinner_text, brand);
-        arrayAdapter.setDropDownViewResource(R.layout.spinner_text);
-        BName.setAdapter(arrayAdapter);
+            }
+        });
 
-        ArrayList<Product> brandList= new ArrayList<Product>();
 
-        if(c.moveToFirst())
-        {
-            do{
+        brandAdapter = new ArrayAdapter(this,R.layout.spinner_text, brandsList);
+        brandAdapter.setDropDownViewResource(R.layout.spinner_text);
+        brandNameSpinner.setAdapter(brandAdapter);
 
-                Product pro = new Product();
-                pro.setBrandName(c.getString(brandName));
-                brandList.add(pro);
 
-                brand.add(c.getString(brandName));
+        modelAdapter = new ArrayAdapter(this, R.layout.spinner_text, modelsList);
+        modelAdapter.setDropDownViewResource(R.layout.spinner_text);
+        modelNameSpinner.setAdapter(modelAdapter);
 
-            }while(c.moveToNext());
+//        productRef.orderByChild("brandName").equalTo(brandNameSpinner.getSelectedItem().toString())
+        productRef.orderByChild("brandName").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snap: snapshot.getChildren()) {
+                    Product product = snap.getValue(Product.class);
+                    modelsList.add(product.getModelName());
+                }
+                modelAdapter.notifyDataSetChanged();
+            }
 
-            arrayAdapter.notifyDataSetChanged();
-
-        }
-
-        ///---Model Names Spinner---
-        cModels = db.rawQuery("SELECT * FROM 'product' ORDER BY model_Name ASC", null);
-        //cursor is used to fetch data from the database
-
-        arrayAdapter2 = new ArrayAdapter(this, R.layout.spinner_text, models);
-        arrayAdapter2.setDropDownViewResource(R.layout.spinner_text);
-        MName.setAdapter(arrayAdapter2);
-
-        ArrayList<Product> modelsList= new ArrayList<Product>();
-        int model_Name= cModels.getColumnIndex("model_Name");
-
-        if(cModels.moveToFirst())
-        {
-            do{
-                Product pro2 = new Product();
-                pro2.setModelName(cModels.getString(model_Name));
-                modelsList.add(pro2);
-
-                models.add(cModels.getString(model_Name));
-
-            }while(cModels.moveToNext());
-
-            arrayAdapter2.notifyDataSetChanged();
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
 
         //Date picker setting
         Calendar calendar = Calendar.getInstance();
@@ -114,7 +107,7 @@ public class AddRepair extends AppCompatActivity {
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        ReDate.setOnClickListener(new View.OnClickListener() {
+        txtReceivedDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -123,21 +116,21 @@ public class AddRepair extends AppCompatActivity {
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         month = month+1;
                         String date = year+"/"+month+"/"+day;
-                        ReDate.setText(date);
+                        txtReceivedDate.setText(date);
                     }
                 },year, month, day);
                 datePickerDialog.show();
             }
         });
 
-        add.setOnClickListener(new View.OnClickListener() {
+        addBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 insert();
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
+        cancelBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(AddRepair.this, ViewRepairs.class);
@@ -151,33 +144,32 @@ public class AddRepair extends AppCompatActivity {
     {
         try{
             String shopName = txtShopName.getText().toString().toUpperCase();
-            String brandName = BName.getSelectedItem().toString().toUpperCase();
-            String modelName = MName.getSelectedItem().toString().toUpperCase();
-            String issue = Issue.getText().toString().toUpperCase();
-            String ReceivedType= ReType.getText().toString().toUpperCase();
-            String ReceivedDate= ReDate.getText().toString().toUpperCase();
+            String brandName = brandNameSpinner.getSelectedItem().toString().toUpperCase();
+            String modelName = modelNameSpinner.getSelectedItem().toString().toUpperCase();
+            String issue = txtIssue.getText().toString().toUpperCase();
+            String ReceivedType= txtReceivedType.getText().toString().toUpperCase();
+            String ReceivedDate= txtReceivedDate.getText().toString().toUpperCase();
             String[] splitDate = ReceivedDate.split("/");
-            String YYYY_MM =splitDate[0]+"/"+splitDate[1];
+            String yearMonth =splitDate[0]+"/"+splitDate[1];
 
-            SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
-            //create database if doesn't exist
 
-            String query= "INSERT INTO repairs (shop_Name,brand_Name,model_Name,issue,ReType,ReDate,YYYY_MM) VALUES (?,?,?,?,?,?,?)";
-            SQLiteStatement statement = db.compileStatement(query);
+            Repair repair = new Repair();
+            repair.setAgentId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            repair.setBrandName(brandName);
+            repair.setShopName(shopName);
+            repair.setModelName(modelName);
+            repair.setIssue(issue);
+            repair.setReType(ReceivedType);
+            repair.setReDate(ReceivedDate);
+            repair.setYearMonth(yearMonth);
 
-            statement.bindString(1,shopName);
-            statement.bindString(2,brandName);
-            statement.bindString(3,modelName);
-            statement.bindString(4,issue);
-            statement.bindString(5,ReceivedType);
-            statement.bindString(6,ReceivedDate);
-            statement.bindString(7, YYYY_MM);
-            statement.execute();
+            repairRef.push().setValue(repair);
+
             Toast.makeText(this, "Repair Added", Toast.LENGTH_LONG).show();
 
-            Issue.setText("");
-            ReType.setText("");
-            ReDate.setText("");
+            txtIssue.setText("");
+            txtReceivedType.setText("");
+            txtReceivedDate.setText("");
 
             txtShopName.requestFocus();
         }

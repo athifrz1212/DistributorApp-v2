@@ -67,7 +67,7 @@ public class AdapterShop extends RecyclerView.Adapter<AdapterShop.MyShopViewHold
                 Shop shop = shopList.get((position));
 
                 Intent i =new Intent(context, ShopPage.class);
-                i.putExtra("SName", shop.getShop());
+                i.putExtra("ShopName", shop.getShop());
                 context.startActivity(i);
             }
         });

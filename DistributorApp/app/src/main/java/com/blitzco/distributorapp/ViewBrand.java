@@ -32,6 +32,8 @@ public class ViewBrand extends AppCompatActivity {
     private FirebaseAuth fAuth;
     private DatabaseReference dbRef;
 
+    private String currentUserRole;
+
     private ArrayList<Brand> brandList = new ArrayList<Brand>();
     private RecyclerView.Adapter mAdapter;//view adapter
     private RecyclerView.LayoutManager layoutManager; //view layout manager
@@ -62,6 +64,7 @@ public class ViewBrand extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
+                currentUserRole = user.getRole();
 //                if(user.getRole().equals("ADMIN")) {
 //                    addBTN.setVisibility(View.VISIBLE);
 //                } else if(user.getRole().equals("AGENT")) {
@@ -78,8 +81,14 @@ public class ViewBrand extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(ViewBrand.this, AgentHome.class);
-                startActivity(intent);
+                if(currentUserRole.equals("ADMIN")) {
+                    Intent intent= new Intent(ViewBrand.this, AdminHome.class);
+                    startActivity(intent);
+                } else if(currentUserRole.equals("AGENT")) {
+                    Intent intent= new Intent(ViewBrand.this, AgentHome.class);
+                    startActivity(intent);
+                }
+
             }
         });
 

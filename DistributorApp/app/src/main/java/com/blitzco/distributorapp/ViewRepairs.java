@@ -9,12 +9,19 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blitzco.distributorapp.adapters.AdapterRepair;
-import com.blitzco.distributorapp.models.Repairs;
+import com.blitzco.distributorapp.models.Repair;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -22,11 +29,14 @@ public class ViewRepairs extends AppCompatActivity {
     private RecyclerView repair_list;
     private ImageView addBTN;
     private RelativeLayout go_back;
+    private String currentUserRole;
 
-    private ArrayList<Repairs> repairList= new ArrayList<Repairs>();
+    private ArrayList<Repair> repairList= new ArrayList<Repair>();
 
     private RecyclerView.Adapter mAdapter;//view adapter
     private RecyclerView.LayoutManager layoutManager; //view layout manager
+
+    private DatabaseReference repairRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +53,13 @@ public class ViewRepairs extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(ViewRepairs.this, AgentHome.class);
-                startActivity(intent);
+                if(currentUserRole.equals("ADMIN")) {
+                    Intent intent= new Intent(ViewRepairs.this, AdminHome.class);
+                    startActivity(intent);
+                } else if(currentUserRole.equals("AGENT")) {
+                    Intent intent= new Intent(ViewRepairs.this, AgentHome.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -55,6 +70,25 @@ public class ViewRepairs extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent= new Intent(ViewRepairs.this, AddRepair.class);
                 startActivity(intent);
+            }
+        });
+
+        repairRef = FirebaseDatabase.getInstance().getReference("Repair");
+        repairRef.orderByChild("agentId").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                proList.clear();
+                for (DataSnapshot snap: snapshot.getChildren()) {
+                    Repair repair = snap.getValue(Repair.class);
+                    repair.setRepairID(snap.getKey());
+                    repairList.add(repair);
+                }
+                repair_list.setLayoutManager(layoutManager);
+                repair_list.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
 
@@ -76,7 +110,7 @@ public class ViewRepairs extends AppCompatActivity {
         {
             do{
 
-                Repairs re = new Repairs();
+                Repair re = new Repair();
                 re.setRepairID(c.getString(id));
                 re.setShopName(c.getString(SName));
                 re.setBrandName(c.getString(BName));

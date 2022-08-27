@@ -35,7 +35,7 @@ public class AddPayment extends AppCompatActivity {
 
         Intent i = getIntent();
         //Values from view page on click
-        String SName = i.getStringExtra("txtShopName").toString();
+        String SName = i.getStringExtra("ShopName").toString();
 
         ///---Date picker setting
         Calendar calendar = Calendar.getInstance();
@@ -73,7 +73,7 @@ public class AddPayment extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i =new Intent(AddPayment.this, ShopPage.class);
-                i.putExtra("txtShopName",SName );
+                i.putExtra("ShopName",SName );
                 startActivity(i);
             }
         });
@@ -98,7 +98,7 @@ public class AddPayment extends AppCompatActivity {
         Toast.makeText(this, Amount+" Deducted. "+availableBalance+" Available", Toast.LENGTH_LONG).show();
 
         Intent i =new Intent(AddPayment.this, ShopPage.class);
-        i.putExtra("txtShopName",ShopName );
+        i.putExtra("ShopName",ShopName );
         startActivity(i);
 
         amount.setText("");
