@@ -2,6 +2,7 @@ package com.blitzco.distributorapp.models;
 
 public class Order {
     private String orderID;
+    private String agentId;
     private String shopName;
     private String brandName;
     private String modelName;
@@ -16,8 +17,9 @@ public class Order {
     public Order() {
     }
 
-    public Order(String orderID, String shopName, String brandName, String modelName, String costPrice, String unitPrice, String quantity, String totalPrice, String profit, String dDate, String yyyyMM) {
+    public Order(String orderID, String agentId, String shopName, String brandName, String modelName, String costPrice, String unitPrice, String quantity, String totalPrice, String profit, String dDate, String yyyyMM) {
         this.orderID = orderID;
+        this.agentId = agentId;
         this.shopName = shopName;
         this.brandName = brandName;
         this.modelName = modelName;
@@ -36,6 +38,14 @@ public class Order {
 
     public void setOrderID(String orderID) {
         this.orderID = orderID;
+    }
+
+    public String getAgentID() {
+        return agentId;
+    }
+
+    public void setAgentID(String agentId) {
+        this.agentId = agentId;
     }
 
     public String getShopName() {

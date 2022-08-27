@@ -16,53 +16,37 @@
 
         <RelativeLayout
             android:id="@+id/go_back"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:foreground="@drawable/ic_go_back"/>
 
         <TextView
             android:id="@+id/users"
-            android:layout_width="match_parent"
+            android:layout_width="310dp"
             android:layout_height="match_parent"
             android:text="Users"
-            android:paddingLeft="30dp"
+            android:paddingLeft="20dp"
             android:gravity="center_vertical"
             android:textStyle="bold"
             android:textSize="28sp"
             android:textColor="#e3f5ff"/>
-
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/addBTN"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
-        android:background="@drawable/bg_green"
-        android:layout_gravity="right"
-        >
         <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@drawable/ic_add"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/addBTN"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_vertical"
-            android:textColor="#FFFFFF"
-            android:layout_marginLeft="5dp"
-            android:text="Add User"
-            android:textSize="17sp"/>
+            android:background="@drawable/ic_add_filled"
+            />
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/user_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="900dp"
+        android:layout_marginTop="20dp"
         android:listSelector="#66ff"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp"/>

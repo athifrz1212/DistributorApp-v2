@@ -19,13 +19,13 @@
                 android:id="@+id/go_back"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="5dp"
                 android:layout_gravity="center_vertical"
                 android:foreground="@drawable/ic_go_back"/>
 
             <TextView
                 android:id="@+id/brandname"
-                android:layout_width="match_parent"
+                android:layout_width="300dp"
                 android:layout_height="match_parent"
                 android:text="Repairs"
                 android:paddingLeft="30dp"
@@ -33,41 +33,22 @@
                 android:textStyle="bold"
                 android:textSize="28sp"
                 android:textColor="#e3f5ff"/>
+            <ImageView
+                android:id="@+id/addBTN"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_add_filled"
+                />
 
         </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/addBTN"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="Add Repair"
-        android:padding="5dp"
-        android:layout_margin="10dp"
-        android:orientation="horizontal"
-        android:background="@drawable/bg_green"
-        android:layout_gravity="right"
-        >
-        <ImageView
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@drawable/ic_add"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textColor="#FAFAFA"
-            android:layout_marginLeft="5dp"
-            android:text="Add Repair"
-            android:textSize="17sp"/>
-    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/repair_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:listSelector="#66ff" />
+        android:layout_height="900dp"
+        android:layout_marginTop="20dp"
+        android:listSelector="#66ff"/>
 
 
 </LinearLayout>

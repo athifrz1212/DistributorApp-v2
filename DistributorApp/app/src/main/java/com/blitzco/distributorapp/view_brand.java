@@ -46,7 +46,7 @@ public class view_brand extends AppCompatActivity {
         brand_list.setHasFixedSize(true);
 
         addBTN = findViewById(R.id.addBTN);
-        addBTN.setVisibility(View.INVISIBLE);
+//        addBTN.setVisibility(View.INVISIBLE);
 
         layoutManager = new LinearLayoutManager(this);//assign layout manager
         mAdapter = new adapterBrand(brandList,view_brand.this); //updateBTN brand_list data to adapter class
@@ -62,11 +62,11 @@ public class view_brand extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                if(user.getRole().equals("ADMIN")) {
-                    addBTN.setVisibility(View.VISIBLE);
-                } else if(user.getRole().equals("AGENT")) {
-                    addBTN.setVisibility(View.INVISIBLE);
-                }
+//                if(user.getRole().equals("ADMIN")) {
+//                    addBTN.setVisibility(View.VISIBLE);
+//                } else if(user.getRole().equals("AGENT")) {
+//                    addBTN.setVisibility(View.INVISIBLE);
+//                }
             }
 
             @Override

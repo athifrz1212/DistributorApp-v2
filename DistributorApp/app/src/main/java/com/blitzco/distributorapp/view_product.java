@@ -27,10 +27,10 @@ import java.util.ArrayList;
 
 public class view_product extends AppCompatActivity {
 
-    RecyclerView list;
-    LinearLayout addBTN;
-    TextView brandname;
-    RelativeLayout go_back;
+    private RecyclerView list;
+    private LinearLayout addBTN;
+    private TextView brandname;
+    private RelativeLayout go_back;
 
     public ArrayList<Product> proList= new ArrayList<Product>();
     //to load data
@@ -66,7 +66,7 @@ public class view_product extends AppCompatActivity {
         });
 
         addBTN = findViewById(R.id.addBTN);
-        addBTN.setVisibility(View.INVISIBLE);
+//        addBTN.setVisibility(View.INVISIBLE);
 
         FirebaseAuth fAuth = FirebaseAuth.getInstance();
         FirebaseUser fUser = fAuth.getCurrentUser();
@@ -77,11 +77,11 @@ public class view_product extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                if(user.getRole().equals("ADMIN")) {
-                    addBTN.setVisibility(View.VISIBLE);
-                } else if(user.getRole().equals("AGENT")) {
-                    addBTN.setVisibility(View.INVISIBLE);
-                }
+//                if(user.getRole().equals("ADMIN")) {
+//                    addBTN.setVisibility(View.VISIBLE);
+//                } else if(user.getRole().equals("AGENT")) {
+//                    addBTN.setVisibility(View.INVISIBLE);
+//                }
             }
 
             @Override

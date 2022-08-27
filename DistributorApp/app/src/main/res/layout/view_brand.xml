@@ -18,12 +18,12 @@
             android:id="@+id/go_back"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_gravity="center_vertical"
             android:foreground="@drawable/ic_go_back" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
             android:text="Brands"
             android:paddingLeft="30dp"
@@ -31,40 +31,26 @@
             android:textStyle="bold"
             android:textSize="28sp"
             android:textColor="#e3f5ff"
-
             />
-    </LinearLayout>
-
         <LinearLayout
             android:id="@+id/addBTN"
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:layout_margin="10dp"
-            android:orientation="horizontal"
-            android:background="@drawable/bg_green"
-            android:layout_gravity="right"
-            >
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical">
             <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/ic_add"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:textColor="#FFFFFF"
-                android:text="Add Brand"
-                android:textSize="17sp"/>
+                android:background="@drawable/ic_add_filled"
+                />
         </LinearLayout>
-
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/brand_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="900dp"
+        android:layout_marginTop="20dp"
         android:listSelector="#66ff" />
 
 </LinearLayout>

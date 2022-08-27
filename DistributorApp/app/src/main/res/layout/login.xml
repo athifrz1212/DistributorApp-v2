@@ -10,7 +10,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_red"
+                android:background="@drawable/bg_blue"
                 android:layout_marginBottom="35dp"
                 android:layout_gravity="center"
                 android:orientation="vertical"
@@ -96,7 +96,7 @@
                         android:layout_width="133dp"
                         android:layout_height="60dp"
                         android:layout_marginTop="12dp"
-                        android:background="@drawable/bg_green"
+                        android:background="@drawable/bg_yellow"
                         android:textColor="#fff"
                         android:textStyle="bold"
                         android:text="Login"
@@ -110,7 +110,7 @@
                         android:layout_width="133dp"
                         android:layout_height="60dp"
                         android:layout_marginTop="12dp"
-                        android:background="@drawable/bg_green"
+                        android:background="@drawable/bg_yellow"
                         android:textColor="#fff"
                         android:textStyle="bold"
                         android:text="Exit"
@@ -122,7 +122,7 @@
                     android:id="@+id/newUserBTN"
                     android:layout_width="320dp"
                     android:layout_height="60dp"
-                    android:background="@drawable/bg_green"
+                    android:background="@drawable/bg_yellow"
                     android:text="Create user"/>
 
             </LinearLayout>

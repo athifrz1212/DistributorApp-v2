@@ -3,7 +3,7 @@ package com.blitzco.distributorapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -27,7 +27,7 @@ public class view_users extends AppCompatActivity {
 
     private RecyclerView users_list;
     private RelativeLayout go_back;
-    private LinearLayout addBTN;
+    private ImageView addBTN;
     private FirebaseAuth fAuth;
     private DatabaseReference dbRef;
 
@@ -45,32 +45,40 @@ public class view_users extends AppCompatActivity {
         users_list.setHasFixedSize(true);
 
         addBTN = findViewById(R.id.addBTN);
-        addBTN.setVisibility(View.INVISIBLE);
+//        addBTN.setVisibility(View.INVISIBLE);
 
         layoutManager = new LinearLayoutManager(this);//assign layout manager
-        mAdapter = new adapterUsers(userList,view_users.this); //updateBTN brand_list data to adapter class
+        mAdapter = new adapterUsers(userList,view_users.this);
 
         go_back = findViewById(R.id.go_back);
 
         fAuth = FirebaseAuth.getInstance();
         FirebaseUser fUser = fAuth.getCurrentUser();
 
-        dbRef = FirebaseDatabase.getInstance().getReference("User");
-        dbRef.child(fUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+//        dbRef = FirebaseDatabase.getInstance().getReference("User");
+//        dbRef.child(fUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                User user = snapshot.getValue(User.class);
+//                if(user.getRole().equals("ADMIN")) {
+//                    addBTN.setVisibility(View.VISIBLE);
+//                } else if(user.getRole().equals("AGENT")) {
+//                    addBTN.setVisibility(View.INVISIBLE);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
+        addBTN.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                if(user.getRole().equals("ADMIN")) {
-                    addBTN.setVisibility(View.VISIBLE);
-                } else if(user.getRole().equals("AGENT")) {
-                    addBTN.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onClick(View view) {
+                Intent intent= new Intent(view_users.this, add_user.class);
+                startActivity(intent);
             }
         });
 
@@ -82,7 +90,7 @@ public class view_users extends AppCompatActivity {
             }
         });
 
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("User");
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {

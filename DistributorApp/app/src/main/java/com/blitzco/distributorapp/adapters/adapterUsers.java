@@ -85,6 +85,7 @@ public class adapterUsers extends RecyclerView.Adapter<adapterUsers.MyUserViewHo
         public MyUserViewHolder(@NonNull View itemView) {
             super(itemView);
             firstName = itemView.findViewById(R.id.first_name);
+            lastName = itemView.findViewById(R.id.last_name);
             parentLayout = itemView.findViewById(R.id.singleUserLayout);
             userEdit = itemView.findViewById(R.id.userEdit);
         }

@@ -2,6 +2,7 @@ package com.blitzco.distributorapp;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -108,6 +109,9 @@ public class add_user extends AppCompatActivity {
                             user.setContactNo(contactNo);
 
                             dbRef.child(user.getUserID()).setValue(user);
+
+                            Intent intent= new Intent(add_user.this, view_users.class);
+                            startActivity(intent);
 
                         } else {
                             // If sign in fails, display a message to the user.

@@ -3,7 +3,6 @@ package com.blitzco.distributorapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,15 +13,10 @@ import com.blitzco.distributorapp.models.Product;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
-
 public class add_product extends AppCompatActivity {
 
     EditText BName,MName, CostPrice, Qty;
     Button add, cancel;
-
-    ArrayList<String> brand = new ArrayList<String>();
-    ArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

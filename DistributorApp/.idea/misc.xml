@@ -81,6 +81,8 @@
         <entry key="app/src/main/res/drawable/buttons.xml" value="0.18518518518518517" />
         <entry key="app/src/main/res/drawable/go_back_btton.xml" value="0.10260416666666666" />
         <entry key="app/src/main/res/drawable/ic_add.xml" value="0.2" />
+        <entry key="app/src/main/res/drawable/ic_add_fill.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_add_filled.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_add_shop.xml" value="0.24666666666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_receipt_long_24.xml" value="0.15462962962962962" />
         <entry key="app/src/main/res/drawable/ic_baseline_storefront_24.xml" value="0.2" />
@@ -105,7 +107,7 @@
         <entry key="app/src/main/res/layout/add_repair.xml" value="0.25" />
         <entry key="app/src/main/res/layout/add_shop_route.xml" value="0.28327573829040165" />
         <entry key="app/src/main/res/layout/add_user.xml" value="0.20572916666666666" />
-        <entry key="app/src/main/res/layout/admin_home.xml" value="0.18795289855072464" />
+        <entry key="app/src/main/res/layout/admin_home.xml" value="0.20334443907806843" />
         <entry key="app/src/main/res/layout/balance_bg.xml" value="0.13722826086956522" />
         <entry key="app/src/main/res/layout/brand_view.xml" value="0.16077898550724637" />
         <entry key="app/src/main/res/layout/delivered.xml" value="0.10519714355468751" />
@@ -129,17 +131,17 @@
         <entry key="app/src/main/res/layout/single_shop.xml" value="0.25" />
         <entry key="app/src/main/res/layout/single_shop_location.xml" value="0.25" />
         <entry key="app/src/main/res/layout/single_shop_route.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/single_user.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/layout/single_user.xml" value="0.23670094807942713" />
         <entry key="app/src/main/res/layout/spinner_text.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_area.xml" value="0.14266304347826086" />
-        <entry key="app/src/main/res/layout/view_brand.xml" value="0.2615859938208033" />
+        <entry key="app/src/main/res/layout/view_brand.xml" value="0.10107421403564701" />
         <entry key="app/src/main/res/layout/view_delivered.xml" value="0.1033434650455927" />
         <entry key="app/src/main/res/layout/view_product.xml" value="0.22" />
         <entry key="app/src/main/res/layout/view_repairs.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/view_route.xml" value="0.13405797101449277" />
+        <entry key="app/src/main/res/layout/view_route.xml" value="0.149415942205899" />
         <entry key="app/src/main/res/layout/view_shop.xml" value="0.22" />
         <entry key="app/src/main/res/layout/view_shops.xml" value="0.15625" />
-        <entry key="app/src/main/res/layout/view_user.xml" value="0.19270833333333334" />
+        <entry key="app/src/main/res/layout/view_user.xml" value="0.1794652303059896" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.11458333333333333" />
         <entry key="app/src/main/res/xml/file_paths.xml" value="0.14166666666666666" />
       </map>

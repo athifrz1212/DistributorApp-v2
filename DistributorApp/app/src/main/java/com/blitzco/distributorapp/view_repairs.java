@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,11 +19,11 @@ import com.blitzco.distributorapp.models.Repairs;
 import java.util.ArrayList;
 
 public class view_repairs extends AppCompatActivity {
-    RecyclerView repair_list;
-    LinearLayout addBTN;
-    RelativeLayout go_back;
+    private RecyclerView repair_list;
+    private ImageView addBTN;
+    private RelativeLayout go_back;
 
-    ArrayList<Repairs> repairList= new ArrayList<Repairs>();
+    private ArrayList<Repairs> repairList= new ArrayList<Repairs>();
 
     private RecyclerView.Adapter mAdapter;//view adapter
     private RecyclerView.LayoutManager layoutManager; //view layout manager

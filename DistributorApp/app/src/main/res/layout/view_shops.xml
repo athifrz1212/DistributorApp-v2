@@ -74,7 +74,7 @@
                     android:layout_height="60dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginRight="15dp"
-                    android:background="@drawable/bg_green"
+                    android:background="@drawable/bg_yellow"
                     android:textColor="#fff"
                     android:textStyle="bold"
                     android:text="Search"
@@ -86,7 +86,7 @@
                     android:layout_height="60dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="15dp"
-                    android:background="@drawable/bg_green"
+                    android:background="@drawable/bg_yellow"
                     android:textColor="#fff"
                     android:textStyle="bold"
                     android:text="Delete"
@@ -96,10 +96,11 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/shopList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="900dp"
+                android:layout_marginTop="20dp"
+                android:listSelector="#66ff"
                 tools:layout_editor_absoluteX="1dp"
-                tools:layout_editor_absoluteY="1dp">
-            </androidx.recyclerview.widget.RecyclerView>
+                tools:layout_editor_absoluteY="1dp"/>
 
 
         </LinearLayout>
