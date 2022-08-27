@@ -1,18 +1,17 @@
 package com.blitzco.distributorapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.blitzco.distributorapp.R;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.blitzco.distributorapp.models.Shop;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class add_shopRoute extends AppCompatActivity {
 
@@ -42,7 +41,7 @@ public class add_shopRoute extends AppCompatActivity {
         cancelBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(add_shopRoute.this,home.class);
+                Intent intent= new Intent(add_shopRoute.this, admin_home.class);
                 startActivity(intent);
             }
         });
@@ -54,31 +53,24 @@ public class add_shopRoute extends AppCompatActivity {
         {
             try {
 
-                String shop = ShopName.getText().toString().toUpperCase();
+                String shopName = ShopName.getText().toString().toUpperCase();
                 String area = Area.getText().toString().toUpperCase();
                 String address = Address.getText().toString().toUpperCase();
                 String contact = ContactNo.getText().toString();
 
-                if (shop.length() != 0 && address.length() != 0 && contact.length() != 0 && area.length() != 0) {
+                if (shopName.length() != 0 && address.length() != 0 && contact.length() != 0 && area.length() != 0) {
                     try {
 
-                        Integer.parseInt(contact);
+                        Shop shop = new Shop();
+                        shop.setShop(shopName);
+                        shop.setContact(contact);
+                        shop.setAddress(address);
+                        shop.setArea(area);
 
+                        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Shop");
+                        dbRef.push().setValue(shop);
 
-                        SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
-
-                        db.execSQL("CREATE TABLE IF NOT EXISTS shopi (id INTEGER PRIMARY KEY AUTOINCREMENT,shop VARCHAR,area VARCHAR,address VARCHAR, contact VARCHAR)");
-
-                        String sql = "insert into shopi (shop,area, address, contact)values(?,?,?,?)";
-                        SQLiteStatement statement = db.compileStatement(sql);
-
-                        statement.bindString(1, shop);
-                        statement.bindString(2, area);
-                        statement.bindString(3, address);
-                        statement.bindString(4, contact);
-                        statement.execute();
-
-                        Toast.makeText(this, "Location saved", Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Shop details saved", Toast.LENGTH_LONG).show();
 
                         ShopName.setText("");
                         Area.setText("");

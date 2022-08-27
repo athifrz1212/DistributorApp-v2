@@ -63,6 +63,8 @@
         android:id="@+id/user_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:listSelector="#66ff" />
+        android:listSelector="#66ff"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp"/>
 
 </LinearLayout>

@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blitzco.distributorapp.adapters.adapterProduct;
 import com.blitzco.distributorapp.models.Product;
+import com.blitzco.distributorapp.models.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -63,6 +66,29 @@ public class view_product extends AppCompatActivity {
         });
 
         addBTN = findViewById(R.id.addBTN);
+        addBTN.setVisibility(View.INVISIBLE);
+
+        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+        FirebaseUser fUser = fAuth.getCurrentUser();
+
+        DatabaseReference userDbRef = FirebaseDatabase.getInstance().getReference("User");
+        userDbRef.child(fUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                if(user.getRole().equals("ADMIN")) {
+                    addBTN.setVisibility(View.VISIBLE);
+                } else if(user.getRole().equals("AGENT")) {
+                    addBTN.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         addBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,8 +107,6 @@ public class view_product extends AppCompatActivity {
                 for (DataSnapshot prod: snapshot.getChildren()) {
                     Product product = prod.getValue(Product.class);
                     product.setId(prod.getKey());
-                    System.out.println(">>>>>> "+ prod.getKey());
-                    System.out.println(">>>>>> "+ product.getModelName());
                     proList.add(product);
                 }
                 list.setLayoutManager(layoutManager);

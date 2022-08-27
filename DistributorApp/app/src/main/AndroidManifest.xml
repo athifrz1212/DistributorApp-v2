@@ -34,6 +34,7 @@
         </activity>
 
         <activity android:name="com.blitzco.distributorapp.home" />
+        <activity android:name="com.blitzco.distributorapp.admin_home" />
 
         <activity android:name="com.blitzco.distributorapp.reportGenerator" />
 
@@ -43,12 +44,14 @@
         <activity android:name="com.blitzco.distributorapp.add_repair" />
         <activity android:name="com.blitzco.distributorapp.add_brand" />
         <activity android:name="com.blitzco.distributorapp.add_shopRoute"/>
+        <activity android:name="com.blitzco.distributorapp.add_user" />
 
         <activity android:name="com.blitzco.distributorapp.view_product" />
         <activity android:name="com.blitzco.distributorapp.view_brand" />
         <activity android:name="com.blitzco.distributorapp.view_repairs" />
         <activity android:name="com.blitzco.distributorapp.view_shopRoute" />
         <activity android:name="com.blitzco.distributorapp.view_shops" />
+        <activity android:name="com.blitzco.distributorapp.view_users" />
 
         <activity android:name="com.blitzco.distributorapp.edit_brand" />
         <activity android:name="com.blitzco.distributorapp.edit_product" />

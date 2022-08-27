@@ -11,11 +11,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.blitzco.distributorapp.R;
-
 public class home extends AppCompatActivity {
 
-    LinearLayout view_Repair, inventoryBTN, add_route, view_route, view_map, shops, reportGeneratorBTN;
+    LinearLayout view_Repair, inventoryBTN, add_route,
+            view_route, view_map, shops;
     TextView balance;
 
 
@@ -127,16 +126,6 @@ public class home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(home.this, MapActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        reportGeneratorBTN = findViewById(R.id.reportGeneratorBTN);
-
-        reportGeneratorBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(home.this, reportGenerator.class);
                 startActivity(intent);
             }
         });

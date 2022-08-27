@@ -8,49 +8,72 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.blitzco.distributorapp.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class login extends AppCompatActivity {
 
-    private EditText username, password;
-    private Button login, cancel;
-    FirebaseAuth fAuth;
+    private EditText txtUsername, txtPassword;
+    private TextView txtErrorMsg;
+    private Button loginBtn, cancelBtn, newUserBtn;
+    private FirebaseAuth fAuth;
+    private DatabaseReference dbRef;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
         fAuth = FirebaseAuth.getInstance();
 
-        username = findViewById(R.id.username);
-        password = findViewById(R.id.password);
+        txtUsername = findViewById(R.id.username);
+        txtPassword = findViewById(R.id.password);
 
-        username.setText("athifrahman2000@gmail.com");
-        password.setText(("arz@1212"));
+        txtErrorMsg = findViewById(R.id.errorMsg);
+        txtErrorMsg.setVisibility(View.INVISIBLE);
 
-        login = findViewById(R.id.loginBTN);
-        cancel = findViewById(R.id.cancelBTN);
+//        txtUsername.setText("athifrahman2000@gmail.com");
+//        txtPassword.setText(("arz@1212"));
 
-        login.setOnClickListener(new View.OnClickListener() {
+        loginBtn = findViewById(R.id.loginBTN);
+        cancelBtn = findViewById(R.id.cancelBTN);
+        newUserBtn = findViewById(R.id.newUserBTN);
+        newUserBtn.setVisibility(View.INVISIBLE);
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 login();
             }
         });
 
-        cancel.setOnClickListener(new View.OnClickListener() {
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+        newUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(login.this, "Create new user",Toast.LENGTH_LONG).show();
+                Intent intent= new Intent(login.this, add_user.class);
+                startActivity(intent);
             }
         });
 
@@ -58,38 +81,58 @@ public class login extends AppCompatActivity {
 
     public void login()
     {
-        String uname = username.getText().toString();
-        String pswd = password.getText().toString();
+        String username = txtUsername.getText().toString();
+        String password = txtPassword.getText().toString();
 
-        if(!uname.equals("") && !pswd.equals("")) {
+        if(!username.equals("") && !password.equals("")) {
+            txtErrorMsg.setVisibility(View.INVISIBLE);
 
-        fAuth.signInWithEmailAndPassword(uname, pswd)
+            fAuth.signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = fAuth.getCurrentUser();
+                            dbRef = FirebaseDatabase.getInstance().getReference("User");
+                            dbRef.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    User user = snapshot.getValue(User.class);
+                                    if(user.getRole().equals("ADMIN")) {
+                                        Toast.makeText(login.this, "Logged as Admin",Toast.LENGTH_LONG).show();
+                                        Intent intent= new Intent(login.this, admin_home.class);
+                                        startActivity(intent);
 
-                            Toast.makeText(login.this, "Login success",Toast.LENGTH_LONG).show();
-                            Intent intent= new Intent(login.this, home.class);
-                            startActivity(intent);
-                            username.setText("");
-                            password.setText((""));
+                                    } else if(user.getRole().equals("AGENT")) {
+                                        Toast.makeText(login.this, "Logged as Agent",Toast.LENGTH_LONG).show();
+                                        Intent intent= new Intent(login.this, home.class);
+                                        startActivity(intent);
+                                    }
 
-//                            updateUI(user);
+                                    txtUsername.setText("");
+                                    txtPassword.setText((""));
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
                         } else {
                             // If sign in fails, display a message to the user.
+                            txtErrorMsg.setVisibility(View.VISIBLE);
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(login.this, "Authentication failed.",
+                            Toast.makeText(login.this, "Login failed.",
                                     Toast.LENGTH_SHORT).show();
-//                            updateUI(null);
                         }
                     }
                 });
         }else
         {
+            txtErrorMsg.setText("Username or Password is empty");
+            txtErrorMsg.setVisibility(View.VISIBLE);
             Toast.makeText(this, "Username or Password is empty",Toast.LENGTH_LONG).show();
         }
 

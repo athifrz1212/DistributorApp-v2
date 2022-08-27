@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -23,6 +24,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 public class add_user extends AppCompatActivity {
 
     private EditText txtFName, txtLName, txtContactNo, txtEmail, txtPassword;
@@ -31,11 +34,17 @@ public class add_user extends AppCompatActivity {
     private FirebaseAuth fAuth;
     private DatabaseReference dbRef;
 
+    ArrayList<String> roles = new ArrayList<String>();
+    ArrayAdapter rolesArrayAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_user);
         fAuth = FirebaseAuth.getInstance();
+
+        roles.add("ADMIN");
+        roles.add("AGENT");
 
         txtFName = findViewById(R.id.FName);
         txtLName = findViewById(R.id.LName);
@@ -47,7 +56,13 @@ public class add_user extends AppCompatActivity {
         createBtn = findViewById(R.id.createBTN);
         cancelBtn = findViewById(R.id.cancelBTN);
 
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
+        rolesArrayAdapter = new ArrayAdapter(this,R.layout.spinner_text, roles);
+        rolesArrayAdapter.setDropDownViewResource(R.layout.spinner_text);
+        txtRole.setAdapter(rolesArrayAdapter);
+        rolesArrayAdapter.notifyDataSetChanged();
+
+
+        createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signUp();
@@ -92,7 +107,7 @@ public class add_user extends AppCompatActivity {
                             user.setRole(role);
                             user.setContactNo(contactNo);
 
-                            dbRef.push().setValue(user);
+                            dbRef.child(user.getUserID()).setValue(user);
 
                         } else {
                             // If sign in fails, display a message to the user.

@@ -116,7 +116,7 @@
         <entry key="app/src/main/res/layout/edit_repair.xml" value="0.1634963768115942" />
         <entry key="app/src/main/res/layout/edit_shop_route.xml" value="0.14266304347826086" />
         <entry key="app/src/main/res/layout/home.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/login.xml" value="0.2817796610169492" />
         <entry key="app/src/main/res/layout/map_activity.xml" value="0.1" />
         <entry key="app/src/main/res/layout/report_generator.xml" value="0.25" />
         <entry key="app/src/main/res/layout/report_generator_1.xml" value="0.23725055432372505" />
@@ -129,6 +129,7 @@
         <entry key="app/src/main/res/layout/single_shop.xml" value="0.25" />
         <entry key="app/src/main/res/layout/single_shop_location.xml" value="0.25" />
         <entry key="app/src/main/res/layout/single_shop_route.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/single_user.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/layout/spinner_text.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_area.xml" value="0.14266304347826086" />
         <entry key="app/src/main/res/layout/view_brand.xml" value="0.2615859938208033" />
@@ -138,6 +139,7 @@
         <entry key="app/src/main/res/layout/view_route.xml" value="0.13405797101449277" />
         <entry key="app/src/main/res/layout/view_shop.xml" value="0.22" />
         <entry key="app/src/main/res/layout/view_shops.xml" value="0.15625" />
+        <entry key="app/src/main/res/layout/view_user.xml" value="0.19270833333333334" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.11458333333333333" />
         <entry key="app/src/main/res/xml/file_paths.xml" value="0.14166666666666666" />
       </map>

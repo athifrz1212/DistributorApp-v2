@@ -22,7 +22,6 @@ public class add_product extends AppCompatActivity {
     Button add, cancel;
 
     ArrayList<String> brand = new ArrayList<String>();
-    //load brands from the database
     ArrayAdapter arrayAdapter;
 
     @Override

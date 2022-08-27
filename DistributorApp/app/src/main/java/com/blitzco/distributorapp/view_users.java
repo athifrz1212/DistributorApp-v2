@@ -11,8 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blitzco.distributorapp.adapters.adapterBrand;
-import com.blitzco.distributorapp.models.Brand;
+import com.blitzco.distributorapp.adapters.adapterUsers;
 import com.blitzco.distributorapp.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,15 +23,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class view_brand extends AppCompatActivity {
+public class view_users extends AppCompatActivity {
 
-    private RecyclerView brand_list;
+    private RecyclerView users_list;
     private RelativeLayout go_back;
     private LinearLayout addBTN;
     private FirebaseAuth fAuth;
     private DatabaseReference dbRef;
 
-    private ArrayList<Brand> brandList = new ArrayList<Brand>();
+    private ArrayList<User> userList = new ArrayList<User>();
     private RecyclerView.Adapter mAdapter;//view adapter
     private RecyclerView.LayoutManager layoutManager; //view layout manager
 
@@ -40,16 +39,16 @@ public class view_brand extends AppCompatActivity {
     protected void
     onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_brand);
+        setContentView(R.layout.view_user);
 
-        brand_list = (RecyclerView) findViewById(R.id.brand_list);
-        brand_list.setHasFixedSize(true);
+        users_list = (RecyclerView) findViewById(R.id.user_list);
+        users_list.setHasFixedSize(true);
 
         addBTN = findViewById(R.id.addBTN);
         addBTN.setVisibility(View.INVISIBLE);
 
         layoutManager = new LinearLayoutManager(this);//assign layout manager
-        mAdapter = new adapterBrand(brandList,view_brand.this); //updateBTN brand_list data to adapter class
+        mAdapter = new adapterUsers(userList,view_users.this); //updateBTN brand_list data to adapter class
 
         go_back = findViewById(R.id.go_back);
 
@@ -78,31 +77,23 @@ public class view_brand extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(view_brand.this, home.class);
+                Intent intent= new Intent(view_users.this, admin_home.class);
                 startActivity(intent);
             }
         });
 
-        addBTN.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(view_brand.this, add_brand.class);
-                startActivity(intent);
-            }
-        });
-
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Brand");
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Users");
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    brandList.clear();
-                for (DataSnapshot prod: snapshot.getChildren()) {
-                    Brand brand = prod.getValue(Brand.class);
-                    brand.setBrandID(prod.getKey());
-                    brandList.add(brand);
+//                    userList.clear();
+                for (DataSnapshot usr: snapshot.getChildren()) {
+                    User user = usr.getValue(User.class);
+                    user.setUserID(usr.getKey());
+                    userList.add(user);
                 }
-                brand_list.setLayoutManager(layoutManager);
-                brand_list.setAdapter(mAdapter);
+                users_list.setLayoutManager(layoutManager);
+                users_list.setAdapter(mAdapter);
             }
 
             @Override
