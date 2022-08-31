@@ -19,6 +19,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
 import com.blitzco.distributorapp.models.Order;
 import com.blitzco.distributorapp.models.Profits;
 import com.blitzco.distributorapp.models.Repair;
@@ -38,12 +43,6 @@ import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.TextAlignment;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,21 +53,21 @@ import java.util.Calendar;
 
 public class ReportGenerator extends AppCompatActivity {
 
-    Button BrandReportBTN, OrderReportBTN, ShopSalesReportBTN, MonthlySalesBTN, RepairReportBTN, ProfitReportBTN;
-    EditText DateSelector;
-    LinearLayout DateSelectorBTN;
-    RelativeLayout go_back;
+    private Button BrandReportBTN, OrderReportBTN, ShopSalesReportBTN, MonthlySalesBTN, RepairReportBTN, ProfitReportBTN;
+    private EditText DateSelector;
+    private LinearLayout DateSelectorBTN;
+    private RelativeLayout go_back;
 
-    String DateString, MonthNumber;
+    private String DateString, MonthNumber;
 
-    ArrayList<Profits> Profit_List = new ArrayList<Profits>();
-    ArrayList<Sales> Balance_List = new ArrayList<Sales>();
-    ArrayList<Order> Order_List = new ArrayList<Order>();
-    ArrayList<Sales> Sales_List = new ArrayList<Sales>();
-    ArrayList<Sales> BrandSales_List = new ArrayList<Sales>();
-    ArrayList<Sales> ShopSales_List = new ArrayList<Sales>();
-    ArrayList<Repair> Repairs_List = new ArrayList<Repair>();
-    ArrayList<Repair> Repairs2_List = new ArrayList<Repair>();
+    private ArrayList<Profits> Profit_List = new ArrayList<Profits>();
+    private ArrayList<Sales> Balance_List = new ArrayList<Sales>();
+    private ArrayList<Order> Order_List = new ArrayList<Order>();
+    private ArrayList<Sales> Sales_List = new ArrayList<Sales>();
+    private ArrayList<Sales> BrandSales_List = new ArrayList<Sales>();
+    private ArrayList<Sales> ShopSales_List = new ArrayList<Sales>();
+    private ArrayList<Repair> Repairs_List = new ArrayList<Repair>();
+    private ArrayList<Repair> Repairs2_List = new ArrayList<Repair>();
 
     DeviceRgb headerColor = new DeviceRgb(26, 129,125);
 

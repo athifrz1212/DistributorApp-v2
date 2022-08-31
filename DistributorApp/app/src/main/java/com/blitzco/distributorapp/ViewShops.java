@@ -73,31 +73,26 @@ public class ViewShops extends AppCompatActivity {
 
                 searchShopName = search_shop.getText().toString().toUpperCase();
 
-//                shopRef.orderByChild("shop").equalTo(searchShopName)
                 shopRef.orderByChild("shop").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         System.out.println(" >>>>>>> Data available ");
                         shopList.clear();
                         for(DataSnapshot snap: snapshot.getChildren()) {
-                            System.out.println(" #############-->>>> Data "+ snap.toString());
                             Shop shop = snap.getValue(Shop.class);
 
                             if(shop.getShop().contains(searchShopName)) {
                                 shopList.add(shop);
-//                                page(shop.getShop());
                                 shop_List.setLayoutManager(layoutManager);
                                 shop_List.setAdapter(sAdapter);
+                            } else {
+                                Toast.makeText(ViewShops.this, searchShopName+" shop unavailable", Toast.LENGTH_SHORT).show();
                             }
                         }
-                        Toast.makeText(ViewShops.this, searchShopName+" shop unavailable", Toast.LENGTH_SHORT).show();
-
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
+                    public void onCancelled(@NonNull DatabaseError error) {}
                 });
             }
         });
@@ -134,34 +129,6 @@ public class ViewShops extends AppCompatActivity {
             page();
         }
 
-//        if(search_shop != null) {
-//            System.out.println(" ###############  if is true");
-//            page(search_shop.getText().toString().toUpperCase());
-//        }
-
-    }
-
-    private void page(String shopName) {
-        shopRef.orderByChild("shop").equalTo(shopName).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                shopList.clear();
-                for(DataSnapshot snap: snapshot.getChildren()) {
-                    Shop sh = snap.getValue(Shop.class);
-
-                    shopList.add(sh);
-                }
-                System.out.println(" ============== page with parameters method executed ");
-
-                shop_List.setLayoutManager(layoutManager);
-                shop_List.setAdapter(sAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     private void page() {
@@ -175,16 +142,13 @@ public class ViewShops extends AppCompatActivity {
 
                     shopList.add(sh);
                 }
-                System.out.println(" >>>>>>>>>> page method executed ");
 
                 shop_List.setLayoutManager(layoutManager);
                 shop_List.setAdapter(sAdapter);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 

@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AgentHome extends AppCompatActivity {
 
-    LinearLayout view_Repair, inventoryBTN, add_route,
+    LinearLayout view_Repair, inventoryBTN,
             view_route, view_map, shops;
     TextView balance;
 
@@ -64,16 +64,6 @@ public class AgentHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(AgentHome.this, ViewBrand.class);
-                startActivity(intent);
-            }
-        });
-
-        add_route = findViewById(R.id.add_routeBTN);
-
-        add_route.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent= new Intent(AgentHome.this, AddShopRoute.class);
                 startActivity(intent);
             }
         });

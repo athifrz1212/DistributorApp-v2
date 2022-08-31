@@ -87,13 +87,9 @@ public class ViewProduct extends AppCompatActivity {
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(currentUserRole.equals("ADMIN")) {
-                    Intent intent= new Intent(ViewProduct.this, AdminHome.class);
-                    startActivity(intent);
-                } else if(currentUserRole.equals("AGENT")) {
-                    Intent intent= new Intent(ViewProduct.this, AgentHome.class);
-                    startActivity(intent);
-                }
+                Intent intent= new Intent(ViewProduct.this, ViewBrand.class);
+                startActivity(intent);
+
             }
         });
 

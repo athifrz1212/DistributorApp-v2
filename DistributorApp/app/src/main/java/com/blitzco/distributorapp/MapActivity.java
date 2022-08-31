@@ -1,10 +1,7 @@
 package com.blitzco.distributorapp;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -18,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.blitzco.distributorapp.models.Shop;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -28,8 +26,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private static final String TAG = "MapActivity";
     static String mapIndex;
+    Address address;
+    String mapAddress;
     GoogleMap map;
     Button b1;
     EditText edIndex;
@@ -77,36 +80,30 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             geoLocateALL();
         }
 
-
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             return;
         }
         map.setMyLocationEnabled(true);
-
     }
 
     private void geoLocate() {
         Address address = null;
-        String index = "'" + mapIndex + "'";
 
         Log.d(TAG, "getDeviceLocation: geoLocating");
 
-        SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
+        shopRef.orderByChild("shop").equalTo(mapIndex).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snap: snapshot.getChildren()) {
+                    mapAddress = snap.getValue(Shop.class).getAddress();
+                }
+            }
 
-        shopRef.orderByChild("shop");
-
-        final String sql = "select * from shopi where shop=" + index;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
 
         try{
-            final Cursor d = db.rawQuery(sql, null);
-            d.moveToFirst();
-            int Saddress = d.getColumnIndex("address");
-
-
-            String mapAddress = d.getString(Saddress) ;
-
             Geocoder geocoder = new Geocoder(MapActivity.this);
             List<Address> list = new ArrayList<>();
             try {
@@ -163,39 +160,37 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
     }
     private void geoLocateALL() {
-        Address address = null;
-
 
         Log.d(TAG, "getDeviceLocation: geoLocating");
 
-        SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
+        shopRef.orderByChild("shop").equalTo(mapIndex).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snap: snapshot.getChildren()) {
+                    mapAddress = snap.getValue(Shop.class).getAddress();
 
-        final String sql = "select * from shopi";
+                    Geocoder geocoder = new Geocoder(MapActivity.this);
+                    List<Address> list = new ArrayList<>();
+                    try {
+                        list = geocoder.getFromLocationName(mapAddress, 1);
+                    } catch (IOException e) {
+                        Log.e(TAG, "geoLocate: IOException" + e.getMessage());
+                    }
+                    if (list.size() > 0) {
+                        address = list.get(0);
 
-        final Cursor d = db.rawQuery(sql, null);
-        int Saddress = d.getColumnIndex("address");
+                        Log.d(TAG, "geoLocate: found a location: " + address.toString());
+                    }
+                    LatLng Shop = new LatLng(address.getLatitude(), address.getLongitude());
 
-        if (d.moveToFirst()) {
-            do {
-                String mapAddress = d.getString(Saddress);
-
-                Geocoder geocoder = new Geocoder(MapActivity.this);
-                List<Address> list = new ArrayList<>();
-                try {
-                    list = geocoder.getFromLocationName(mapAddress, 1);
-                } catch (IOException e) {
-                    Log.e(TAG, "geoLocate: IOException" + e.getMessage());
+                    map.addMarker(new MarkerOptions().position(Shop).title(address.getAddressLine(0)));
                 }
-                if (list.size() > 0) {
-                    address = list.get(0);
+            }
 
-                    Log.d(TAG, "geoLocate: found a location: " + address.toString());
-                }
-                LatLng Shop = new LatLng(address.getLatitude(), address.getLongitude());
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
 
-                map.addMarker(new MarkerOptions().position(Shop).title(address.getAddressLine(0)));
-            } while (d.moveToNext());
-        }
         getDeviceLocation();
         moveCamera(new LatLng(7.900381, 80.684307),
                 7.5f);

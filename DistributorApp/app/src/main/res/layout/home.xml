@@ -239,41 +239,6 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:id="@+id/add_routeBTN"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@drawable/bg_blue"
-                        android:orientation="vertical"
-                        android:padding="8dp">
-
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:layout_margin="6dp"
-                            android:scaleType="fitStart"
-                            android:src="@drawable/ic_add_shop" />
-
-                        <TextView
-                            android:layout_width="160dp"
-                            android:layout_height="wrap_content"
-                            android:text="Add Shop"
-                            android:layout_marginStart="6dp"
-                            android:textStyle="bold"
-                            android:textColor="#e8fafa"
-                            android:textAlignment="textStart"
-                            android:textSize="20sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <LinearLayout
                         android:id="@+id/view_routeBTN"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"

@@ -30,9 +30,11 @@ public class ViewBrand extends AppCompatActivity {
     private RelativeLayout go_back;
     private LinearLayout addBTN;
     private FirebaseAuth fAuth;
-    private DatabaseReference dbRef;
+    private DatabaseReference userRef;
 
     private String currentUserRole;
+    private String agent = "AGENT";
+    private String admin = "ADMIN";
 
     private ArrayList<Brand> brandList = new ArrayList<Brand>();
     private RecyclerView.Adapter mAdapter;//view adapter
@@ -48,7 +50,7 @@ public class ViewBrand extends AppCompatActivity {
         brand_list.setHasFixedSize(true);
 
         addBTN = findViewById(R.id.addBTN);
-//        addBTN.setVisibility(View.INVISIBLE);
+        addBTN.setVisibility(View.INVISIBLE);
 
         layoutManager = new LinearLayoutManager(this);//assign layout manager
         mAdapter = new AdapterBrand(brandList, ViewBrand.this); //updateBTN brand_list data to adapter class
@@ -58,33 +60,33 @@ public class ViewBrand extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         FirebaseUser fUser = fAuth.getCurrentUser();
 
-        dbRef = FirebaseDatabase.getInstance().getReference("User");
-        dbRef.child(fUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        userRef = FirebaseDatabase.getInstance().getReference("User");
+        userRef.child(fUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user = snapshot.getValue(User.class);
-                currentUserRole = user.getRole();
-//                if(user.getRole().equals("ADMIN")) {
-//                    addBTN.setVisibility(View.VISIBLE);
-//                } else if(user.getRole().equals("AGENT")) {
-//                    addBTN.setVisibility(View.INVISIBLE);
+//                for(DataSnapshot snap: snapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    currentUserRole = user.getRole();
+                    if(user.getRole().equals(admin)) {
+                        addBTN.setVisibility(View.VISIBLE);
+                    } else if(user.getRole().equals(agent)) {
+                        addBTN.setVisibility(View.INVISIBLE);
+                    }
 //                }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
 
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(currentUserRole.equals("ADMIN")) {
+                if(currentUserRole.equals(admin)) {
                     Intent intent= new Intent(ViewBrand.this, AdminHome.class);
                     startActivity(intent);
-                } else if(currentUserRole.equals("AGENT")) {
+                } else if(currentUserRole.equals(agent)) {
                     Intent intent= new Intent(ViewBrand.this, AgentHome.class);
                     startActivity(intent);
                 }

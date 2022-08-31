@@ -1,10 +1,10 @@
 package com.blitzco.distributorapp;
 
-import android.content.Context;
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -16,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.blitzco.distributorapp.adapters.AdapterRepair;
 import com.blitzco.distributorapp.models.Repair;
+import com.blitzco.distributorapp.models.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,14 +31,18 @@ public class ViewRepairs extends AppCompatActivity {
     private RecyclerView repair_list;
     private ImageView addBTN;
     private RelativeLayout go_back;
+
     private String currentUserRole;
+    private String agent = "AGENT";
+    private String admin = "ADMIN";
 
     private ArrayList<Repair> repairList= new ArrayList<Repair>();
 
     private RecyclerView.Adapter mAdapter;//view adapter
     private RecyclerView.LayoutManager layoutManager; //view layout manager
 
-    private DatabaseReference repairRef;
+    private FirebaseAuth fAuth;
+    private DatabaseReference repairRef, userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +54,63 @@ public class ViewRepairs extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);//assign layout manager
         mAdapter = new AdapterRepair(repairList, ViewRepairs.this); //updateBTN brand_list data to adapter class
 
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                repairList.clear();
+                for (DataSnapshot snap: snapshot.getChildren()) {
+                    Repair repair = snap.getValue(Repair.class);
+                    repair.setRepairID(snap.getKey());
+                    repairList.add(repair);
+                }
+                repair_list.setLayoutManager(layoutManager);
+                repair_list.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.w(TAG, "loadPost:onCancelled", error.toException());
+            }
+        };
+
+        fAuth = FirebaseAuth.getInstance();
+        FirebaseUser fUser = fAuth.getCurrentUser();
+
+        repairRef = FirebaseDatabase.getInstance().getReference("Repair");
+
+        userRef = FirebaseDatabase.getInstance().getReference("User");
+        userRef.child(fUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.getValue(User.class);
+                currentUserRole = user.getRole();
+                if(user.getRole().equals(admin)) {
+                    repairRef.orderByChild("modelName").addListenerForSingleValueEvent(valueEventListener);
+
+                } else if(user.getRole().equals(agent)) {
+                    repairRef.orderByChild("agentId").equalTo(fUser.getUid())
+                    .addListenerForSingleValueEvent(valueEventListener);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
         go_back = findViewById(R.id.go_back);
 
         go_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(currentUserRole.equals("ADMIN")) {
+                if(currentUserRole.equals(admin)) {
                     Intent intent= new Intent(ViewRepairs.this, AdminHome.class);
                     startActivity(intent);
-                } else if(currentUserRole.equals("AGENT")) {
+                } else if(currentUserRole.equals(agent)) {
                     Intent intent= new Intent(ViewRepairs.this, AgentHome.class);
                     startActivity(intent);
                 }
+
             }
         });
 
@@ -72,59 +123,6 @@ public class ViewRepairs extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        repairRef = FirebaseDatabase.getInstance().getReference("Repair");
-        repairRef.orderByChild("agentId").equalTo(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                proList.clear();
-                for (DataSnapshot snap: snapshot.getChildren()) {
-                    Repair repair = snap.getValue(Repair.class);
-                    repair.setRepairID(snap.getKey());
-                    repairList.add(repair);
-                }
-                repair_list.setLayoutManager(layoutManager);
-                repair_list.setAdapter(mAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-
-        SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
-        //create database if doesn't exist
-
-        final Cursor c = db.rawQuery("SELECT * FROM repairs ORDER BY ReDate DESC", null);
-        //cursor is used to fetch data from the database
-        int id=c.getColumnIndex("repairID");//getting the column id from the database
-        int SName = c.getColumnIndex("shop_Name");
-        int BName = c.getColumnIndex("brand_Name");
-        int MName=c.getColumnIndex("model_Name");
-        int issue =c.getColumnIndex("issue");
-        int re_type =c.getColumnIndex("ReType");
-        int re_date =c.getColumnIndex("ReDate");
-
-
-        if(c.moveToFirst())
-        {
-            do{
-
-                Repair re = new Repair();
-                re.setRepairID(c.getString(id));
-                re.setShopName(c.getString(SName));
-                re.setBrandName(c.getString(BName));
-                re.setModelName(c.getString(MName));
-                re.setIssue(c.getString(issue));
-                re.setReType(c.getString(re_type));
-                re.setReDate(c.getString(re_date));
-
-                repairList.add(re);
-
-            }while(c.moveToNext());
-        }
-        repair_list.setLayoutManager(layoutManager);
-        repair_list.setAdapter(mAdapter);
 
     }
 
