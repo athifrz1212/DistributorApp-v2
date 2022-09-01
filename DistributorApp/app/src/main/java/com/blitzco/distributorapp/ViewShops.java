@@ -76,7 +76,6 @@ public class ViewShops extends AppCompatActivity {
                 shopRef.orderByChild("shop").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        System.out.println(" >>>>>>> Data available ");
                         shopList.clear();
                         for(DataSnapshot snap: snapshot.getChildren()) {
                             Shop shop = snap.getValue(Shop.class);

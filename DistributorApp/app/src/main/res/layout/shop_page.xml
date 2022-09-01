@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@drawable/bg_white"
+    android:background="@drawable/bg_lightblue"
     tools:context="com.blitzco.distributorapp.ShopPage">
 
     <LinearLayout

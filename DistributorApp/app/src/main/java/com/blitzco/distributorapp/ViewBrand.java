@@ -65,7 +65,6 @@ public class ViewBrand extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for(DataSnapshot snap: snapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
                     currentUserRole = user.getRole();
                     if(user.getRole().equals(admin)) {
@@ -73,7 +72,6 @@ public class ViewBrand extends AppCompatActivity {
                     } else if(user.getRole().equals(agent)) {
                         addBTN.setVisibility(View.INVISIBLE);
                     }
-//                }
             }
 
             @Override

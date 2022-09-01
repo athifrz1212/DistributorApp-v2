@@ -67,7 +67,7 @@ public class AdapterShopLocation extends RecyclerView.Adapter<AdapterShopLocatio
                 Shop shop = shopList.get((position));
 
                 Intent i =new Intent(context, MapActivity.class);
-                i.putExtra("SName", shop.getShop());
+                i.putExtra("ShopName", shop.getShop());
                 context.startActivity(i);
                 MapActivity m = new MapActivity();
                 m.lock = true;

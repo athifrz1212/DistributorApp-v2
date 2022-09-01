@@ -28,19 +28,19 @@ import com.blitzco.distributorapp.models.Order;
 import com.blitzco.distributorapp.models.Profits;
 import com.blitzco.distributorapp.models.Repair;
 import com.blitzco.distributorapp.models.Sales;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
-import com.itextpdf.kernel.colors.ColorConstants;
-import com.itextpdf.kernel.colors.DeviceRgb;
-import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.pdf.*;
-import com.itextpdf.layout.Document;
-import com.itextpdf.layout.borders.Border;
-import com.itextpdf.layout.element.Cell;
-import com.itextpdf.layout.element.Image;
-import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Table;
-import com.itextpdf.layout.property.TextAlignment;
+//import com.itextpdf.io.image.ImageData;
+//import com.itextpdf.io.image.ImageDataFactory;
+//import com.itextpdf.kernel.colors.ColorConstants;
+//import com.itextpdf.kernel.colors.DeviceRgb;
+//import com.itextpdf.kernel.geom.PageSize;
+//import com.itextpdf.kernel.pdf.*;
+//import com.itextpdf.layout.Document;
+//import com.itextpdf.layout.borders.Border;
+//import com.itextpdf.layout.element.Cell;
+//import com.itextpdf.layout.element.Image;
+//import com.itextpdf.layout.element.Paragraph;
+//import com.itextpdf.layout.element.Table;
+//import com.itextpdf.layout.property.TextAlignment;
 import com.whiteelephant.monthpicker.MonthPickerDialog;
 
 import java.io.ByteArrayOutputStream;
@@ -69,7 +69,7 @@ public class ReportGenerator extends AppCompatActivity {
     private ArrayList<Repair> Repairs_List = new ArrayList<Repair>();
     private ArrayList<Repair> Repairs2_List = new ArrayList<Repair>();
 
-    DeviceRgb headerColor = new DeviceRgb(26, 129,125);
+//    DeviceRgb headerColor = new DeviceRgb(26, 129,125);
 
 
     @Override
@@ -114,7 +114,7 @@ public class ReportGenerator extends AppCompatActivity {
 
                             int MonthSelected = selectedMonth+1;
                             MonthNumber = String.valueOf(MonthSelected);
-                            
+
                         }
                     }, today.get(Calendar.YEAR), today.get(Calendar.MONTH));
 
@@ -511,54 +511,54 @@ public class ReportGenerator extends AppCompatActivity {
         OutputStream outputStream1 = new FileOutputStream(file1);
 
         //create file writer object
-        PdfWriter writer1 = new PdfWriter(file1);
-        PdfDocument pdfDocument1 = new PdfDocument(writer1);
-        pdfDocument1.setDefaultPageSize(PageSize.A4);
-        Document document1 = new Document(pdfDocument1);
-
-        document1.setMargins(0,0,0,0);
-        Drawable d1 = getDrawable(R.drawable.bg_report);
-
-        Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
-        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
-        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
-        byte[] bitmapData1 = stream1.toByteArray();
-
-        ImageData imageData1 = ImageDataFactory.create(bitmapData1);
-        Image image1 = new Image(imageData1);
-        image1.setHeight(pdfDocument1.getDefaultPageSize().getHeight());
-        image1.setWidth(pdfDocument1.getDefaultPageSize().getWidth());
-
-
-        float[] columnWidth1 = {100,100,100,100};
-        Table table1 = new Table(columnWidth1);
-
-        table1.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
-        table1.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
-        table1.setMarginTop(40);
-
-
-        table1.addCell(new Cell().add(new Paragraph("Brand Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Sold Quantity").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Total Sales Amount").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Total Profit").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-
-        for(int i=0; i<BrandSales_List.size();i++)
-        {
-
-            table1.addCell(new Cell().add(new Paragraph(BrandSales_List.get(i).getBrandName())));
-            table1.addCell(new Cell().add(new Paragraph(String.valueOf(BrandSales_List.get(i).getNoOfItems()))));
-            table1.addCell(new Cell().add(new Paragraph(String.valueOf(BrandSales_List.get(i).getMonthlyTotal()))));
-            table1.addCell(new Cell().add(new Paragraph(String.valueOf(BrandSales_List.get(i).getProfitTotal()))));
-        }
-
-
-        document1.add(image1.setFixedPosition(0,0));
-        document1.add(new Paragraph("Brand Sales Report").setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
-                .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
-        document1.add(new Paragraph("Month : "+monthSelector(MonthNumber)).setFontSize(18).setTextAlignment(TextAlignment.LEFT).setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2));
-        document1.add(table1);
-        document1.close();
+//        PdfWriter writer1 = new PdfWriter(file1);
+//        PdfDocument pdfDocument1 = new PdfDocument(writer1);
+//        pdfDocument1.setDefaultPageSize(PageSize.A4);
+//        Document document1 = new Document(pdfDocument1);
+//
+//        document1.setMargins(0,0,0,0);
+//        Drawable d1 = getDrawable(R.drawable.bg_report);
+//
+//        Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
+//        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+//        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
+//        byte[] bitmapData1 = stream1.toByteArray();
+//
+//        ImageData imageData1 = ImageDataFactory.create(bitmapData1);
+//        Image image1 = new Image(imageData1);
+//        image1.setHeight(pdfDocument1.getDefaultPageSize().getHeight());
+//        image1.setWidth(pdfDocument1.getDefaultPageSize().getWidth());
+//
+//
+//        float[] columnWidth1 = {100,100,100,100};
+//        Table table1 = new Table(columnWidth1);
+//
+//        table1.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
+//        table1.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
+//        table1.setMarginTop(40);
+//
+//
+//        table1.addCell(new Cell().add(new Paragraph("Brand Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Sold Quantity").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Total Sales Amount").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Total Profit").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//
+//        for(int i=0; i<BrandSales_List.size();i++)
+//        {
+//
+//            table1.addCell(new Cell().add(new Paragraph(BrandSales_List.get(i).getBrandName())));
+//            table1.addCell(new Cell().add(new Paragraph(String.valueOf(BrandSales_List.get(i).getNoOfItems()))));
+//            table1.addCell(new Cell().add(new Paragraph(String.valueOf(BrandSales_List.get(i).getMonthlyTotal()))));
+//            table1.addCell(new Cell().add(new Paragraph(String.valueOf(BrandSales_List.get(i).getProfitTotal()))));
+//        }
+//
+//
+//        document1.add(image1.setFixedPosition(0,0));
+//        document1.add(new Paragraph("Brand Sales Report").setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
+//                .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
+//        document1.add(new Paragraph("Month : "+monthSelector(MonthNumber)).setFontSize(18).setTextAlignment(TextAlignment.LEFT).setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2));
+//        document1.add(table1);
+//        document1.close();
     }
 
 ///=============================================================================///
@@ -571,52 +571,52 @@ public class ReportGenerator extends AppCompatActivity {
         OutputStream outputStream1 = new FileOutputStream(file1);
 
         //create file writer object
-        PdfWriter writer1 = new PdfWriter(file1);
-        PdfDocument pdfDocument1 = new PdfDocument(writer1);
-        pdfDocument1.setDefaultPageSize(PageSize.A4);
-        Document document1 = new Document(pdfDocument1);
-
-        document1.setMargins(0,0,0,0);
-        Drawable d1 = getDrawable(R.drawable.bg_report);
-
-        Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
-        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
-        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
-        byte[] bitmapData1 = stream1.toByteArray();
-
-        ImageData imageData1 = ImageDataFactory.create(bitmapData1);
-        Image image1 = new Image(imageData1);
-        image1.setHeight(pdfDocument1.getDefaultPageSize().getHeight());
-        image1.setWidth(pdfDocument1.getDefaultPageSize().getWidth());
-
-
-        float[] columnWidth1 = {100,100,100, 100};
-        Table table1 = new Table(columnWidth1);
-
-        table1.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
-        table1.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
-        table1.setMarginTop(30);
-
-
-        table1.addCell(new Cell().add(new Paragraph("Year").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Month").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Total Sales").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Total Profit").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-
-
-        for(int i=0; i<Profits_List.size();i++)
-        {
-            table1.addCell(new Cell().add(new Paragraph(Profits_List.get(i).getYear())));
-            table1.addCell(new Cell().add(new Paragraph(Profits_List.get(i).getMonth())));
-            table1.addCell(new Cell().add(new Paragraph(Profits_List.get(i).getTotalSales())));
-            table1.addCell(new Cell().add(new Paragraph(Profits_List.get(i).getProfit())));
-        }
-
-        document1.add(image1.setFixedPosition(0,0));
-        document1.add(new Paragraph("Monthly Profit Report").setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
-                .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
-        document1.add(table1);
-        document1.close();
+//        PdfWriter writer1 = new PdfWriter(file1);
+//        PdfDocument pdfDocument1 = new PdfDocument(writer1);
+//        pdfDocument1.setDefaultPageSize(PageSize.A4);
+//        Document document1 = new Document(pdfDocument1);
+//
+//        document1.setMargins(0,0,0,0);
+//        Drawable d1 = getDrawable(R.drawable.bg_report);
+//
+//        Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
+//        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+//        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
+//        byte[] bitmapData1 = stream1.toByteArray();
+//
+//        ImageData imageData1 = ImageDataFactory.create(bitmapData1);
+//        Image image1 = new Image(imageData1);
+//        image1.setHeight(pdfDocument1.getDefaultPageSize().getHeight());
+//        image1.setWidth(pdfDocument1.getDefaultPageSize().getWidth());
+//
+//
+//        float[] columnWidth1 = {100,100,100, 100};
+//        Table table1 = new Table(columnWidth1);
+//
+//        table1.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
+//        table1.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
+//        table1.setMarginTop(30);
+//
+//
+//        table1.addCell(new Cell().add(new Paragraph("Year").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Month").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Total Sales").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Total Profit").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//
+//
+//        for(int i=0; i<Profits_List.size();i++)
+//        {
+//            table1.addCell(new Cell().add(new Paragraph(Profits_List.get(i).getYear())));
+//            table1.addCell(new Cell().add(new Paragraph(Profits_List.get(i).getMonth())));
+//            table1.addCell(new Cell().add(new Paragraph(Profits_List.get(i).getTotalSales())));
+//            table1.addCell(new Cell().add(new Paragraph(Profits_List.get(i).getProfit())));
+//        }
+//
+//        document1.add(image1.setFixedPosition(0,0));
+//        document1.add(new Paragraph("Monthly Profit Report").setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
+//                .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
+//        document1.add(table1);
+//        document1.close();
     }
 
 ///=============================================================================///
@@ -630,75 +630,75 @@ public class ReportGenerator extends AppCompatActivity {
         OutputStream outputStream1 = new FileOutputStream(file1);
 
         //create file writer object
-        PdfWriter writer1 = new PdfWriter(file1);
-        PdfDocument pdfDocument1 = new PdfDocument(writer1);
-        pdfDocument1.setDefaultPageSize(PageSize.A4);
-        Document document1 = new Document(pdfDocument1);
-
-        document1.setMargins(0,0,0,0);
-        Drawable d1 = getDrawable(R.drawable.bg_report);
-
-        Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
-        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
-        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
-        byte[] bitmapData1 = stream1.toByteArray();
-
-        ImageData imageData1 = ImageDataFactory.create(bitmapData1);
-        Image image1 = new Image(imageData1);
-        image1.setHeight(pdfDocument1.getDefaultPageSize().getHeight());
-        image1.setWidth(pdfDocument1.getDefaultPageSize().getWidth());
-
-
-        float[] columnWidth1 = {100,100,100};
-        Table table1 = new Table(columnWidth1);
-
-        Table table2 = new Table(columnWidth1);
-
-        table1.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-300)/2);
-        table1.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-300)/2);
-        table1.setMarginTop(25);
-
-        table2.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-300)/2);
-        table2.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-300)/2);
-        table2.setMarginTop(30);
-
-
-        table1.addCell(new Cell(1,3).add(new Paragraph("Total quantity from each model").setUnderline().setTextAlignment(TextAlignment.LEFT).setFontSize(15).setFontColor(ColorConstants.BLACK).setMarginLeft(10).setMarginBottom(15)).setBorder(Border.NO_BORDER));
-
-        table1.addCell(new Cell().add(new Paragraph("Brand Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Model Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Quantity").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-
-        for(int i=0; i<Repairs_List.size(); i++)
-        {
-            table1.addCell(new Cell().add(new Paragraph(Repairs_List.get(i).getBrandName()).setFontSize(12)));
-            table1.addCell(new Cell().add(new Paragraph(Repairs_List.get(i).getModelName()).setFontSize(12)));
-            table1.addCell(new Cell().add(new Paragraph(Repairs_List.get(i).getNoOfItems()).setFontSize(12)));
-        }
-
-        //==================================== Table 2 =========================================///
-
-        table2.addCell(new Cell(1,3).add(new Paragraph("Issues").setUnderline().setTextAlignment(TextAlignment.LEFT).setFontSize(15).setFontColor(ColorConstants.BLACK).setMarginLeft(10).setMarginBottom(15)).setBorder(Border.NO_BORDER));
-
-        table2.addCell(new Cell().add(new Paragraph("Brand Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table2.addCell(new Cell().add(new Paragraph("Model Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table2.addCell(new Cell().add(new Paragraph("Issue").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-
-        for(int i=0; i<Repairs2_List.size(); i++)
-        {
-            table2.addCell(new Cell().add(new Paragraph(Repairs2_List.get(i).getBrandName()).setFontSize(12)));
-            table2.addCell(new Cell().add(new Paragraph(Repairs2_List.get(i).getModelName()).setFontSize(12)));
-            table2.addCell(new Cell().add(new Paragraph(Repairs2_List.get(i).getIssue()).setFontSize(12)));
-        }
-
-
-        document1.add(image1.setFixedPosition(0,0));
-        document1.add(new Paragraph("Repair Report").setUnderline(2, -5).setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
-                .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
-        document1.add(new Paragraph("Month : "+monthSelector(MonthNumber)).setFontSize(18).setTextAlignment(TextAlignment.LEFT).setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-300)/2));
-        document1.add(table1);
-        document1.add(table2);
-        document1.close();
+//        PdfWriter writer1 = new PdfWriter(file1);
+//        PdfDocument pdfDocument1 = new PdfDocument(writer1);
+//        pdfDocument1.setDefaultPageSize(PageSize.A4);
+//        Document document1 = new Document(pdfDocument1);
+//
+//        document1.setMargins(0,0,0,0);
+//        Drawable d1 = getDrawable(R.drawable.bg_report);
+//
+//        Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
+//        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+//        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
+//        byte[] bitmapData1 = stream1.toByteArray();
+//
+//        ImageData imageData1 = ImageDataFactory.create(bitmapData1);
+//        Image image1 = new Image(imageData1);
+//        image1.setHeight(pdfDocument1.getDefaultPageSize().getHeight());
+//        image1.setWidth(pdfDocument1.getDefaultPageSize().getWidth());
+//
+//
+//        float[] columnWidth1 = {100,100,100};
+//        Table table1 = new Table(columnWidth1);
+//
+//        Table table2 = new Table(columnWidth1);
+//
+//        table1.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-300)/2);
+//        table1.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-300)/2);
+//        table1.setMarginTop(25);
+//
+//        table2.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-300)/2);
+//        table2.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-300)/2);
+//        table2.setMarginTop(30);
+//
+//
+//        table1.addCell(new Cell(1,3).add(new Paragraph("Total quantity from each model").setUnderline().setTextAlignment(TextAlignment.LEFT).setFontSize(15).setFontColor(ColorConstants.BLACK).setMarginLeft(10).setMarginBottom(15)).setBorder(Border.NO_BORDER));
+//
+//        table1.addCell(new Cell().add(new Paragraph("Brand Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Model Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Quantity").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//
+//        for(int i=0; i<Repairs_List.size(); i++)
+//        {
+//            table1.addCell(new Cell().add(new Paragraph(Repairs_List.get(i).getBrandName()).setFontSize(12)));
+//            table1.addCell(new Cell().add(new Paragraph(Repairs_List.get(i).getModelName()).setFontSize(12)));
+//            table1.addCell(new Cell().add(new Paragraph(Repairs_List.get(i).getNoOfItems()).setFontSize(12)));
+//        }
+//
+//        //==================================== Table 2 =========================================///
+//
+//        table2.addCell(new Cell(1,3).add(new Paragraph("Issues").setUnderline().setTextAlignment(TextAlignment.LEFT).setFontSize(15).setFontColor(ColorConstants.BLACK).setMarginLeft(10).setMarginBottom(15)).setBorder(Border.NO_BORDER));
+//
+//        table2.addCell(new Cell().add(new Paragraph("Brand Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table2.addCell(new Cell().add(new Paragraph("Model Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table2.addCell(new Cell().add(new Paragraph("Issue").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//
+//        for(int i=0; i<Repairs2_List.size(); i++)
+//        {
+//            table2.addCell(new Cell().add(new Paragraph(Repairs2_List.get(i).getBrandName()).setFontSize(12)));
+//            table2.addCell(new Cell().add(new Paragraph(Repairs2_List.get(i).getModelName()).setFontSize(12)));
+//            table2.addCell(new Cell().add(new Paragraph(Repairs2_List.get(i).getIssue()).setFontSize(12)));
+//        }
+//
+//
+//        document1.add(image1.setFixedPosition(0,0));
+//        document1.add(new Paragraph("Repair Report").setUnderline(2, -5).setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
+//                .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
+//        document1.add(new Paragraph("Month : "+monthSelector(MonthNumber)).setFontSize(18).setTextAlignment(TextAlignment.LEFT).setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-300)/2));
+//        document1.add(table1);
+//        document1.add(table2);
+//        document1.close();
 
     }
 
@@ -713,54 +713,54 @@ public class ReportGenerator extends AppCompatActivity {
         OutputStream outputStream1 = new FileOutputStream(file1);
 
         //create file writer object
-        PdfWriter writer1 = new PdfWriter(file1);
-        PdfDocument pdfDocument1 = new PdfDocument(writer1);
-        pdfDocument1.setDefaultPageSize(PageSize.A4);
-        Document document1 = new Document(pdfDocument1);
-
-        document1.setMargins(0,0,0,0);
-        @SuppressLint("UseCompatLoadingForDrawables") Drawable d1 = getDrawable(R.drawable.bg_report);
-
-        Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
-        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
-        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
-        byte[] bitmapData1 = stream1.toByteArray();
-
-        ImageData imageData1 = ImageDataFactory.create(bitmapData1);
-        Image image1 = new Image(imageData1);
-        image1.setHeight(pdfDocument1.getDefaultPageSize().getHeight());
-        image1.setWidth(pdfDocument1.getDefaultPageSize().getWidth());
-
-
-        float[] columnWidth1 = {70,80,90,80,80};
-        Table table1 = new Table(columnWidth1);
-
-        table1.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
-        table1.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
-        table1.setMarginTop(30);
-
-
-        table1.addCell(new Cell().add(new Paragraph("Order ID").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Brand Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Model Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Total amount").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Total").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-
-        for(int i=0; i<Order_List.size();i++)
-        {
-            table1.addCell(new Cell().add(new Paragraph(String.valueOf(i+1))));
-            table1.addCell(new Cell().add(new Paragraph(Order_List.get(i).getBrandName())));
-            table1.addCell(new Cell().add(new Paragraph(Order_List.get(i).getModelName())));
-            table1.addCell(new Cell().add(new Paragraph(String.valueOf(Order_List.get(i).getUnitPrice()))));
-            table1.addCell(new Cell().add(new Paragraph(String.valueOf(Order_List.get(i).getTotalPrice()))));
-        }
-
-        document1.add(image1.setFixedPosition(0,0));
-        document1.add(new Paragraph("Orders Report").setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
-                .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
-        document1.add(new Paragraph("Month : "+monthSelector(MonthNumber)).setFontSize(18).setTextAlignment(TextAlignment.LEFT).setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2));
-        document1.add(table1);
-        document1.close();
+//        PdfWriter writer1 = new PdfWriter(file1);
+//        PdfDocument pdfDocument1 = new PdfDocument(writer1);
+//        pdfDocument1.setDefaultPageSize(PageSize.A4);
+//        Document document1 = new Document(pdfDocument1);
+//
+//        document1.setMargins(0,0,0,0);
+//        @SuppressLint("UseCompatLoadingForDrawables") Drawable d1 = getDrawable(R.drawable.bg_report);
+//
+//        Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
+//        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+//        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
+//        byte[] bitmapData1 = stream1.toByteArray();
+//
+//        ImageData imageData1 = ImageDataFactory.create(bitmapData1);
+//        Image image1 = new Image(imageData1);
+//        image1.setHeight(pdfDocument1.getDefaultPageSize().getHeight());
+//        image1.setWidth(pdfDocument1.getDefaultPageSize().getWidth());
+//
+//
+//        float[] columnWidth1 = {70,80,90,80,80};
+//        Table table1 = new Table(columnWidth1);
+//
+//        table1.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
+//        table1.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
+//        table1.setMarginTop(30);
+//
+//
+//        table1.addCell(new Cell().add(new Paragraph("Order ID").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Brand Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Model Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Total amount").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Total").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//
+//        for(int i=0; i<Order_List.size();i++)
+//        {
+//            table1.addCell(new Cell().add(new Paragraph(String.valueOf(i+1))));
+//            table1.addCell(new Cell().add(new Paragraph(Order_List.get(i).getBrandName())));
+//            table1.addCell(new Cell().add(new Paragraph(Order_List.get(i).getModelName())));
+//            table1.addCell(new Cell().add(new Paragraph(String.valueOf(Order_List.get(i).getUnitPrice()))));
+//            table1.addCell(new Cell().add(new Paragraph(String.valueOf(Order_List.get(i).getTotalPrice()))));
+//        }
+//
+//        document1.add(image1.setFixedPosition(0,0));
+//        document1.add(new Paragraph("Orders Report").setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
+//                .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
+//        document1.add(new Paragraph("Month : "+monthSelector(MonthNumber)).setFontSize(18).setTextAlignment(TextAlignment.LEFT).setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2));
+//        document1.add(table1);
+//        document1.close();
     }
 
 ///=============================================================================///
@@ -774,74 +774,74 @@ public class ReportGenerator extends AppCompatActivity {
         OutputStream outputStream1 = new FileOutputStream(file1);
 
         //create file writer object
-        PdfWriter writer1 = new PdfWriter(file1);
-        PdfDocument pdfDocument1 = new PdfDocument(writer1);
-        pdfDocument1.setDefaultPageSize(PageSize.A4);
-        Document document1 = new Document(pdfDocument1);
-
-        document1.setMargins(0,0,0,0);
-        Drawable d1 = getDrawable(R.drawable.bg_report);
-
-        Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
-        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
-        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
-        byte[] bitmapData1 = stream1.toByteArray();
-
-        ImageData imageData1 = ImageDataFactory.create(bitmapData1);
-        Image image1 = new Image(imageData1);
-        image1.setHeight(pdfDocument1.getDefaultPageSize().getHeight());
-        image1.setWidth(pdfDocument1.getDefaultPageSize().getWidth());
-
-
-        float[] columnWidth1 = {100,100,100,100};
-        Table table1 = new Table(columnWidth1);
-
-        float[] columnWidth2 = {150,150};
-        Table table2 = new Table(columnWidth2);
-
-        table1.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
-        table1.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
-        table1.setMarginTop(30);
-
-        table2.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-300)/2);
-        table2.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-300)/2);
-        table2.setMarginTop(40);
-
-
-        table1.addCell(new Cell().add(new Paragraph("Shop Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Model Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Qunatity").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Total").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-
-        for(int i=0; i<ShopSales_List.size();i++)
-        {
-
-            table1.addCell(new Cell().add(new Paragraph(ShopSales_List.get(i).getShopName())));
-            table1.addCell(new Cell().add(new Paragraph(ShopSales_List.get(i).getModelName())));
-            table1.addCell(new Cell().add(new Paragraph(String.valueOf(ShopSales_List.get(i).getNoOfItems()))));
-            table1.addCell(new Cell().add(new Paragraph(String.valueOf(ShopSales_List.get(i).getMonthlyTotal()))));
-        }
-
-        //======================================== Table 2 =====================================//
-
-        table2.addCell(new Cell().add(new Paragraph("Shop Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table2.addCell(new Cell().add(new Paragraph("Balance Amount").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-
-
-        for(int i=0; i<Balance_List.size();i++)
-        {
-
-            table2.addCell(new Cell().add(new Paragraph(Balance_List.get(i).getShopName())));
-            table2.addCell(new Cell().add(new Paragraph(String.valueOf(Balance_List.get(i).getBalance()))));
-        }
-
-        document1.add(image1.setFixedPosition(0,0));
-        document1.add(new Paragraph("Shop Sales Report").setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
-                .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
-        document1.add(new Paragraph("Month : "+monthSelector(MonthNumber)).setFontSize(18).setTextAlignment(TextAlignment.LEFT).setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2));
-        document1.add(table1);
-        document1.add(table2);
-        document1.close();
+//        PdfWriter writer1 = new PdfWriter(file1);
+//        PdfDocument pdfDocument1 = new PdfDocument(writer1);
+//        pdfDocument1.setDefaultPageSize(PageSize.A4);
+//        Document document1 = new Document(pdfDocument1);
+//
+//        document1.setMargins(0,0,0,0);
+//        Drawable d1 = getDrawable(R.drawable.bg_report);
+//
+//        Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
+//        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+//        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
+//        byte[] bitmapData1 = stream1.toByteArray();
+//
+//        ImageData imageData1 = ImageDataFactory.create(bitmapData1);
+//        Image image1 = new Image(imageData1);
+//        image1.setHeight(pdfDocument1.getDefaultPageSize().getHeight());
+//        image1.setWidth(pdfDocument1.getDefaultPageSize().getWidth());
+//
+//
+//        float[] columnWidth1 = {100,100,100,100};
+//        Table table1 = new Table(columnWidth1);
+//
+//        float[] columnWidth2 = {150,150};
+//        Table table2 = new Table(columnWidth2);
+//
+//        table1.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
+//        table1.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
+//        table1.setMarginTop(30);
+//
+//        table2.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-300)/2);
+//        table2.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-300)/2);
+//        table2.setMarginTop(40);
+//
+//
+//        table1.addCell(new Cell().add(new Paragraph("Shop Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Model Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Qunatity").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Total").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//
+//        for(int i=0; i<ShopSales_List.size();i++)
+//        {
+//
+//            table1.addCell(new Cell().add(new Paragraph(ShopSales_List.get(i).getShopName())));
+//            table1.addCell(new Cell().add(new Paragraph(ShopSales_List.get(i).getModelName())));
+//            table1.addCell(new Cell().add(new Paragraph(String.valueOf(ShopSales_List.get(i).getNoOfItems()))));
+//            table1.addCell(new Cell().add(new Paragraph(String.valueOf(ShopSales_List.get(i).getMonthlyTotal()))));
+//        }
+//
+//        //======================================== Table 2 =====================================//
+//
+//        table2.addCell(new Cell().add(new Paragraph("Shop Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table2.addCell(new Cell().add(new Paragraph("Balance Amount").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//
+//
+//        for(int i=0; i<Balance_List.size();i++)
+//        {
+//
+//            table2.addCell(new Cell().add(new Paragraph(Balance_List.get(i).getShopName())));
+//            table2.addCell(new Cell().add(new Paragraph(String.valueOf(Balance_List.get(i).getBalance()))));
+//        }
+//
+//        document1.add(image1.setFixedPosition(0,0));
+//        document1.add(new Paragraph("Shop Sales Report").setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
+//                .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
+//        document1.add(new Paragraph("Month : "+monthSelector(MonthNumber)).setFontSize(18).setTextAlignment(TextAlignment.LEFT).setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2));
+//        document1.add(table1);
+//        document1.add(table2);
+//        document1.close();
     }
 
 ///=============================================================================///
@@ -855,55 +855,55 @@ public class ReportGenerator extends AppCompatActivity {
         OutputStream outputStream1 = new FileOutputStream(file1);
 
         //create file writer object
-        PdfWriter writer1 = new PdfWriter(file1);
-        PdfDocument pdfDocument1 = new PdfDocument(writer1);
-        pdfDocument1.setDefaultPageSize(PageSize.A4);
-        Document document1 = new Document(pdfDocument1);
-
-        document1.setMargins(0,0,0,0);
-        Drawable d1 = getDrawable(R.drawable.bg_report);
-
-        Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
-        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
-        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
-        byte[] bitmapData1 = stream1.toByteArray();
-
-        ImageData imageData1 = ImageDataFactory.create(bitmapData1);
-        Image image1 = new Image(imageData1);
-        image1.setHeight(pdfDocument1.getDefaultPageSize().getHeight());
-        image1.setWidth(pdfDocument1.getDefaultPageSize().getWidth());
-
-
-        float columnWidth1[] = {70,110,60,80,80};
-        Table table1 = new Table(columnWidth1);
-
-        table1.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
-        table1.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
-        table1.setMarginTop(30);
-
-
-        table1.addCell(new Cell().add(new Paragraph("Brand Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Moodel Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Total Quantity").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Total Amount").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-        table1.addCell(new Cell().add(new Paragraph("Total Profit").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
-
-        for(int i=0; i<Sales_List.size();i++)
-        {
-
-            table1.addCell(new Cell().add(new Paragraph(Sales_List.get(i).getBrandName())));
-            table1.addCell(new Cell().add(new Paragraph(Sales_List.get(i).getModelName())));
-            table1.addCell(new Cell().add(new Paragraph(String.valueOf(Sales_List.get(i).getNoOfItems()))));
-            table1.addCell(new Cell().add(new Paragraph(String.valueOf(Sales_List.get(i).getMonthlyTotal()))));
-            table1.addCell(new Cell().add(new Paragraph(String.valueOf(Sales_List.get(i).getProfitTotal()))));
-        }
-
-        document1.add(image1.setFixedPosition(0,0));
-        document1.add(new Paragraph("Monthly Sales Report").setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
-                .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
-        document1.add(new Paragraph("Month : "+monthSelector(MonthNumber)).setFontSize(18).setTextAlignment(TextAlignment.LEFT).setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2));
-        document1.add(table1);
-        document1.close();
+//        PdfWriter writer1 = new PdfWriter(file1);
+//        PdfDocument pdfDocument1 = new PdfDocument(writer1);
+//        pdfDocument1.setDefaultPageSize(PageSize.A4);
+//        Document document1 = new Document(pdfDocument1);
+//
+//        document1.setMargins(0,0,0,0);
+//        Drawable d1 = getDrawable(R.drawable.bg_report);
+//
+//        Bitmap bitmap1 = ((BitmapDrawable)d1).getBitmap();
+//        ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+//        bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, stream1);
+//        byte[] bitmapData1 = stream1.toByteArray();
+//
+//        ImageData imageData1 = ImageDataFactory.create(bitmapData1);
+//        Image image1 = new Image(imageData1);
+//        image1.setHeight(pdfDocument1.getDefaultPageSize().getHeight());
+//        image1.setWidth(pdfDocument1.getDefaultPageSize().getWidth());
+//
+//
+//        float columnWidth1[] = {70,110,60,80,80};
+//        Table table1 = new Table(columnWidth1);
+//
+//        table1.setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
+//        table1.setMarginRight((pdfDocument1.getDefaultPageSize().getWidth()-400)/2);
+//        table1.setMarginTop(30);
+//
+//
+//        table1.addCell(new Cell().add(new Paragraph("Brand Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Moodel Name").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Total Quantity").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Total Amount").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//        table1.addCell(new Cell().add(new Paragraph("Total Profit").setTextAlignment(TextAlignment.CENTER).setFontSize(15).setFontColor(ColorConstants.WHITE)).setBackgroundColor(headerColor));
+//
+//        for(int i=0; i<Sales_List.size();i++)
+//        {
+//
+//            table1.addCell(new Cell().add(new Paragraph(Sales_List.get(i).getBrandName())));
+//            table1.addCell(new Cell().add(new Paragraph(Sales_List.get(i).getModelName())));
+//            table1.addCell(new Cell().add(new Paragraph(String.valueOf(Sales_List.get(i).getNoOfItems()))));
+//            table1.addCell(new Cell().add(new Paragraph(String.valueOf(Sales_List.get(i).getMonthlyTotal()))));
+//            table1.addCell(new Cell().add(new Paragraph(String.valueOf(Sales_List.get(i).getProfitTotal()))));
+//        }
+//
+//        document1.add(image1.setFixedPosition(0,0));
+//        document1.add(new Paragraph("Monthly Sales Report").setMarginTop((pdfDocument1.getDefaultPageSize().getWidth()-350)/2)
+//                .setFontSize(22).setBold().setTextAlignment(TextAlignment.CENTER));
+//        document1.add(new Paragraph("Month : "+monthSelector(MonthNumber)).setFontSize(18).setTextAlignment(TextAlignment.LEFT).setMarginLeft((pdfDocument1.getDefaultPageSize().getWidth()-400)/2));
+//        document1.add(table1);
+//        document1.close();
     }
 
 }

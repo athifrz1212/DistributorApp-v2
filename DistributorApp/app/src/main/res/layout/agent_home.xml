@@ -5,30 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.blitzco.distributorapp.AgentHome"
-    android:background="@drawable/bg_white"
+    android:background="@drawable/bg_lightblue"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="20dp"
         >
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:background="#006DB6"
+            android:gravity="center"
+            android:text="Agent View"
+            android:textColor="#e3f5ff"
+            android:textSize="28sp"
+            android:textStyle="bold" />
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="260dp"
+            android:layout_width="100dp"
+            android:layout_height="170dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="20dp"
             android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            android:src="@drawable/logo"/>
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/logo" />
 
         <LinearLayout
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_white"
+            android:background="@drawable/bg_lightblue"
             android:orientation="vertical"
             android:paddingBottom="30dp">
 
@@ -36,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/bg_white"
+                android:background="@drawable/bg_lightblue"
                 android:orientation="vertical"
                 android:paddingLeft="18dp"
                 android:paddingTop="28dp"
@@ -94,7 +102,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_white"
+                    android:background="@drawable/bg_lightblue"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -123,7 +131,7 @@
                             android:textStyle="bold"
                             android:textColor="#e8fafa"
                             android:textSize="24sp"
-                            android:text="View Repair"/>
+                            android:text="Repairs"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -136,7 +144,7 @@
                 android:layout_weight="1"
                 android:baselineAligned="false"
                 android:paddingLeft="18dp"
-                android:background="@drawable/bg_white"
+                android:background="@drawable/bg_lightblue"
                 android:paddingTop="14dp"
                 android:paddingRight="18dp">
 
@@ -185,7 +193,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_white"
+                    android:background="@drawable/bg_lightblue"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -244,7 +252,7 @@
                         android:layout_height="100dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="10dp"
-                        android:background="@drawable/bg_yellow"
+                        android:background="@drawable/bg_blue"
                         android:orientation="vertical"
                         android:padding="8dp">
 
@@ -285,7 +293,7 @@
                     android:layout_height="90dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:background="@drawable/bg_blue"
+                    android:background="@drawable/bg_yellow"
                     android:orientation="horizontal"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp">

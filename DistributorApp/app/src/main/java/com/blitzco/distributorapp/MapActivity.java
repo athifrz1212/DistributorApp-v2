@@ -87,7 +87,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     private void geoLocate() {
-        Address address = null;
+//        Address address = null;
 
         Log.d(TAG, "getDeviceLocation: geoLocating");
 
@@ -97,33 +97,33 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 for(DataSnapshot snap: snapshot.getChildren()) {
                     mapAddress = snap.getValue(Shop.class).getAddress();
                 }
+
+                try{
+                    Geocoder geocoder = new Geocoder(MapActivity.this);
+                    List<Address> list = new ArrayList<>();
+                    try {
+                        list = geocoder.getFromLocationName(mapAddress, 1);
+                    } catch (IOException e) {
+                        Log.e(TAG, "geoLocate: IOException" + e.getMessage());
+                    }
+                    if (list.size() > 0) {
+                        address = list.get(0);
+
+                        Log.d(TAG, "geoLocate: found a location: " + address.toString());
+                    }
+                    LatLng Shop = new LatLng(address.getLatitude(), address.getLongitude());
+                    moveCamera(new LatLng(address.getLatitude(), address.getLongitude()),
+                            9f);
+                    map.addMarker(new MarkerOptions().position(Shop).title(address.getAddressLine(0)));
+                    getDeviceLocation();
+                }catch (Exception e){
+                    Toast.makeText(MapActivity.this, "Enter a shop name available in the list", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
-
-        try{
-            Geocoder geocoder = new Geocoder(MapActivity.this);
-            List<Address> list = new ArrayList<>();
-            try {
-                list = geocoder.getFromLocationName(mapAddress, 1);
-            } catch (IOException e) {
-                Log.e(TAG, "geoLocate: IOException" + e.getMessage());
-            }
-            if (list.size() > 0) {
-                address = list.get(0);
-
-                Log.d(TAG, "geoLocate: found a location: " + address.toString());
-            }
-            LatLng Shop = new LatLng(address.getLatitude(), address.getLongitude());
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()),
-                    9f);
-            map.addMarker(new MarkerOptions().position(Shop).title(address.getAddressLine(0)));
-            getDeviceLocation();
-        }catch (Exception e){
-            Toast.makeText(this, "Enter a shop name available in the list", Toast.LENGTH_LONG).show();
-        }
 
     }
 

@@ -1,15 +1,20 @@
 package com.blitzco.distributorapp;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.blitzco.distributorapp.models.Payment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class AgentHome extends AppCompatActivity {
 
@@ -17,35 +22,37 @@ public class AgentHome extends AppCompatActivity {
             view_route, view_map, shops;
     TextView balance;
 
+    long totalBalance = 0;
+
+    DatabaseReference paymentRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home);
+        setContentView(R.layout.agent_home);
 
         balance = findViewById(R.id.balance);
 
-        SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
+        paymentRef = FirebaseDatabase.getInstance().getReference("Payment");
 
-        //--repairs Table
-        //db.execSQL("DROP TABLE repairs");
-        db.execSQL("CREATE TABLE IF NOT EXISTS 'repairs' ('repairID' INTEGER PRIMARY KEY AUTOINCREMENT,'shop_Name' TEXT, 'brand_Name' TEXT, 'model_Name' TEXT, 'issue' TEXT, 'ReType' TEXT, 'ReDate' TEXT, 'YYYY_MM' TEXT)");
+        paymentRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getChildrenCount() > 0 ) {
+                    for(DataSnapshot snap: snapshot.getChildren()) {
+                        Payment payment = snap.getValue(Payment.class);
+                        totalBalance = totalBalance + payment.getBalance();
+                    }
+                    balance.setText(String.valueOf(totalBalance));
+                } else {
+                    balance.setText(String.valueOf(totalBalance));
+                }
+            }
 
-    ///---End of table creation---
-
-        final Cursor cBalance = db.rawQuery("SELECT SUM(balance) AS 'totalBalance' FROM payments ", null);
-        cBalance.moveToFirst();
-
-        if(cBalance.getCount() > 0)
-        {
-            int balanceIndex = cBalance.getColumnIndex ( "totalBalance");
-            balance.setText(cBalance.getString(balanceIndex));
-        }
-        else{
-            balance.setText("0");
-        }
-
-
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
 
         view_Repair = findViewById(R.id.view_repairsBTN);
 
