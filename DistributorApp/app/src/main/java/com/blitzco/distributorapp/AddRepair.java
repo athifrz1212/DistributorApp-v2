@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.UUID;
 
 public class AddRepair extends AppCompatActivity {
 
@@ -143,6 +144,7 @@ public class AddRepair extends AppCompatActivity {
     public void insert()
     {
         try{
+            String repairID = UUID.randomUUID().toString().replaceAll("_", "");
             String shopName = txtShopName.getText().toString().toUpperCase();
             String brandName = brandNameSpinner.getSelectedItem().toString().toUpperCase();
             String modelName = modelNameSpinner.getSelectedItem().toString().toUpperCase();
@@ -154,6 +156,7 @@ public class AddRepair extends AppCompatActivity {
 
 
             Repair repair = new Repair();
+            repair.setRepairID(repairID);
             repair.setAgentId(FirebaseAuth.getInstance().getCurrentUser().getUid());
             repair.setBrandName(brandName);
             repair.setShopName(shopName);
@@ -163,7 +166,7 @@ public class AddRepair extends AppCompatActivity {
             repair.setReDate(ReceivedDate);
             repair.setYearMonth(yearMonth);
 
-            repairRef.push().setValue(repair);
+            repairRef.child(repairID).setValue(repair);
 
             Toast.makeText(this, "Repair Added", Toast.LENGTH_LONG).show();
 

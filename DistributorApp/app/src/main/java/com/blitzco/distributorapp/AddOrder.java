@@ -29,6 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class AddOrder extends AppCompatActivity {
 
@@ -98,7 +100,6 @@ public class AddOrder extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {}
-
                     });
                 }
                 else{
@@ -153,20 +154,19 @@ public class AddOrder extends AppCompatActivity {
         modelAdapter.setDropDownViewResource(R.layout.spinner_text);
         modelNameSpinner.setAdapter(modelAdapter);
 
-//        productRef.orderByChild("brandName").equalTo(brandNameSpinner.getSelectedItem().toString())
-            productRef.orderByChild("brandName").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for(DataSnapshot snap: snapshot.getChildren()) {
-                                Product product = snap.getValue(Product.class);
-                                modelsList.add(product.getModelName());
-                            }
-                            modelAdapter.notifyDataSetChanged();
-                        }
+        productRef.orderByChild("brandName").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snap: snapshot.getChildren()) {
+                    Product product = snap.getValue(Product.class);
+                    modelsList.add(product.getModelName());
+                }
+                modelAdapter.notifyDataSetChanged();
+            }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {}
-                    });
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
 
 
 ///-----Date picker setting-----------------
@@ -217,6 +217,8 @@ public class AddOrder extends AppCompatActivity {
     public void insert()
     {
         try{
+            String paymentID = UUID.randomUUID().toString().replaceAll("_", "");
+            String orderID = UUID.randomUUID().toString().replaceAll("_", "");
             String ShopName = txtShopName.getText().toString().toUpperCase();
             String PhoneBrand = brandNameSpinner.getSelectedItem().toString().toUpperCase();
             String PhoneModel = modelNameSpinner.getSelectedItem().toString().toUpperCase();
@@ -236,57 +238,69 @@ public class AddOrder extends AppCompatActivity {
 
                     for(DataSnapshot snap: snapshot.getChildren()) {
                         Product product = snap.getValue(Product.class);
-                        available = Long.valueOf(product.getQty());
+                        available = product.getQuantity();
                     }
 
                     if(quantity <= available) {
 
-                        orderRef.orderByChild("shopName").equalTo(ShopName)
-                                .addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.getChildrenCount() != 0) {
+//                        orderRef.orderByChild("shopName").equalTo(ShopName)
+//                                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                if(snapshot.getChildrenCount() != 0) {
                                     paymentRef.orderByChild("shopName").equalTo(ShopName).addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            for(DataSnapshot snap: snapshot.getChildren()) {
-                                                Payment payment = snap.getValue(Payment.class);
-                                                availableBalance = TotalPrice + payment.getBalance();
-                                            }
+                                            if(snapshot.getChildrenCount() != 0) {
+                                                for(DataSnapshot snap: snapshot.getChildren()) {
+                                                    Payment payment = snap.getValue(Payment.class);
+                                                    availableBalance = TotalPrice + payment.getBalance();
+                                                }
+                                                HashMap paymentHash = new HashMap();
+                                                paymentHash.put("paymentId", paymentID);
+                                                paymentHash.put("shopName", ShopName);
+                                                paymentHash.put("balance", availableBalance);
 
-                                            paymentRef.child(snapshot.getKey()).child("balance").setValue(availableBalance);
+                                                paymentRef.child(paymentID).setValue(paymentHash);
+                                            } else {
+                                                Payment payment = new Payment();
+
+                                                payment.setPaymentId(paymentID);
+                                                payment.setShopName(ShopName);
+                                                payment.setBalance(TotalPrice);
+                                                payment.setLastPaydate(new Date().toString());
+
+                                                paymentRef.child(paymentID).setValue(payment);
+                                            }
                                         }
 
                                         @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
+                                        public void onCancelled(@NonNull DatabaseError error) {}
                                     });
-                                } else {
-
-                                    Payment payment = new Payment();
-
-                                    payment.setShopName(ShopName);
-                                    payment.setBalance(TotalPrice);
-                                    payment.setLastPaydate(new Date().toString());
-
-                                    paymentRef.push().setValue(payment);
-
-
-                                    Toast.makeText(AddOrder.this, "New Shop Balance Added", Toast.LENGTH_LONG).show();
-                                    Toast.makeText(AddOrder.this, "Order Added", Toast.LENGTH_LONG).show();
-
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
+//                                } else {
+//
+//                                    Payment payment = new Payment();
+//
+//                                    payment.setPaymentId(paymentID);
+//                                    payment.setShopName(ShopName);
+//                                    payment.setBalance(TotalPrice);
+//                                    payment.setLastPaydate(new Date().toString());
+//
+//                                    paymentRef.child(paymentID).setValue(payment);
+//
+//
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError error) {
+//                            }
+//                        });
 
 /////////
                         Order order = new Order();
 
+                        order.setOrderID(orderID);
                         order.setShopName(ShopName); //bind the values to be in the given "?" place
                         order.setAgentId(FirebaseAuth.getInstance().getCurrentUser().getUid());
                         order.setBrandName(PhoneBrand); //bind the values to be in the given "?" place
@@ -299,7 +313,7 @@ public class AddOrder extends AppCompatActivity {
                         order.setdDate(OrderDate);
                         order.setYyyyMM(YYYY_MM);
 
-                        orderRef.push().setValue(order);
+                        orderRef.child(orderID).setValue(order);
 
                         long newQty = available - quantity;
 
@@ -307,7 +321,7 @@ public class AddOrder extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for(DataSnapshot snap: snapshot.getChildren()) {
-                                    snap.getRef().child("quantity").setValue(String.valueOf(newQty));
+                                    snap.getRef().child("quantity").setValue(newQty);
                                 }
                             }
 

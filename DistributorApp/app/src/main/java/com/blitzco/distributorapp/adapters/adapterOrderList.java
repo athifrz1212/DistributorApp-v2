@@ -83,7 +83,7 @@ public class AdapterOrderList extends RecyclerView.Adapter<AdapterOrderList.MySh
             super(itemView);
             model_name = itemView.findViewById(R.id.model_name);
             total = itemView.findViewById(R.id.total);
-            qty = itemView.findViewById(R.id.qty);
+            qty = itemView.findViewById(R.id.quantity);
             DDate = itemView.findViewById(R.id.DDate);
             parentLayout = itemView.findViewById(R.id.singleOrderLayout);
         }

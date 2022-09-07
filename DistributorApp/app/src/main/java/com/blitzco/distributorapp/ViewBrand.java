@@ -104,7 +104,6 @@ public class ViewBrand extends AppCompatActivity {
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    brandList.clear();
                 for (DataSnapshot prod: snapshot.getChildren()) {
                     Brand brand = prod.getValue(Brand.class);
                     brand.setBrandID(prod.getKey());

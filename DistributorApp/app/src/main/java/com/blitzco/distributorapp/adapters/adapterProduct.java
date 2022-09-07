@@ -41,7 +41,7 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.MyProduc
     @Override
     public void onBindViewHolder(@NonNull MyProductViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.pro_Name.setText(proList.get(position).getModelName());
-        holder.pro_qty.setText(String.valueOf(proList.get(position).getQty()));
+        holder.pro_qty.setText(String.valueOf(proList.get(position).getQuantity()));
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +55,7 @@ public class AdapterProduct extends RecyclerView.Adapter<AdapterProduct.MyProduc
                 i.putExtra("brand_Name", pro.getBrandName());
                 i.putExtra("model_Name", pro.getModelName());
                 i.putExtra("cost_price", pro.getUnitPrice());
-                i.putExtra("quantity", pro.getQty());
+                i.putExtra("quantity", pro.getQuantity());
                 context.startActivity(i);
             }
         });

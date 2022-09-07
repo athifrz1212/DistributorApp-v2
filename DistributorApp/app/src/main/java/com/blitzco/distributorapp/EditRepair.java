@@ -11,9 +11,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+
 public class EditRepair extends AppCompatActivity {
-    EditText repairID, SName, MName,Issue,ReType,ReDate, BName;
-    Button update, delete, cancel;
+    private EditText txtAgentID, txtRepairID, txtShopName, txtModelName,txtIssue,txtReceivedType,txtReceivedDate, txtBrandName;
+    private Button update, delete, cancel;
+
+    private DatabaseReference repairRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,38 +28,43 @@ public class EditRepair extends AppCompatActivity {
 
         setContentView(R.layout.edit_repair);
 
-        Intent i =getIntent();
+        repairRef = FirebaseDatabase.getInstance().getReference("Repair");
+
+        Intent i = getIntent();
 
         //Values from view page on click
         String id = i.getStringExtra("repairID").toString();
-        String ShopName = i.getStringExtra("ShopName").toString();
-        String BrandName = i.getStringExtra("BName").toString();
-        String ModelName = i.getStringExtra("MName").toString();
+        String agentID = i.getStringExtra("agentID").toString();
+        String shopName = i.getStringExtra("ShopName").toString();
+        String brandName = i.getStringExtra("BName").toString();
+        String modelName = i.getStringExtra("MName").toString();
         String issue = i.getStringExtra("issue").toString();
-        String re_Type = i.getStringExtra("re_Type").toString();
-        String re_Date = i.getStringExtra("re_Date").toString();
+        String receivedType = i.getStringExtra("re_Type").toString();
+        String receivedDate = i.getStringExtra("re_Date").toString();
 
         //text fields
-        repairID = findViewById(R.id.repairID);
-        SName = findViewById(R.id.SName);
-        BName = findViewById(R.id.BName);
-        MName = findViewById(R.id.MName);
-        Issue = findViewById(R.id.Issue);
-        ReType = findViewById(R.id.RType);
-        ReDate = findViewById(R.id.RDate);
+        txtAgentID = findViewById(R.id.agentID);
+        txtRepairID = findViewById(R.id.repairID);
+        txtShopName = findViewById(R.id.SName);
+        txtBrandName = findViewById(R.id.BName);
+        txtModelName = findViewById(R.id.MName);
+        txtIssue = findViewById(R.id.Issue);
+        txtReceivedType = findViewById(R.id.RType);
+        txtReceivedDate = findViewById(R.id.RDate);
 
 
         update = findViewById(R.id.updateBTN);
         cancel = findViewById(R.id.cancelBTN);
         delete = findViewById(R.id.deleteBTN);
 
-        repairID.setText(id);
-        SName.setText(ShopName);
-        BName.setText(BrandName);
-        MName.setText(ModelName);
-        Issue.setText(issue);
-        ReType.setText(re_Type);
-        ReDate.setText(re_Date);
+        txtAgentID.setText(agentID);
+        txtRepairID.setText(id);
+        txtShopName.setText(shopName);
+        txtBrandName.setText(brandName);
+        txtModelName.setText(modelName);
+        txtIssue.setText(issue);
+        txtReceivedType.setText(receivedType);
+        txtReceivedDate.setText(receivedDate);
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,24 +96,31 @@ public class EditRepair extends AppCompatActivity {
 
     public void update()
     {
-        int RepairID =Integer.parseInt(repairID.getText().toString());
-        String shopName = SName.getText().toString().toUpperCase();
-        String brandName = BName.getText().toString().toUpperCase();
-        String modelName = MName.getText().toString().toUpperCase();
-        String issue = Issue.getText().toString().toUpperCase();
-        String re_Type = ReType.getText().toString().toUpperCase();
-        String re_Date = ReDate.getText().toString().toUpperCase();
-        String[] splitDate = re_Date.split("/");
-        String YYYY_MM = splitDate[0]+"/"+splitDate[1];
+        String repairID = txtRepairID.getText().toString();
+        String agentid = txtAgentID.getText().toString().toUpperCase();
+        String shopname = txtShopName.getText().toString().toUpperCase();
+        String brandname = txtBrandName.getText().toString().toUpperCase();
+        String modelname = txtModelName.getText().toString().toUpperCase();
+        String issueType = txtIssue.getText().toString().toUpperCase();
+        String receivedtype = txtReceivedType.getText().toString().toUpperCase();
+        String receiveddate = txtReceivedDate.getText().toString().toUpperCase();
+        String[] splitDate = receiveddate.split("/");
+        String yearMonth = splitDate[0]+"/"+splitDate[1];
 
+        if((modelname!=null)&& (brandname!=null) && (issueType!=null)) {
 
-        SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null); //create database if doesn't exist
-        //db.execSQL("DROP TABLE 'repairs'");
-        if((modelName!=null)&& (brandName!=null) && (issue!=null)) {
+            HashMap repair = new HashMap();
+            repair.put("repairID", repairID);
+            repair.put("agentId", agentid);
+            repair.put("shopName", shopname);
+            repair.put("brandName", brandname);
+            repair.put("modelName", modelname);
+            repair.put("issue", issueType);
+            repair.put("reType", receivedtype);
+            repair.put("reDate", receiveddate);
+            repair.put("yearMonth", yearMonth);
 
-            String query = "UPDATE repairs SET shop_Name='" + shopName + "',brand_Name='" + brandName + "',model_Name='" + modelName + "',issue='" + issue + "',ReType='"+re_Type+"', ReDate='"+re_Date+"', YYYY_MM='"+YYYY_MM+"' WHERE repairID=" + RepairID;
-            //query to insert
-            db.execSQL(query);//execute query
+            repairRef.child(repairID).setValue(repair);
 
             Toast.makeText(this, "Repair Updated", Toast.LENGTH_LONG).show();
 
@@ -117,26 +136,26 @@ public class EditRepair extends AppCompatActivity {
 
     public void delete()
     {
-        int RepairID = Integer.parseInt(repairID.getText().toString());
+        String repairID = txtRepairID.getText().toString();
 
         SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null); //create database if doesn't exist
         //db.execSQL("DROP TABLE 'repairs'");
-        if(RepairID!=0) {
+        if(repairID!= null) {
             db.execSQL("CREATE TABLE IF NOT EXISTS repairs ('repairID' INTEGER PRIMARY KEY AUTOINCREMENT,'shop_Name' TEXT, 'brand_Name' TEXT, 'model_Name' TEXT, 'issue' TEXT, 'ReType' TEXT, 'ReDate' TEXT)");
             //create table
-            String query = "DELETE FROM repairs  WHERE repairID = " + RepairID;
+            String query = "DELETE FROM repairs  WHERE repairID = " + repairID;
             //query to insert
             db.execSQL(query);//execute query
 
             Toast.makeText(this, "Repair Deleted", Toast.LENGTH_LONG).show();
 
-            repairID.setText("");
-            SName.setText("");
-            BName.setText("");
-            MName.setText("");
-            Issue.setText("");
-            ReType.setText("");
-            ReDate.setText("");
+            txtRepairID.setText("");
+            txtShopName.setText("");
+            txtBrandName.setText("");
+            txtModelName.setText("");
+            txtIssue.setText("");
+            txtReceivedType.setText("");
+            txtReceivedDate.setText("");
             
             Intent intent= new Intent(EditRepair.this, ViewRepairs.class);
             startActivity(intent);

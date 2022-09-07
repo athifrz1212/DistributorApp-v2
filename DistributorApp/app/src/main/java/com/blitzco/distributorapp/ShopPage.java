@@ -1,45 +1,53 @@
 package com.blitzco.distributorapp;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blitzco.distributorapp.adapters.AdapterOrderList;
 import com.blitzco.distributorapp.models.Order;
+import com.blitzco.distributorapp.models.Payment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class ShopPage extends AppCompatActivity {
 
-    TextView shopname, balance;
-    LinearLayout addBTN, paymentBTN;
-    RecyclerView order_list;
-    RelativeLayout go_back;
+    private TextView txtShopName, txtBalance;
+    private LinearLayout addBTN, paymentBTN;
+    private RecyclerView order_list;
+    private RelativeLayout go_back;
 
-    ArrayList<Order> Order_List = new ArrayList<Order>();
+    private ArrayList<Order> Order_List = new ArrayList<Order>();
     private RecyclerView.Adapter mAdapter;//view adapter
     private RecyclerView.LayoutManager layoutManager; //view layout manager
 
+    private DatabaseReference orderRef, paymentRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shop_page);
 
-        balance = findViewById(R.id.balance);
-        shopname = findViewById(R.id.ShopName);
+        txtBalance = findViewById(R.id.balance);
+        txtShopName = findViewById(R.id.ShopName);
         order_list = (RecyclerView) findViewById(R.id.orders_list);
         paymentBTN = findViewById(R.id.paymentBTN);
         addBTN = findViewById(R.id.addBTN);
+
+        orderRef = FirebaseDatabase.getInstance().getReference("Order");
+        paymentRef = FirebaseDatabase.getInstance().getReference("Payment");
 
         go_back = findViewById(R.id.go_back);
 
@@ -53,27 +61,36 @@ public class ShopPage extends AppCompatActivity {
 
         Intent i = getIntent();
         //Values from view page on click
-        String SName = i.getStringExtra("ShopName").toString();
-        shopname.setText(SName);
+        String shopName = i.getStringExtra("ShopName").toString();
+        txtShopName.setText(shopName);
 
         order_list.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);//assign layout manager
         mAdapter = new AdapterOrderList(Order_List, ShopPage.this); //updateBTN Order_list data to adapter class
 
-        SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
+        paymentRef.orderByChild("shopName").equalTo(shopName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getChildrenCount() != 0) {
+                    txtBalance.setText(String.valueOf(snapshot.getValue(Payment.class).getBalance()));
+                } else {
+                    txtBalance.setText("0");
+                }
 
-        final Cursor cBalance = db.rawQuery("SELECT SUM(balance) AS totalBalance FROM payments WHERE Shop_Name='"+SName+"'", null);
-        cBalance.moveToFirst();
-        int balanceIndex = cBalance.getColumnIndex ( "totalBalance");
-        String finalBalanace = cBalance.getString(balanceIndex);
-        balance.setText(finalBalanace);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         paymentBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i= new Intent(ShopPage.this, AddPayment.class);
-                i.putExtra("ShopName", SName);
+                i.putExtra("ShopName", shopName);
                 startActivity(i);
             }
         });
@@ -83,48 +100,26 @@ public class ShopPage extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent i= new Intent(ShopPage.this, AddOrder.class);
-                i.putExtra("ShopName", SName);
+                i.putExtra("ShopName", shopName);
                 startActivity(i);
             }
         });
 
-        final Cursor c = db.rawQuery("SELECT * FROM orders WHERE Shop_Name='"+shopname.getText().toString()+"' ORDER BY orderDate DESC", null);
-        int orderID = c.getColumnIndex("orderID");
-        int Shop_Name = c.getColumnIndex("Shop_Name");
-        int Brand_Name = c.getColumnIndex("Brand_Name");
-        int Model_Name = c.getColumnIndex("Model_Name");
-        int costPrice = c.getColumnIndex("costPrice");
-        int quantity = c.getColumnIndex("quantity");
-        int unitPrice = c.getColumnIndex("unitPrice");
-        int total = c.getColumnIndex("total");
-        int profitIndex = c.getColumnIndex("profit");
-        int orderDate = c.getColumnIndex("orderDate");
-        int YYYY_MM = c.getColumnIndex("YYYY_MM");
+        orderRef.orderByChild("shopName").equalTo(shopName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Order_List.clear();
+                for(DataSnapshot snap: snapshot.getChildren()) {
+                    Order order = snap.getValue(Order.class);
+                    Order_List.add(order);
+                }
+                order_list.setLayoutManager(layoutManager);
+                order_list.setAdapter(mAdapter);
+            }
 
-        Order_List.clear();
-
-        if (c.moveToFirst())
-        {
-            do {
-                Order order = new Order();
-                order.setOrderID(c.getString(orderID));
-                order.setShopName(c.getString(Shop_Name));
-                order.setBrandName(c.getString(Brand_Name));
-                order.setModelName(c.getString(Model_Name));
-                order.setCostPrice(costPrice);
-                order.setUnitPrice(unitPrice);
-                order.setQuantity(quantity);
-                order.setTotalPrice(total);
-                order.setProfit(profitIndex);
-                order.setdDate(c.getString(orderDate));
-                order.setYyyyMM(c.getString(YYYY_MM));
-
-                Order_List.add(order);
-
-            }while (c.moveToNext());
-        }
-        order_list.setLayoutManager(layoutManager);
-        order_list.setAdapter(mAdapter);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
 
     }
 }

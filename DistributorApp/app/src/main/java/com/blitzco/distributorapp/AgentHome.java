@@ -22,7 +22,7 @@ public class AgentHome extends AppCompatActivity {
             view_route, view_map, shops;
     TextView balance;
 
-    long totalBalance = 0;
+    private long totalBalance = 0;
 
     DatabaseReference paymentRef;
 

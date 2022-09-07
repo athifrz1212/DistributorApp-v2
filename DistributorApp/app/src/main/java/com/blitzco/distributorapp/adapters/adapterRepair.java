@@ -52,6 +52,7 @@ public class AdapterRepair extends RecyclerView.Adapter<AdapterRepair.MyRepairVi
 
                 Intent i =new Intent(context, EditRepair.class);
                 i.putExtra("repairID", repa.getRepairID());
+                i.putExtra("agentID", repa.getAgentId());
                 i.putExtra("SName", repa.getShopName());
                 i.putExtra("BName", repa.getBrandName());
                 i.putExtra("MName", repa.getModelName());

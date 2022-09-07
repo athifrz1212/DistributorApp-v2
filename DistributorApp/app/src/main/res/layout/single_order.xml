@@ -40,7 +40,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/qty"
+            android:id="@+id/quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

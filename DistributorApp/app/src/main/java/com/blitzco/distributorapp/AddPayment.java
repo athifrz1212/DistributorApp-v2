@@ -1,10 +1,7 @@
 package com.blitzco.distributorapp;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,23 +9,36 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.blitzco.distributorapp.models.Payment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class AddPayment extends AppCompatActivity {
 
-    EditText shopName, amount, paymentDate;
-    Button payBTN, cancelBTN;
+    private EditText txtShopName, txtAmount, txtPaymentDate;
+    private Button payBTN, cancelBTN;
+
+    private DatabaseReference paymentRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_payment);
 
-        shopName = findViewById(R.id.ShopName);
-        amount = findViewById(R.id.amount);
-        paymentDate = findViewById(R.id.paymentDate);
+        txtShopName = findViewById(R.id.ShopName);
+        txtAmount = findViewById(R.id.amount);
+        txtPaymentDate = findViewById(R.id.paymentDate);
 
         payBTN = findViewById(R.id.payBTN);
         cancelBTN = findViewById(R.id.cancelBTN);
@@ -37,13 +47,15 @@ public class AddPayment extends AppCompatActivity {
         //Values from view page on click
         String SName = i.getStringExtra("ShopName").toString();
 
+        paymentRef = FirebaseDatabase.getInstance().getReference("Payment");
+
         ///---Date picker setting
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        paymentDate.setOnClickListener(new View.OnClickListener() {
+        txtPaymentDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -52,7 +64,7 @@ public class AddPayment extends AppCompatActivity {
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         month = month+1;
                         String date = year+"/"+month+"/"+day;
-                        paymentDate.setText(date);
+                        txtPaymentDate.setText(date);
                     }
                 },year, month, day);
                 datePickerDialog.show();
@@ -60,7 +72,7 @@ public class AddPayment extends AppCompatActivity {
         });
 
         ///--------------------------------------------------
-        shopName.setText(SName);
+        txtShopName.setText(SName);
 
         payBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,25 +94,41 @@ public class AddPayment extends AppCompatActivity {
 
     void pay()
     {
-        String ShopName = shopName.getText().toString().toUpperCase();
-        long Amount = Integer.parseInt(amount.getText().toString().toUpperCase());
-        String Date = paymentDate.getText().toString();
+        String shopName = txtShopName.getText().toString().toUpperCase();
+        long amount = Integer.parseInt(txtAmount.getText().toString().toUpperCase());
+        String date = txtPaymentDate.getText().toString();
 
-        SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
+        paymentRef.orderByChild("shopName").equalTo(shopName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-        final Cursor c = db.rawQuery("SELECT * FROM payments WHERE Shop_Name='"+ShopName+"'", null);
-        c.moveToFirst();
-        int balance = c.getColumnIndex ( "balance");
-        long availableBalance = c.getLong(balance) - Amount;
+                Payment payment1 = snapshot.getValue(Payment.class);
+                long availableBalance = payment1.getBalance() - amount;
 
-        db.execSQL("UPDATE payments SET balance="+availableBalance+", lastPaydate='"+Date+"' WHERE Shop_Name='"+ShopName+"'");
+                HashMap payment = new HashMap();
 
-        Toast.makeText(this, Amount+" Deducted. "+availableBalance+" Available", Toast.LENGTH_LONG).show();
+                payment.put("paymentId", payment1.getPaymentId());
+                payment.put("shopName", payment1.getShopName());
+                payment.put("balance", availableBalance);
+                payment.put("lastPaydate", date);
 
-        Intent i =new Intent(AddPayment.this, ShopPage.class);
-        i.putExtra("ShopName",ShopName );
-        startActivity(i);
+                paymentRef.child(snapshot.getKey()).updateChildren(payment).addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        Toast.makeText(AddPayment.this, amount+" Deducted. "+availableBalance+" is available", Toast.LENGTH_LONG).show();
 
-        amount.setText("");
+                        Intent i =new Intent(AddPayment.this, ShopPage.class);
+                        i.putExtra("ShopName",shopName );
+                        startActivity(i);
+                    }
+                });
+
+                txtAmount.setText("");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
     }
 }

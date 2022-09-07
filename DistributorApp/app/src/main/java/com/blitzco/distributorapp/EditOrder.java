@@ -18,7 +18,7 @@ import java.util.Calendar;
 
 public class EditOrder extends AppCompatActivity {
 
-    EditText OID, SName ,BName, Model, Qty, unitPrice, Total, costPrice, order_Date;
+    EditText txtOrderID, txtShopName ,txtBrandName, txtModelName, txtQuantity, txtUnitPrice, txtTotal, txtCostPrice, txtOrderDate;
     Button calcBTN, updateBTN, deleteBTN, cancelBTN;
 
     Cursor cAvailableQty, cOldQty, cOldBalance;
@@ -29,15 +29,15 @@ public class EditOrder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_order);
 
-        OID = findViewById(R.id.orderID);
-        SName = findViewById(R.id.SName);
-        BName = findViewById(R.id.BName);
-        Model = findViewById(R.id.MName);
-        Qty = findViewById(R.id.Qty);
-        unitPrice = findViewById(R.id.Price);
-        Total = findViewById(R.id.Total);
-        costPrice = findViewById(R.id.costPrice);
-        order_Date = findViewById(R.id.orderDate);
+        txtOrderID = findViewById(R.id.orderID);
+        txtShopName = findViewById(R.id.SName);
+        txtBrandName = findViewById(R.id.BName);
+        txtModelName = findViewById(R.id.MName);
+        txtQuantity = findViewById(R.id.Qty);
+        txtUnitPrice = findViewById(R.id.Price);
+        txtTotal = findViewById(R.id.Total);
+        txtCostPrice = findViewById(R.id.costPrice);
+        txtOrderDate = findViewById(R.id.orderDate);
 
         updateBTN = findViewById(R.id.updateBTN);
         deleteBTN = findViewById(R.id.deleteBTN);
@@ -57,25 +57,25 @@ public class EditOrder extends AppCompatActivity {
         String TotalPrice = i.getStringExtra("totalPrice").toString();
         String DDate = i.getStringExtra("DDate").toString();
 
-        OID.setText(OrderID);
-        SName.setText(ShopName);
-        BName.setText(BrandName);
-        Model.setText(ModelName);
-        Qty.setText(Quantity);
-        unitPrice.setText(Unitprice);
-        Total.setText(TotalPrice);
-        costPrice.setText(CostPrice);
-        order_Date.setText(DDate);
+        txtOrderID.setText(OrderID);
+        txtShopName.setText(ShopName);
+        txtBrandName.setText(BrandName);
+        txtModelName.setText(ModelName);
+        txtQuantity.setText(Quantity);
+        txtUnitPrice.setText(Unitprice);
+        txtTotal.setText(TotalPrice);
+        txtCostPrice.setText(CostPrice);
+        txtOrderDate.setText(DDate);
 
         calcBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    long Quantity = Long.parseLong(Qty.getText().toString());
-                    long UnitPrice = Long.parseLong(unitPrice.getText().toString());
+                    long Quantity = Long.parseLong(txtQuantity.getText().toString());
+                    long UnitPrice = Long.parseLong(txtUnitPrice.getText().toString());
 
                     long totalAmount = Math.multiplyExact(UnitPrice ,Quantity);
-                    Total.setText(String.valueOf(totalAmount));
+                    txtTotal.setText(String.valueOf(totalAmount));
 
 
                 }catch (Exception ex){
@@ -84,18 +84,13 @@ public class EditOrder extends AppCompatActivity {
             }
         });
 //--------------------------------------------------------------------------------------------------
-        ///---Brand Names Spinner---
-        SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null);
-
-        ///-----------------------------------------------------------------------------------------
-
         ///---Date picker setting
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
         final int month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        order_Date.setOnClickListener(new View.OnClickListener() {
+        txtOrderDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
@@ -104,7 +99,7 @@ public class EditOrder extends AppCompatActivity {
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                         month = month+1;
                         String date = year+"/"+month+"/"+day;
-                        order_Date.setText(date);
+                        txtOrderDate.setText(date);
                     }
                 },year, month, day);
                 datePickerDialog.show();
@@ -129,16 +124,16 @@ public class EditOrder extends AppCompatActivity {
     public void update()
     {
         try{
-            String orderID = OID.getText().toString();
-            String ShopName = SName.getText().toString().toUpperCase();
-            String BrandName = BName.getText().toString().toUpperCase();
-            String PhoneModel = Model.getText().toString().toUpperCase();
-            long Quantity = Long.parseLong(Qty.getText().toString());
-            String UnitPrice = unitPrice.getText().toString();
-            long TotalPrice = Long.parseLong(Total.getText().toString());
-            String OrderDate  = order_Date.getText().toString();
+            String orderID = txtOrderID.getText().toString();
+            String ShopName = txtShopName.getText().toString().toUpperCase();
+            String BrandName = txtBrandName.getText().toString().toUpperCase();
+            String PhoneModel = txtModelName.getText().toString().toUpperCase();
+            long Quantity = Long.parseLong(txtQuantity.getText().toString());
+            String UnitPrice = txtUnitPrice.getText().toString();
+            long TotalPrice = Long.parseLong(txtTotal.getText().toString());
+            String OrderDate  = txtOrderDate.getText().toString();
 
-            long CostPrice = Long.parseLong(costPrice.getText().toString());
+            long CostPrice = Long.parseLong(txtCostPrice.getText().toString());
 
 
             long profit = TotalPrice - (CostPrice*Quantity);
@@ -166,7 +161,7 @@ public class EditOrder extends AppCompatActivity {
                     db.execSQL("UPDATE product SET quantity=" + newQty + " WHERE model_Name='" + PhoneModel + "'");
                 }
                 else{
-                    Qty.setText((int) available);
+                    txtQuantity.setText((int) available);
                     Toast.makeText(this, "Maximum Quantity "+(oldQty+available), Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -208,10 +203,10 @@ public class EditOrder extends AppCompatActivity {
             Toast.makeText(this, "Order Updated", Toast.LENGTH_LONG).show();
             Toast.makeText(this, "Available Balance "+newShopBalance, Toast.LENGTH_LONG).show();
 
-            Model.setSelection(0);
-            Qty.setText("");
-            unitPrice.setText("");
-            Total.setText("");
+            txtModelName.setSelection(0);
+            txtQuantity.setText("");
+            txtUnitPrice.setText("");
+            txtTotal.setText("");
 
             Intent i =new Intent(EditOrder.this, ShopPage.class);
             i.putExtra("ShopName",ShopName );
@@ -227,11 +222,11 @@ public class EditOrder extends AppCompatActivity {
     public void delete() {
         try {
 
-            String orderID = OID.getText().toString();
-            String ShopName = SName.getText().toString().toUpperCase();
-            String PhoneModel = Model.getText().toString().toUpperCase();
-            long Quantity = Long.parseLong(Qty.getText().toString());
-            long TotalPrice = Long.parseLong(Total.getText().toString());
+            String orderID = txtOrderID.getText().toString();
+            String ShopName = txtShopName.getText().toString().toUpperCase();
+            String PhoneModel = txtModelName.getText().toString().toUpperCase();
+            long Quantity = Long.parseLong(txtQuantity.getText().toString());
+            long TotalPrice = Long.parseLong(txtTotal.getText().toString());
 
             SQLiteDatabase db = openOrCreateDatabase("asianDistributors", Context.MODE_PRIVATE, null); //create database if doesn't exist
 

@@ -13,6 +13,8 @@ import com.blitzco.distributorapp.models.Brand;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.UUID;
+
 public class AddBrand extends AppCompatActivity {
     DatabaseReference dbRef;
     EditText BName, SellerName, Address, CNo;
@@ -50,6 +52,7 @@ public class AddBrand extends AppCompatActivity {
     public void insert()
     {
         try {
+            String brandID = UUID.randomUUID().toString().replaceAll("_", "");
             String brandName = BName.getText().toString().toUpperCase();
             String sellerName = SellerName.getText().toString().toUpperCase();
             String address = Address.getText().toString().toUpperCase();
@@ -58,12 +61,13 @@ public class AddBrand extends AppCompatActivity {
             Brand brand = new Brand();
             dbRef = FirebaseDatabase.getInstance().getReference("Brand");
 
+            brand.setBrandID(brandID);
             brand.setBrandName(brandName);
             brand.setSellerName(sellerName);
             brand.setAddress(address);
             brand.setContactNumber(contactNumber);
 
-            dbRef.push().setValue(brand);
+            dbRef.child(brandID).setValue(brand);
 
             Toast.makeText(this, "Brand Added", Toast.LENGTH_LONG).show();
 

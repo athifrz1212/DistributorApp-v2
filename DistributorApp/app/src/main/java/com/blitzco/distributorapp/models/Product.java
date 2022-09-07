@@ -5,17 +5,17 @@ public class Product {
     private String brandName;
     private String modelName;
     private long unitPrice;
-    private long qty;
+    private long quantity;
 
     public Product() {
     }
 
-    public Product(String id, String brandName, String modelName, long unitPrice, long qty) {
+    public Product(String id, String brandName, String modelName, long unitPrice, long quantity) {
         this.id = id;
         this.brandName = brandName;
         this.modelName = modelName;
         this.unitPrice = unitPrice;
-        this.qty = qty;
+        this.quantity = quantity;
     }
 
     public String getId() {
@@ -50,11 +50,11 @@ public class Product {
         this.unitPrice = unitPrice;
     }
 
-    public long getQty() {
-        return qty;
+    public long getQuantity() {
+        return quantity;
     }
 
-    public void setQty(long qty) {
-        this.qty = qty;
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 }

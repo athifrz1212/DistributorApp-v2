@@ -18,7 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 
 public class EditBrand extends AppCompatActivity {
-    EditText brandID,BName, sellerName, address, cno;
+    EditText txtBrandID,txtBrandName, txtSellerName, txtAddress, txtContactNo;
     Button add, cancel, delete;
 
     @Override
@@ -37,22 +37,22 @@ public class EditBrand extends AppCompatActivity {
         String CNo = i.getStringExtra("contact").toString();
 
         //text fields
-        brandID = findViewById(R.id.brandID);
-        brandID.setEnabled(false);
-        BName = findViewById(R.id.BName);
-        sellerName = findViewById(R.id.SellerName);
-        address = findViewById(R.id.Address);
-        cno = findViewById(R.id.cno);
+        txtBrandID = findViewById(R.id.brandID);
+        txtBrandID.setEnabled(false);
+        txtBrandName = findViewById(R.id.BName);
+        txtSellerName = findViewById(R.id.SellerName);
+        txtAddress = findViewById(R.id.Address);
+        txtContactNo = findViewById(R.id.cno);
 
         add = findViewById(R.id.updateBTN);
         cancel = findViewById(R.id.cancelBTN);
         delete = findViewById(R.id.deleteBTN);
 
-        brandID.setText(id);
-        BName.setText(BrandName);
-        sellerName.setText(SellerName);
-        address.setText(Address);
-        cno.setText(CNo);
+        txtBrandID.setText(id);
+        txtBrandName.setText(BrandName);
+        txtSellerName.setText(SellerName);
+        txtAddress.setText(Address);
+        txtContactNo.setText(CNo);
 
 
         add.setOnClickListener(new View.OnClickListener() {
@@ -80,23 +80,24 @@ public class EditBrand extends AppCompatActivity {
 
     public void update()
     {
-        String BrandID = brandID.getText().toString();
-        String brandName = BName.getText().toString().toUpperCase();
-        String seName = sellerName.getText().toString().toUpperCase();
-        String addr = address.getText().toString();
-        String contactNo = cno.getText().toString();
+        String brandID = txtBrandID.getText().toString();
+        String brandName = txtBrandName.getText().toString().toUpperCase();
+        String seName = txtSellerName.getText().toString().toUpperCase();
+        String addr = txtAddress.getText().toString();
+        String contactNo = txtContactNo.getText().toString();
 
 
         if((seName!=null)&& (addr!=null) && (addr!=null)) {
 
             HashMap brand = new HashMap();
+            brand.put("brandID", brandID);
             brand.put("address", addr);
             brand.put("brandName", brandName);
             brand.put("contactNumber", contactNo);
             brand.put("sellerName", seName);
 
             DatabaseReference pdbRef = FirebaseDatabase.getInstance().getReference("Brand");
-            pdbRef.child(BrandID).updateChildren(brand).addOnCompleteListener(new OnCompleteListener() {
+            pdbRef.child(brandID).updateChildren(brand).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if(task.isComplete()) {
@@ -119,7 +120,7 @@ public class EditBrand extends AppCompatActivity {
 
     public void delete()
     {
-        String BrandID = brandID.getText().toString();
+        String BrandID = txtBrandID.getText().toString();
 
         DatabaseReference pdbRef = FirebaseDatabase.getInstance().getReference("Brand");
         pdbRef.child(BrandID).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {

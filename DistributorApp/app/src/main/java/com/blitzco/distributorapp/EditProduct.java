@@ -19,8 +19,8 @@ import java.util.HashMap;
 
 public class EditProduct extends AppCompatActivity {
 
-    EditText proID, MName, CostPrice, Qty, BName;
-    Button add, delete, cancel;
+    private EditText proID, MName, CostPrice, Qty, BName;
+    private Button add, delete, cancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +34,8 @@ public class EditProduct extends AppCompatActivity {
         String id = i.getStringExtra("productID").toString();
         String BrandName = i.getStringExtra("brand_Name").toString();
         String ModelName = i.getStringExtra("model_Name").toString();
-        String CPrice = i.getStringExtra("cost_price").toString();
-        String qty = i.getStringExtra("quantity").toString();
+        long CPrice = i.getLongExtra("cost_price", 0);
+        long qty = i.getLongExtra("quantity", 0);
 
         //text fields
         proID = findViewById(R.id.proID);
@@ -53,8 +53,8 @@ public class EditProduct extends AppCompatActivity {
         proID.setText(id);
         BName.setText(BrandName);
         MName.setText(ModelName);
-        CostPrice.setText(CPrice);
-        Qty.setText(qty);
+        CostPrice.setText(String.valueOf(CPrice));
+        Qty.setText(String.valueOf(qty));
 
 
         add.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +93,7 @@ public class EditProduct extends AppCompatActivity {
             product.put("brandName",brandName);
             product.put("modelName",modelName);
             product.put("unitPrice",costPrice);
-            product.put("qty",qty);
+            product.put("quantity",qty);
 
             DatabaseReference pdbRef = FirebaseDatabase.getInstance().getReference("Product");
             pdbRef.child(productID).updateChildren(product).addOnCompleteListener(new OnCompleteListener() {

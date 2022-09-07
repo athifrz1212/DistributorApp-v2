@@ -68,7 +68,7 @@ public class AddProduct extends AppCompatActivity {
                 product.setBrandName(brandName);
                 product.setModelName(modelName);
                 product.setUnitPrice(costPrice);
-                product.setQty(qty);
+                product.setQuantity(qty);
 
                 DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("Product");
                 dbRef.push().setValue(product);
