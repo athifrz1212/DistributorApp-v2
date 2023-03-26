@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="map_key" translatable="false" >
-        AIzaSyAhutLMld6nxwuL0xTm8mfzwcACW3tFGRQ
+        place your google map api ket here
+<!--     example api key:-    AIzaSyAhutLMld6nxwuL0xTm8mfzwcACW3tFGRQ -->
     </string>
 </resources>
